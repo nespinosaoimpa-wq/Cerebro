@@ -56,8 +56,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [currentView, setCurrentView] = useState('dashboard');
   const [navigationParams, setNavigationParams] = useState<any>(null);
   
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(MOCK_USER);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(true);
   
   // Projects State (Persistent within session)
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
