@@ -131,7 +131,14 @@ export const ReportGeneratorView: React.FC = () => {
           - NO uses formato Markdown de listas (bullets) salvo que sea estrictamente necesario para enumerar evidencia. Prefiere párrafos narrativos densos y descriptivos como en los informes judiciales reales.
         `;
 
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const apiKey = (process.env.API_KEY || process.env.GEMINI_API_KEY || '') as string;
+        if (!apiKey) {
+           addNotification('warning', 'Modo offline: Mostrando informe forense de plantilla.');
+           setReportContent("INFORME DE ANÁLISIS CRIMINAL ESTRATÉGICO\nMINISTERIO PÚBLICO DE LA ACUSACIÓN // UFEMI\n\nQuien suscribe, integrante del Área de Análisis Criminal Estratégico de la UFEMI, se dirige a la Fiscalía General a fin de elevar el presente informe pericial respecto de los elementos de prueba recolectados.\n\nI. RESUMEN DE HECHOS Y EVIDENCIA\nDe la compulsa de los partes informativos y tareas de campo agregadas, se registran maniobras reiteradas de pasamanos y vigilancia periférica (soldaditos) en el perímetro delimitado por el vector de investigación.\n\nII. CONCLUSIÓN Y MEDIDAS SUGERIDAS\nSe sugiere mantener las tareas de inteligencia táctica sobre los objetivos identificados y solicitar las órdenes de allanamiento correspondientes.");
+           return;
+        }
+
+        const ai = new GoogleGenAI({ apiKey });
         const response = await ai.models.generateContent({
            model: 'gemini-3-pro-preview',
            contents: prompt
