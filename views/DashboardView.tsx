@@ -95,8 +95,7 @@ export const DashboardView: React.FC = () => {
          {/* KPI Stats Row - 2026 Cyber Grid */}
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 relative z-10">
             {KPI_STATS.map((stat, idx) => (
-               <div key={idx} className="glass-panel card-3d border border-white/5 rounded-none p-6 relative overflow-hidden group">
-                  <div className="scanning-line"></div>
+               <div key={idx} className="glass-panel border border-white/5 rounded p-6 relative overflow-hidden group">
                   <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-all duration-700 rotate-12">
                      <span className="material-symbols-outlined text-9xl">{stat.icon}</span>
                   </div>
@@ -119,15 +118,14 @@ export const DashboardView: React.FC = () => {
          <div className="grid grid-cols-12 gap-8 relative z-10">
 
             {/* SITUATION ROOM - HOLOGRAPHIC STYLE */}
-            <div className="col-span-12 lg:col-span-8 h-[650px] rounded-sm overflow-hidden relative shadow-2xl border border-white/5 group bg-black">
+            <div className="col-span-12 lg:col-span-8 h-[650px] rounded border border-white/5 group bg-black overflow-hidden relative">
                <div className="absolute inset-0 bg-nexus-900/40 z-10 mix-blend-overlay"></div>
                <div className="absolute inset-0 opacity-40 transition-transform duration-[40s] ease-linear group-hover:scale-110"
                   style={{ backgroundImage: 'url(https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/2485/1376)', backgroundSize: 'cover' }}></div>
 
-               {/* Holographic Overlays */}
+               {/* Tactical Overlays */}
                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,6,23,0.9)_100%)]"></div>
                <div className="bg-grid absolute inset-0 opacity-10"></div>
-               <div className="scanning-line" style={{ animationDuration: '6s' }}></div>
 
                {/* Central UI */}
                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 z-20 text-center">
@@ -150,13 +148,10 @@ export const DashboardView: React.FC = () => {
                   <div className="flex gap-6">
                      <button
                         onClick={() => setShowCreateOpModal(true)}
-                        className="cyber-button px-10 py-5 bg-nexus-accent text-white font-black text-sm tracking-widest uppercase hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] group relative"
-                        data-text="START MISSION"
+                        className="px-8 py-4 bg-nexus-accent hover:bg-nexus-accentHover text-white font-bold text-sm tracking-wider uppercase transition-all duration-200 rounded border border-nexus-accent/20 shadow-lg shadow-nexus-accent/10 flex items-center gap-3"
                      >
-                        <span className="relative z-10 flex items-center gap-3">
-                           <span className="material-symbols-outlined text-xl">satellite_alt</span>
-                           New Mission
-                        </span>
+                        <span className="material-symbols-outlined text-xl">satellite_alt</span>
+                        Nueva Misión
                      </button>
 
                      <button
@@ -188,8 +183,7 @@ export const DashboardView: React.FC = () => {
 
             {/* FEED COLUMN - 2026 TACTICAL */}
             <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
-               <div className="glass-panel border-white/5 rounded-none flex-1 flex flex-col relative">
-                  <div className="scanning-line" style={{ animationDelay: '1s' }}></div>
+               <div className="glass-panel border border-white/5 rounded flex-1 flex flex-col relative">
                   <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
                      <h3 className="font-black text-white text-sm uppercase tracking-widest flex items-center gap-3">
                         <span className="material-symbols-outlined text-nexus-accent">history_edu</span>
@@ -247,7 +241,7 @@ export const DashboardView: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                {SUSPECTS.slice(0, 3).map(sus => (
-                  <div key={sus.id} onClick={() => navigate('intel-db')} className="glass-panel border-white/5 rounded-none p-5 card-3d cursor-pointer group hover:border-nexus-accent/50">
+                  <div key={sus.id} onClick={() => navigate('intel-db')} className="glass-panel border border-white/5 rounded p-5 cursor-pointer group hover:border-nexus-accent/50 transition-all duration-200">
                      <div className="flex items-center gap-5">
                         <div className="relative">
                            <img src={sus.image} alt="" className="w-16 h-16 grayscale scale-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500 rounded-none border border-white/10" />
@@ -284,16 +278,8 @@ export const DashboardView: React.FC = () => {
 
          {/* CREATE OPERATION MODAL - REDESIGNED */}
          {showCreateOpModal && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 animate-fade-in">
-               <div className="bg-nexus-950 border border-nexus-accent/30 w-full max-w-lg shadow-[0_0_100px_rgba(59,130,246,0.2)] relative overflow-hidden">
-                  <div className="scanning-line"></div>
-
-                  {/* Modal Header Decoration */}
-                  <div className="flex h-1">
-                     <div className="flex-1 bg-nexus-accent"></div>
-                     <div className="w-20 bg-nexus-danger"></div>
-                     <div className="w-5 bg-white"></div>
-                  </div>
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fade-in">
+               <div className="bg-nexus-950 border border-nexus-border w-full max-w-md shadow-2xl rounded-lg overflow-hidden">
 
                   <div className="p-10">
                      <div className="flex justify-between items-start mb-10">
@@ -349,18 +335,18 @@ export const DashboardView: React.FC = () => {
                            <button
                               type="button"
                               onClick={() => setShowCreateOpModal(false)}
-                              className="flex-1 py-4 bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-widest transition-all"
+                              className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all rounded border border-white/5"
                            >
-                              Abort
+                              Cancelar
                            </button>
                            <button
                               type="submit"
                               disabled={!newOpData.title || !newOpData.zone || isGeocoding}
-                              className="flex-1 py-4 bg-nexus-accent hover:bg-nexus-accent-hover text-white font-black text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(59,130,246,0.3)] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                              className="flex-1 py-3 bg-nexus-accent hover:bg-nexus-accentHover text-white font-bold text-xs uppercase tracking-wider disabled:opacity-50 transition-all rounded flex items-center justify-center gap-2"
                            >
                               {isGeocoding ? (
                                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                              ) : 'EXEC_INITIALIZE'}
+                              ) : 'Iniciar Misión'}
                            </button>
                         </div>
                      </form>

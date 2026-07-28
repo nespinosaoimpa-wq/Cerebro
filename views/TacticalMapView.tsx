@@ -1075,7 +1075,6 @@ export const TacticalMapView: React.FC = () => {
 
          {/* --- TELEMETRY BAR (Bottom) --- */}
          <div className="absolute bottom-0 left-0 right-0 h-8 bg-black/90 backdrop-blur-xl border-t border-nexus-700 z-[800] flex items-center px-4 justify-between text-[10px] font-mono text-nexus-accent overflow-hidden">
-            <div className="scanning-line opacity-10"></div>
             <div className="flex gap-6 relative z-10">
                <span className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[12px]">location_on</span>

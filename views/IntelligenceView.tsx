@@ -297,7 +297,6 @@ export const IntelligenceView: React.FC = () => {
 
                   {/* Header */}
                   <div className="bg-black/60 backdrop-blur-xl border-b border-white/5 p-8 flex gap-8 items-start relative overflow-hidden z-10">
-                     <div className="scanning-line opacity-10"></div>
                      <div className="relative group/avatar">
                         <div className="w-40 h-40 rounded-none overflow-hidden border border-white/10 relative z-10">
                            <img src={selectedSuspect.image} className="w-full h-full object-cover grayscale group-hover/avatar:grayscale-0 transition-all duration-700" />
@@ -388,8 +387,7 @@ export const IntelligenceView: React.FC = () => {
 
                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                               {/* Behavioral Profile & Risk Radar */}
-                              <div className="glass-panel p-6 border-white/5 relative overflow-hidden group">
-                                 <div className="scanning-line opacity-20"></div>
+                              <div className="glass-panel p-6 border border-white/5 rounded relative overflow-hidden group">
                                  <h3 className="text-[10px] font-black text-nexus-accent mb-6 uppercase tracking-[0.3em] flex items-center gap-2">
                                     <span className="material-symbols-outlined text-sm">neurology</span>
                                     Behavioral_Profiling_Radar
@@ -453,8 +451,7 @@ export const IntelligenceView: React.FC = () => {
                               </div>
 
                               {/* Organizational Taxonomy / Hierarchy */}
-                              <div className="glass-panel p-6 border-white/5 relative overflow-hidden group">
-                                 <div className="scanning-line opacity-20" style={{ animationDelay: '1s' }}></div>
+                              <div className="glass-panel p-6 border border-white/5 rounded relative overflow-hidden group">
                                  <h3 className="text-[10px] font-black text-nexus-accent mb-6 uppercase tracking-[0.3em] flex items-center gap-2">
                                     <span className="material-symbols-outlined text-sm">account_tree</span>
                                     Criminal_Hierarchy_Role
@@ -535,8 +532,7 @@ export const IntelligenceView: React.FC = () => {
                               </div>
 
                               {/* Organizational Cluster Dynamics (FBI Grade) */}
-                              <div className="glass-panel p-6 border-white/5 rounded-none col-span-1 lg:col-span-2 relative overflow-hidden group">
-                                 <div className="scanning-line opacity-20" style={{ animationDelay: '2s' }}></div>
+                              <div className="glass-panel p-6 border border-white/5 rounded col-span-1 lg:col-span-2 relative overflow-hidden group">
                                  <div className="absolute top-0 right-0 p-4">
                                     <span className="text-[10px] font-mono text-nexus-accent border border-nexus-accent/30 px-2 animate-pulse">INTEGRITY_CHECK_PASSED</span>
                                  </div>
