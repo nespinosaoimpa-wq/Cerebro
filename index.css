@@ -1,6 +1,8 @@
 /* Base styles for Cerebro AC */
-@layer base {
-  body {
-    @apply bg-nexus-950 text-gray-100 font-sans;
-  }
+body {
+  background-color: var(--color-bg-950, #090d16);
+  color: #f8fafc;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
 }
