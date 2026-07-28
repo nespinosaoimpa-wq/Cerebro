@@ -1,20 +1,10 @@
 
-import { saveSupabaseCredentials, clearSupabaseCredentials, isSupabaseConnected } from '../utils/supabaseClient';
+import React, { useState } from 'react';
+import { useGlobalState } from '../components/GlobalState';
 
 export const SettingsView: React.FC = () => {
   const { settings, updateSettings, addNotification } = useGlobalState();
-  const [activeTab, setActiveTab] = useState<'general' | 'database' | 'map' | 'reports'>('general');
-  const [supabaseUrlInput, setSupabaseUrlInput] = useState(localStorage.getItem('cerebro_supabase_url') || '');
-  const [supabaseKeyInput, setSupabaseKeyInput] = useState(localStorage.getItem('cerebro_supabase_key') || '');
-
-  const handleSaveSupabase = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!supabaseUrlInput || !supabaseKeyInput) {
-      addNotification('warning', 'Ingrese la URL de Supabase y la Anon Key.');
-      return;
-    }
-    saveSupabaseCredentials(supabaseUrlInput, supabaseKeyInput);
-  };
+  const [activeTab, setActiveTab] = useState<'general' | 'map' | 'reports'>('general');
 
   const handleIconUpload = () => {
     addNotification('info', 'Subiendo set de iconos tácticos personalizados...');
@@ -43,12 +33,6 @@ export const SettingsView: React.FC = () => {
               General & Tema
             </button>
             <button 
-              onClick={() => setActiveTab('database')}
-              className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${activeTab === 'database' ? 'bg-nexus-800 text-white border-l-4 border-nexus-accent' : 'text-gray-400 hover:text-white hover:bg-nexus-900'}`}
-            >
-              Base de Datos Supabase
-            </button>
-            <button 
               onClick={() => setActiveTab('map')}
               className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${activeTab === 'map' ? 'bg-nexus-800 text-white border-l-4 border-nexus-accent' : 'text-gray-400 hover:text-white hover:bg-nexus-900'}`}
             >
@@ -64,82 +48,6 @@ export const SettingsView: React.FC = () => {
 
           {/* Content Area */}
           <div className="flex-1 glass-panel border border-nexus-700 rounded-xl p-8">
-            
-            {activeTab === 'database' && (
-              <div className="space-y-6">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="material-symbols-outlined text-nexus-accent text-2xl">database</span>
-                    <h3 className="text-lg font-bold text-white">Conexión con Supabase (PostgreSQL)</h3>
-                  </div>
-                  <p className="text-xs text-gray-400">
-                    Sincronice datos reales sobre sospechosos, transacciones y casos conectando su proyecto Supabase.
-                  </p>
-                </div>
-
-                <div className={`p-4 rounded-lg border flex items-center justify-between text-xs font-semibold ${
-                  isSupabaseConnected
-                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                    : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                }`}>
-                  <div className="flex items-center gap-2">
-                    <span className={`w-2.5 h-2.5 rounded-full ${isSupabaseConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-                    <span>{isSupabaseConnected ? 'Estado: Conectado a Supabase Real' : 'Estado: Modo Demostración / Offline'}</span>
-                  </div>
-                  {isSupabaseConnected && (
-                    <button
-                      onClick={clearSupabaseCredentials}
-                      className="px-3 py-1 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 border border-red-500/40"
-                    >
-                      Desconectar
-                    </button>
-                  )}
-                </div>
-
-                <form onSubmit={handleSaveSupabase} className="space-y-4 text-xs">
-                  <div>
-                    <label className="text-gray-300 font-bold block mb-1">SUPABASE URL</label>
-                    <input
-                      type="url"
-                      placeholder="https://your-project.supabase.co"
-                      value={supabaseUrlInput}
-                      onChange={e => setSupabaseUrlInput(e.target.value)}
-                      className="w-full bg-nexus-950 border border-nexus-800 rounded-lg p-3 text-white font-mono focus:border-nexus-accent focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-gray-300 font-bold block mb-1">SUPABASE ANON KEY</label>
-                    <input
-                      type="password"
-                      placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                      value={supabaseKeyInput}
-                      onChange={e => setSupabaseKeyInput(e.target.value)}
-                      className="w-full bg-nexus-950 border border-nexus-800 rounded-lg p-3 text-white font-mono focus:border-nexus-accent focus:outline-none"
-                    />
-                  </div>
-
-                  <div className="pt-2 flex justify-between items-center">
-                    <a
-                      href="file:///c:/Users/Grupo%205/Desktop/Cerebro/supabase_schema.sql"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-nexus-accent hover:underline text-xs flex items-center gap-1 font-mono"
-                    >
-                      <span className="material-symbols-outlined text-sm">description</span>
-                      Ver Script SQL para Supabase (supabase_schema.sql)
-                    </a>
-
-                    <button
-                      type="submit"
-                      className="px-5 py-2.5 bg-nexus-accent hover:bg-blue-600 text-white font-bold rounded-lg shadow transition-colors"
-                    >
-                      Guardar y Conectar
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
             
             {activeTab === 'general' && (
               <div className="space-y-8">

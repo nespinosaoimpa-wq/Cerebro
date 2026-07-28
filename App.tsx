@@ -24,7 +24,6 @@ import { CaseManagerView } from './views/CaseManagerView';
 import { UserProfileView } from './views/UserProfileView';
 import { SettingsView } from './views/SettingsView';
 import { PerformanceReportsView } from './views/PerformanceReportsView';
-import { FinancialAnalysisView } from './views/FinancialAnalysisView';
 import { AIAssistant } from './components/AIAssistant';
 import { OnboardingOverlay } from './components/OnboardingOverlay';
 import { GlobalProvider, useGlobalState } from './components/GlobalState';
@@ -73,7 +72,6 @@ const AppContent: React.FC = () => {
       case 'intel-identity': return <IdentityResolutionView />;
       case 'intel-osint': return <OsintMonitorView />;
       case 'intel-network': return <NetworkAnalysisView />;
-      case 'financial': return <FinancialAnalysisView />;
       case 'map': return <TacticalMapView />;
       case 'calendar': return <CalendarView />;
       case 'ops-active': return <ActiveMissionsView />;

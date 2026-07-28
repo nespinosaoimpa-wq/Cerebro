@@ -435,14 +435,8 @@ export const CaseWorkbookView: React.FC = () => {
    // --- AI HELPERS ---
    const getAIModel = (modelName = "gemini-1.5-flash") => {
       const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
-      if (!apiKey) return null;
-      try {
-         const ai = new GoogleGenAI(apiKey);
-         return ai.getGenerativeModel({ model: modelName });
-      } catch (err) {
-         console.warn("AI initialization skipped:", err);
-         return null;
-      }
+      const ai = new GoogleGenAI(apiKey);
+      return ai.getGenerativeModel({ model: modelName });
    };
 
    const getContext = () => {
@@ -517,7 +511,6 @@ export const CaseWorkbookView: React.FC = () => {
       setProcessingStatus('Construyendo red de vínculos...');
       try {
          const model = getAIModel();
-         if (!model) return;
          const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: `Extrae una red de vínculos (Grafo) de: ${getContext()}. Responde SOLO JSON: {nodes:[{id,label,type,x,y,z}], links:[{source,target,reason,citation}]}` }] }]
          });
@@ -534,7 +527,6 @@ export const CaseWorkbookView: React.FC = () => {
       setProcessingStatus('Geolocalizando con alta precisión...');
       try {
          const model = getAIModel();
-         if (!model) return;
          const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: `Extrae ubicaciones geográficas de: ${getContext()}. Responde SOLO JSON: {locations:[{name,lat,lng,context,type}]}` }] }]
          });
@@ -548,7 +540,6 @@ export const CaseWorkbookView: React.FC = () => {
       setProcessingStatus('Redactando informe forence...');
       try {
          const model = getAIModel("gemini-1.5-pro");
-         if (!model) return;
          const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: `Redacta un informe pericial profundo y profesional basado en estas fuentes: ${getContext()}.` }] }]
          });
@@ -561,7 +552,6 @@ export const CaseWorkbookView: React.FC = () => {
       setProcessingStatus('Diseñando presentación ejecutiva...');
       try {
          const model = getAIModel();
-         if (!model) return;
          const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: `Genera una presentación de 5 slides sobre el caso: ${getContext()}. Responde SOLO JSON: {slides:[{layout,title,content,visualData}]}.` }] }]
          });
@@ -575,7 +565,6 @@ export const CaseWorkbookView: React.FC = () => {
       setProcessingStatus('Diseñando infografía de inteligencia...');
       try {
          const model = getAIModel();
-         if (!model) return;
          const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: `Genera una infografía táctica: ${getContext()}. Responde SOLO JSON: {title,stats:[{label,value}],timeline:[{date,desc}],entities:[{name,role}]}.` }] }]
          });
@@ -589,7 +578,6 @@ export const CaseWorkbookView: React.FC = () => {
       setProcessingStatus('Extrayendo cronología forense...');
       try {
          const model = getAIModel();
-         if (!model) return;
          const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: `Cronología Forense JSON: ${getContext()}. Responde SOLO JSON: {events:[{date,event,source,importance}]}` }] }]
          });
@@ -603,7 +591,6 @@ export const CaseWorkbookView: React.FC = () => {
       setProcessingStatus('Extrayendo tablas de datos...');
       try {
          const model = getAIModel();
-         if (!model) return;
          const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: `Tabla de Datos JSON: ${getContext()}. Responde SOLO JSON: {columns:[], rows:[[]]}` }] }]
          });

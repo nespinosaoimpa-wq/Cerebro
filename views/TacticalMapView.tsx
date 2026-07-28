@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useGlobalState } from '../components/GlobalState';
+import { GoogleGenerativeAI as GoogleGenAI } from "@google/generative-ai";
 
 declare global {
    interface Window {

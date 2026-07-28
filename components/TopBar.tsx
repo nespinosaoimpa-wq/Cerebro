@@ -80,23 +80,10 @@ export const TopBar: React.FC = () => {
       <div className="flex items-center flex-1 gap-6">
         
         {/* Breadcrumbs */}
-        <div className="hidden md:flex items-center text-sm gap-2">
+        <div className="hidden md:flex items-center text-sm">
            <span className="text-gray-500 font-medium">CerebroAC</span>
-           <span className="material-symbols-outlined text-gray-600 text-sm">chevron_right</span>
+           <span className="material-symbols-outlined text-gray-600 text-sm mx-2">chevron_right</span>
            <span className="text-white font-medium">{formatViewName(currentView)}</span>
-
-           <button
-             onClick={() => navigate('sys-config')}
-             className={`ml-3 px-2.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-1.5 transition-colors border ${
-               isSupabaseConnected
-                 ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                 : 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20'
-             }`}
-             title={isSupabaseConnected ? 'Base de Datos Supabase PostgreSQL Activa' : 'Configurar conexión con Supabase'}
-           >
-             <span className={`w-1.5 h-1.5 rounded-full ${isSupabaseConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-             {isSupabaseConnected ? 'Supabase Real' : 'Modo Demostración / Configurar DB'}
-           </button>
         </div>
 
         {/* Global Search Bar (Spotlight Style) */}

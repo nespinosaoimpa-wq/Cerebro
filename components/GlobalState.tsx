@@ -2,7 +2,6 @@
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { User, AppSettings, Project, Workbook } from '../types';
 import { CURRENT_USER as MOCK_USER, MOCK_PROJECTS, MOCK_WORKBOOKS } from '../constants';
-import { supabase, isSupabaseConnected } from '../utils/supabaseClient';
 
 export interface Notification {
   id: string;
@@ -18,7 +17,6 @@ interface GlobalStateContextType {
   currentView: string;
   navigate: (view: string, params?: any) => void;
   navigationParams: any;
-  isSupabaseConnected: boolean;
   
   // User Management
   currentUser: User | null;
@@ -58,8 +56,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [currentView, setCurrentView] = useState('dashboard');
   const [navigationParams, setNavigationParams] = useState<any>(null);
   
-  const [currentUser, setCurrentUser] = useState<User | null>(MOCK_USER);
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(true);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   
   // Projects State (Persistent within session)
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
@@ -187,7 +185,6 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       currentView, 
       navigate,
       navigationParams,
-      isSupabaseConnected,
       currentUser,
       login,
       logout,

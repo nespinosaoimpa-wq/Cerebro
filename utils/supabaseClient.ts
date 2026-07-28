@@ -21,6 +21,7 @@ const getSupabaseCredentials = () => {
   return { supabaseUrl, supabaseKey, isConfigured };
 };
 
+const credentials = getSupabaseCredentials();
 let supabaseClientInstance: SupabaseClient | null = null;
 let isConnected = false;
 
