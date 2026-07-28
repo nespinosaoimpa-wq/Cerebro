@@ -21,13 +21,22 @@ const getSupabaseCredentials = () => {
   return { supabaseUrl, supabaseKey, isConfigured };
 };
 
-const credentials = getSupabaseCredentials();
+let supabaseClientInstance: SupabaseClient | null = null;
+let isConnected = false;
 
-export const isSupabaseConnected = credentials.isConfigured;
+if (credentials.isConfigured) {
+  try {
+    supabaseClientInstance = createClient(credentials.supabaseUrl, credentials.supabaseKey);
+    isConnected = true;
+  } catch (err) {
+    console.warn("Failed to initialize Supabase client:", err);
+    isConnected = false;
+    supabaseClientInstance = null;
+  }
+}
 
-export const supabase: SupabaseClient | null = credentials.isConfigured
-  ? createClient(credentials.supabaseUrl, credentials.supabaseKey)
-  : null;
+export const isSupabaseConnected = isConnected;
+export const supabase = supabaseClientInstance;
 
 export const saveSupabaseCredentials = (url: string, key: string) => {
   if (url && key) {
