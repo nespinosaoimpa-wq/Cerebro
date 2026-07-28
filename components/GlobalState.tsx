@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { User, AppSettings, Project, Workbook } from '../types';
 import { CURRENT_USER as MOCK_USER, MOCK_PROJECTS, MOCK_WORKBOOKS } from '../constants';
+import { supabase, isSupabaseConnected } from '../utils/supabaseClient';
 
 export interface Notification {
   id: string;
@@ -17,6 +18,7 @@ interface GlobalStateContextType {
   currentView: string;
   navigate: (view: string, params?: any) => void;
   navigationParams: any;
+  isSupabaseConnected: boolean;
   
   // User Management
   currentUser: User | null;
@@ -185,6 +187,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       currentView, 
       navigate,
       navigationParams,
+      isSupabaseConnected,
       currentUser,
       login,
       logout,

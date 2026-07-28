@@ -266,3 +266,63 @@ export interface PerformanceUnit {
   status: 'optimal' | 'warning' | 'critical';
   lastIncident?: string;
 }
+
+// --- FINANCIAL ANALYSIS & FORENSICS ---
+
+export interface FinancialTransaction {
+  id: string;
+  date: string;
+  originAccount: string;
+  originEntity: string;
+  destinationAccount: string;
+  destinationEntity: string;
+  amountARS: number;
+  amountUSD: number;
+  channel: 'Transferencia CBU/CVU' | 'Efectivo Cueva' | 'Cripto USDT' | 'Cheque' | 'Inmobiliaria';
+  suspiciousFlag?: 'Estructuración (Smurfing)' | 'Triangulación Offshore' | 'Sin Inscripto AFIP' | 'Incremento Injustificado';
+  riskScore: number; // 1-100
+  caseId?: string;
+}
+
+export interface BankAccount {
+  id: string;
+  cbuCvu: string;
+  bankName: string;
+  holderName: string;
+  holderCuit: string;
+  linkedSuspectId?: string;
+  balanceARS: number;
+  balanceUSD: number;
+  status: 'Activa' | 'Embargada' | 'Bajo Vigilancia';
+}
+
+export interface ShellCompany {
+  id: string;
+  companyName: string;
+  cuit: string;
+  legalAddress: string;
+  activity: string;
+  registrationDate: string;
+  suspectedFrontman: string; // "Testaferro"
+  linkedSuspectIds: string[];
+  totalMovementUSD: number;
+  riskRating: 'Alta' | 'Media' | 'Baja';
+}
+
+// --- OSINT HUB & QUERY GENERATOR ---
+
+export interface OsintToolCategory {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  tools: {
+    id: string;
+    name: string;
+    description: string;
+    urlPattern: string;
+    type: 'identity' | 'social' | 'domain' | 'registry' | 'geospatial';
+    isDork?: boolean;
+  }[];
+}
+

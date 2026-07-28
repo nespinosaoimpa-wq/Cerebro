@@ -1,5 +1,5 @@
 
-import { MenuItem, StatCard, Alert, Suspect, User, CalendarEvent, Project, Workflow, Integration, Workbook, IdentityMatch, OsintPost, ReportSlide, TimelineEvent, IngestionFile, PerformanceUnit } from './types';
+import { MenuItem, StatCard, Alert, Suspect, User, CalendarEvent, Project, Workflow, Integration, Workbook, IdentityMatch, OsintPost, ReportSlide, TimelineEvent, IngestionFile, PerformanceUnit, FinancialTransaction, BankAccount, ShellCompany, OsintToolCategory } from './types';
 
 export const CURRENT_USER: User = {
   id: 'u-001',
@@ -33,6 +33,7 @@ export const MENU_ITEMS: MenuItem[] = [
     subItems: [
       { id: 'timeline', label: 'Línea de Tiempo & Evolución', icon: 'timeline', view: 'timeline' },
       { id: 'intel-network', label: 'Vínculos & Grafos (i2)', icon: 'hub', view: 'intel-network' },
+      { id: 'intel-financial', label: 'Análisis Financiero & Lavado', icon: 'account_balance', view: 'financial' },
       { id: 'intel-identity', label: 'Resolución de Identidad', icon: 'face_retouching_natural', view: 'intel-identity' },
       { id: 'workbooks', label: 'Cuaderno Multimedia AI', icon: 'auto_stories', view: 'workbooks' },
     ]
@@ -333,3 +334,171 @@ export const MOCK_PERFORMANCE_UNITS: PerformanceUnit[] = [
   { id: 'u2', name: 'Unidad Táctica Sur', complianceScore: 65, casesAssigned: 30, avgResponseTime: '48h', status: 'critical', lastIncident: 'Demora en Carga de Evidencia (3 días)' },
   { id: 'u3', name: 'División Ciber-Patrullaje', complianceScore: 78, casesAssigned: 120, avgResponseTime: '4h', status: 'warning' },
 ];
+
+export const MOCK_FINANCIAL_TRANSACTIONS: FinancialTransaction[] = [
+  {
+    id: 'tx-001',
+    date: '2026-07-24 14:32',
+    originAccount: '0170044520000003412984 (Mercado Pago)',
+    originEntity: 'GONZALEZ IGNACIO LEONEL (CHAVO)',
+    destinationAccount: '0720119288000001248721 (Santander)',
+    destinationEntity: 'AGROLOGISTICA DEL LITORAL S.R.L.',
+    amountARS: 14500000,
+    amountUSD: 11600,
+    channel: 'Transferencia CBU/CVU',
+    suspiciousFlag: 'Incremento Injustificado',
+    riskScore: 92,
+    caseId: 'p1'
+  },
+  {
+    id: 'tx-002',
+    date: '2026-07-25 09:15',
+    originAccount: 'Wallet USDT (0x71C...4F9a)',
+    originEntity: 'DESCONOCIDO-22',
+    destinationAccount: 'Wallet USDT (0x99A...12B9)',
+    destinationEntity: 'Viktor K. (VIPER)',
+    amountARS: 42500000,
+    amountUSD: 34000,
+    channel: 'Cripto USDT',
+    suspiciousFlag: 'Triangulación Offshore',
+    riskScore: 98,
+    caseId: 'p2'
+  },
+  {
+    id: 'tx-003',
+    date: '2026-07-26 11:40',
+    originAccount: 'Efectivo Depósito Sucursal 12',
+    originEntity: 'GONZALEZ ADRIANA ELISABET',
+    destinationAccount: '0110441930000019283741 (Nación)',
+    destinationEntity: 'CONSTRUCTORA DEL SUR S.A.',
+    amountARS: 4800000,
+    amountUSD: 3840,
+    channel: 'Efectivo Cueva',
+    suspiciousFlag: 'Estructuración (Smurfing)',
+    riskScore: 84,
+    caseId: 'p1'
+  },
+  {
+    id: 'tx-004',
+    date: '2026-07-27 16:05',
+    originAccount: '0070112420000099812455 (Galicia)',
+    originEntity: 'AGROLOGISTICA DEL LITORAL S.R.L.',
+    destinationAccount: 'Cuenta BVI Offshore #99182',
+    destinationEntity: 'LITORAL HOLDINGS LTD (Islas Vírgenes)',
+    amountARS: 120000000,
+    amountUSD: 96000,
+    channel: 'Transferencia CBU/CVU',
+    suspiciousFlag: 'Triangulación Offshore',
+    riskScore: 96,
+    caseId: 'p2'
+  }
+];
+
+export const MOCK_BANK_ACCOUNTS: BankAccount[] = [
+  {
+    id: 'ba-01',
+    cbuCvu: '0170044520000003412984',
+    bankName: 'Mercado Pago CVU',
+    holderName: 'GONZALEZ IGNACIO LEONEL',
+    holderCuit: '20-42332598-5',
+    linkedSuspectId: 's1',
+    balanceARS: 845000,
+    balanceUSD: 676,
+    status: 'Bajo Vigilancia'
+  },
+  {
+    id: 'ba-02',
+    cbuCvu: '0720119288000001248721',
+    bankName: 'Banco Santander CBU',
+    holderName: 'AGROLOGISTICA DEL LITORAL S.R.L.',
+    holderCuit: '30-71649182-4',
+    linkedSuspectId: 's2',
+    balanceARS: 45800000,
+    balanceUSD: 36640,
+    status: 'Embargada'
+  },
+  {
+    id: 'ba-03',
+    cbuCvu: '0110441930000019283741',
+    bankName: 'Banco Nación CBU',
+    holderName: 'CONSTRUCTORA DEL SUR S.A.',
+    holderCuit: '30-68912444-9',
+    balanceARS: 1240000,
+    balanceUSD: 992,
+    status: 'Activa'
+  }
+];
+
+export const MOCK_SHELL_COMPANIES: ShellCompany[] = [
+  {
+    id: 'sc-1',
+    companyName: 'AGROLOGISTICA DEL LITORAL S.R.L.',
+    cuit: '30-71649182-4',
+    legalAddress: 'Calle Corrientes 1450, Piso 4, Rosario, Santa Fe',
+    activity: 'Servicios de Transporte y Logística',
+    registrationDate: '12/03/2021',
+    suspectedFrontman: 'GONZALEZ ADRIANA ELISABET',
+    linkedSuspectIds: ['s1', 's2'],
+    totalMovementUSD: 450000,
+    riskRating: 'Alta'
+  },
+  {
+    id: 'sc-2',
+    companyName: 'CONSTRUCTORA DEL SUR S.A.',
+    cuit: '30-68912444-9',
+    legalAddress: 'Av. Pellegrini 3200, Rosario, Santa Fe',
+    activity: 'Obras Civiles y Construcción',
+    registrationDate: '04/09/2019',
+    suspectedFrontman: 'MARTINEZ MARIANO ALBERTO',
+    linkedSuspectIds: ['s1'],
+    totalMovementUSD: 180000,
+    riskRating: 'Media'
+  }
+];
+
+export const OSINT_TOOL_CATEGORIES: OsintToolCategory[] = [
+  {
+    id: 'osint-identity',
+    name: 'Identidad, Personas & Registros',
+    description: 'Búsqueda de DNI, CUIT, antecedentes judiciales y registros públicos.',
+    icon: 'badge',
+    tools: [
+      { id: 't-1', name: 'Buscarv (DNI/CUIT Argentina)', description: 'Verificación de relaciones fiscales y constancias CUIT.', urlPattern: 'https://www.google.com/search?q=site:cuitonline.com+"{QUERY}"', type: 'identity', isDork: true },
+      { id: 't-2', name: 'Boletín Oficial de la República Argentina', description: 'Búsqueda de edictos, sociedades y nombramientos.', urlPattern: 'https://www.boletinoficial.gob.ar/busqueda/avanzada?busqueda="{QUERY}"', type: 'registry' },
+      { id: 't-3', name: 'WhatsMyName Username Enumeration', description: 'Verificación de nombre de usuario en 500+ sitios web.', urlPattern: 'https://whatsmyname.app/?q={QUERY}', type: 'identity' }
+    ]
+  },
+  {
+    id: 'osint-social',
+    name: 'Redes Sociales & Perfiles',
+    description: 'Rastreo de perfiles en Facebook, Instagram, Twitter/X, TikTok y LinkedIn.',
+    icon: 'groups',
+    tools: [
+      { id: 't-4', name: 'Google Dork: Facebook Profiles & Posts', description: 'Encontrar publicaciones y cuentas relacionadas.', urlPattern: 'https://www.google.com/search?q=site:facebook.com+"{QUERY}"', type: 'social', isDork: true },
+      { id: 't-5', name: 'Google Dork: Instagram User Search', description: 'Búsqueda avanzada de cuentas e historias en Instagram.', urlPattern: 'https://www.google.com/search?q=site:instagram.com+"{QUERY}"', type: 'social', isDork: true },
+      { id: 't-6', name: 'Social Blade Analyzer', description: 'Métricas de crecimiento y actividad en YouTube/TikTok/X.', urlPattern: 'https://socialblade.com/search/search?query={QUERY}', type: 'social' }
+    ]
+  },
+  {
+    id: 'osint-tech',
+    name: 'Dominios, IP & Telecom',
+    description: 'Análisis de infraestructura web, registros DNS, WHOIS y Shodan.',
+    icon: 'dns',
+    tools: [
+      { id: 't-7', name: 'WHOIS Domain Lookup', description: 'Información de registro de dominio y contactos titular.', urlPattern: 'https://www.whois.com/whois/{QUERY}', type: 'domain' },
+      { id: 't-8', name: 'Shodan Computer Search Engine', description: 'Dispositivos expuestos, cámaras y servidores.', urlPattern: 'https://www.shodan.io/search?query={QUERY}', type: 'domain' },
+      { id: 't-9', name: 'Wayback Machine (Internet Archive)', description: 'Capturas históricas de páginas web y perfiles eliminados.', urlPattern: 'https://web.archive.org/web/*/{QUERY}', type: 'domain' }
+    ]
+  },
+  {
+    id: 'osint-geo',
+    name: 'Geolocalización & Imágenes',
+    description: 'Herramientas de georreferenciación, sombras y metadatos exof.',
+    icon: 'explore',
+    tools: [
+      { id: 't-10', name: 'SunCalc (Posición Solar)', description: 'Verificación de sombras e hora exacta en fotografías.', urlPattern: 'https://www.suncalc.org/#/{QUERY}', type: 'geospatial' },
+      { id: 't-11', name: 'Overpass Turbo OpenStreetMap Query', description: 'Filtro OSM para encontrar infraestructura por características.', urlPattern: 'https://overpass-turbo.eu/?template=key-value&key={QUERY}', type: 'geospatial' }
+    ]
+  }
+];
+

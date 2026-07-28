@@ -1,0 +1,6 @@
+/* Base styles for Cerebro AC */
+@layer base {
+  body {
+    @apply bg-nexus-950 text-gray-100 font-sans;
+  }
+}
