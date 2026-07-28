@@ -35,21 +35,21 @@ export const CaseManagerView: React.FC = () => {
   };
 
   return (
-    <div className="p-8 h-full overflow-y-auto custom-scrollbar bg-grid relative">
+    <div className="px-8 py-6 h-full w-full overflow-y-auto custom-scrollbar bg-grid relative">
        <div className="mb-8 flex justify-between items-end">
           <div>
              <h2 className="text-2xl font-bold text-white flex items-center gap-3">
                 <span className="material-symbols-outlined text-nexus-accent text-3xl">topic</span>
-                Sala de Evidencia Digital
+                Legajos de Investigación
              </h2>
-             <p className="text-sm text-gray-400 mt-1">Gestión centralizada de carpetas de investigación e inteligencia.</p>
+             <p className="text-sm text-gray-400 mt-1">Gestión unificada de legajos judiciales y causas penales en curso.</p>
           </div>
           <button 
             onClick={() => setShowCreateModal(true)}
-            className="px-4 py-2 bg-nexus-accent hover:bg-blue-600 text-white rounded-lg font-bold shadow-lg flex items-center gap-2 transition-colors"
+            className="px-4 py-2 bg-nexus-accent hover:bg-blue-600 text-white rounded font-bold shadow-lg flex items-center gap-2 transition-colors"
           >
              <span className="material-symbols-outlined">create_new_folder</span>
-             Nueva Carpeta
+             Nuevo Legajo
           </button>
        </div>
 
@@ -81,7 +81,7 @@ export const CaseManagerView: React.FC = () => {
                       <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${
                          project.status === 'Active' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-gray-500/10 text-gray-400 border-gray-500/20'
                       }`}>
-                         {project.status === 'Active' ? 'En Curso' : project.status}
+                         {project.status === 'Active' ? 'En Curso' : 'Archivado'}
                       </span>
                    </div>
 
@@ -91,11 +91,11 @@ export const CaseManagerView: React.FC = () => {
                    {/* Stats */}
                    <div className="grid grid-cols-2 gap-2 mb-4">
                       <div className="bg-nexus-950/50 p-2 rounded border border-nexus-800">
-                         <div className="text-[10px] text-gray-500 uppercase">Entidades</div>
+                         <div className="text-[10px] text-gray-500 uppercase">Blancos</div>
                          <div className="text-sm font-bold text-white">{project.entityCount || 0}</div>
                       </div>
                       <div className="bg-nexus-950/50 p-2 rounded border border-nexus-800">
-                         <div className="text-[10px] text-gray-500 uppercase">Archivos</div>
+                         <div className="text-[10px] text-gray-500 uppercase">Pruebas</div>
                          <div className="text-sm font-bold text-white">0</div>
                       </div>
                    </div>
@@ -119,17 +119,17 @@ export const CaseManagerView: React.FC = () => {
        {showCreateModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
              <div className="bg-nexus-900 border border-nexus-700 rounded-xl p-6 w-[400px] shadow-2xl animate-fade-in">
-                <h3 className="text-lg font-bold text-white mb-4">Nueva Carpeta de Caso</h3>
+                <h3 className="text-lg font-bold text-white mb-4">Nuevo Legajo de Causa</h3>
                 <form onSubmit={handleCreateFolder}>
                    <div className="mb-4">
-                      <label className="text-xs font-bold text-gray-500 uppercase block mb-2">Nombre del Caso / Operación</label>
+                      <label className="text-xs font-bold text-gray-500 uppercase block mb-2">Carátula de la Causa / Operación</label>
                       <input 
                          type="text" 
                          autoFocus
                          value={newFolderName}
                          onChange={(e) => setNewFolderName(e.target.value)}
                          className="w-full bg-nexus-800 border border-nexus-700 rounded p-2 text-white focus:border-nexus-accent focus:outline-none"
-                         placeholder="Ej: Operación Amanecer..."
+                         placeholder="Ej: Causa N° 4582/26 - Los Monos..."
                       />
                    </div>
                    <div className="flex justify-end gap-3">

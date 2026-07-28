@@ -71,7 +71,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
   };
 
   return (
-    <aside className={`${collapsed ? 'w-16' : 'w-64'} h-screen bg-nexus-950 border-r border-nexus-800 flex flex-col transition-all duration-300 z-30`}>
+    <aside className={`${collapsed ? 'w-16' : 'w-64'} h-screen bg-nexus-950 border-r border-nexus-800 flex flex-col transition-all duration-300 z-30 shrink-0`}>
       
       {/* Sidebar Header */}
       <div className="h-14 flex items-center justify-between px-4 border-b border-nexus-800">

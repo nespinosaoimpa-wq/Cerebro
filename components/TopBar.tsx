@@ -61,20 +61,31 @@ export const TopBar: React.FC = () => {
 
   const formatViewName = (view: string) => {
     switch(view) {
-      case 'dashboard': return 'Dashboard';
-      case 'projects': return 'Proyectos';
-      case 'workbooks': return 'Cuadernos de Análisis';
-      case 'intel-db': return 'Inteligencia / Objetivos';
+      case 'dashboard': return 'Tablero de Control';
+      case 'case-manager': return 'Gestión de Causas';
+      case 'case-ingest': return 'Ingreso de Evidencia (IA)';
+      case 'timeline': return 'Línea de Tiempo';
+      case 'intel-network': return 'Vínculos y Grafos';
+      case 'intel-identity': return 'Resolución de Identidad';
+      case 'workbooks': return 'Cuaderno de Causa';
       case 'map': return 'GIS Táctico';
-      case 'automation': return 'Flujos de Trabajo';
-      case 'profile': return 'Perfil de Usuario';
-      case 'sys-config': return 'Ajustes';
+      case 'ops-mobile': return 'App Agente de Campo';
+      case 'ops-active': return 'Despliegues en Curso';
+      case 'intel-db': return 'Prontuarios y Objetivos';
+      case 'intel-osint': return 'Monitoreo de Redes';
+      case 'strat-exec': return 'Focos y Operativos';
+      case 'strat-perf': return 'Desempeño Crítico';
+      case 'strat-reports': return 'Generador de Informes (IA)';
+      case 'automation': return 'Automatización y Alertas';
+      case 'sys-config': return 'Ajustes del Sistema';
+      case 'sys-audit': return 'Auditoría';
+      case 'profile': return 'Perfil de Analista';
       default: return view.charAt(0).toUpperCase() + view.slice(1);
     }
   };
 
   return (
-    <header className="h-14 bg-nexus-950/80 backdrop-blur-md border-b border-nexus-800 flex items-center justify-between px-4 z-20">
+    <header className="h-14 bg-nexus-950/80 backdrop-blur-md border-b border-nexus-800 flex items-center justify-between px-4 z-20 shrink-0">
       
       {/* Left: Breadcrumbs & Search */}
       <div className="flex items-center flex-1 gap-6">

@@ -13,17 +13,17 @@ export const CURRENT_USER: User = {
 export const MENU_ITEMS: MenuItem[] = [
   {
     id: 'dashboard',
-    label: 'Dashboard',
+    label: 'Tablero de Control',
     icon: 'dashboard',
     view: 'dashboard'
   },
   {
     id: 'cases',
-    label: 'Gestión de Casos',
+    label: 'Gestión de Causas',
     icon: 'folder_open',
     subItems: [
-      { id: 'case-manager', label: 'Carpetas de Trabajo', icon: 'topic', view: 'case-manager' },
-      { id: 'case-ingest', label: 'Centro de Ingesta AI', icon: 'upload_file', view: 'case-ingest' },
+      { id: 'case-manager', label: 'Legajos de Investigación', icon: 'topic', view: 'case-manager' },
+      { id: 'case-ingest', label: 'Ingreso de Evidencia (IA)', icon: 'upload_file', view: 'case-ingest' },
     ]
   },
   {
@@ -31,20 +31,20 @@ export const MENU_ITEMS: MenuItem[] = [
     label: 'Análisis Avanzado',
     icon: 'manage_search',
     subItems: [
-      { id: 'timeline', label: 'Línea de Tiempo & Evolución', icon: 'timeline', view: 'timeline' },
-      { id: 'intel-network', label: 'Vínculos & Grafos (i2)', icon: 'hub', view: 'intel-network' },
+      { id: 'timeline', label: 'Cronología del Suceso', icon: 'timeline', view: 'timeline' },
+      { id: 'intel-network', label: 'Análisis de Vínculos', icon: 'hub', view: 'intel-network' },
       { id: 'intel-identity', label: 'Resolución de Identidad', icon: 'face_retouching_natural', view: 'intel-identity' },
-      { id: 'workbooks', label: 'Cuaderno Multimedia AI', icon: 'auto_stories', view: 'workbooks' },
+      { id: 'workbooks', label: 'Cuaderno de la Causa', icon: 'auto_stories', view: 'workbooks' },
     ]
   },
   {
     id: 'ops',
-    label: 'Operaciones de Campo',
+    label: 'Operativos de Campo',
     icon: 'military_tech',
     subItems: [
-      { id: 'ops-map', label: 'GIS Táctico / Proyección', icon: 'map', view: 'map' },
-      { id: 'ops-mobile', label: 'App Agente Móvil', icon: 'smartphone', view: 'ops-mobile' },
-      { id: 'ops-active', label: 'Misiones Activas', icon: 'radar', view: 'ops-active' },
+      { id: 'ops-map', label: 'Mapa Táctico (GIS)', icon: 'map', view: 'map' },
+      { id: 'ops-mobile', label: 'App Agente de Campo', icon: 'smartphone', view: 'ops-mobile' },
+      { id: 'ops-active', label: 'Despliegues en Curso', icon: 'radar', view: 'ops-active' },
     ]
   },
   {
@@ -52,8 +52,8 @@ export const MENU_ITEMS: MenuItem[] = [
     label: 'Inteligencia & OSINT',
     icon: 'psychology',
     subItems: [
-      { id: 'intel-db', label: 'Base de Datos Objetivos', icon: 'folder_shared', view: 'intel-db' },
-      { id: 'intel-osint', label: 'Monitor de Redes', icon: 'public', view: 'intel-osint' },
+      { id: 'intel-db', label: 'Prontuarios y Blancos', icon: 'folder_shared', view: 'intel-db' },
+      { id: 'intel-osint', label: 'Monitoreo de Redes (OSINT)', icon: 'public', view: 'intel-osint' },
     ]
   },
   {
@@ -61,10 +61,10 @@ export const MENU_ITEMS: MenuItem[] = [
     label: 'Estrategia & Reportes',
     icon: 'local_police',
     subItems: [
-      { id: 'strat-exec', label: 'Ejecutiva: Ops vs Focos', icon: 'compare_arrows', view: 'strat-exec' },
+      { id: 'strat-exec', label: 'Focos y Operativos', icon: 'compare_arrows', view: 'strat-exec' },
       { id: 'strat-perf', label: 'Desempeño Crítico', icon: 'gavel', view: 'strat-perf' },
-      { id: 'strat-reports', label: 'Generador Informes AI', icon: 'present_to_all', view: 'strat-reports' },
-      { id: 'automation', label: 'Automatización & Alertas', icon: 'auto_mode', view: 'automation' },
+      { id: 'strat-reports', label: 'Generador de Informes (IA)', icon: 'present_to_all', view: 'strat-reports' },
+      { id: 'automation', label: 'Automatización y Alertas', icon: 'auto_mode', view: 'automation' },
     ]
   },
   {
@@ -72,8 +72,8 @@ export const MENU_ITEMS: MenuItem[] = [
     label: 'Sistema',
     icon: 'settings',
     subItems: [
-      { id: 'sys-config', label: 'Ajustes & Personalización', icon: 'tune', view: 'sys-config' },
-      { id: 'sys-audit', label: 'Auditoría', icon: 'receipt_long', view: 'sys-audit' },
+      { id: 'sys-config', label: 'Configuración General', icon: 'tune', view: 'sys-config' },
+      { id: 'sys-audit', label: 'Registros de Auditoría', icon: 'receipt_long', view: 'sys-audit' },
     ]
   }
 ];

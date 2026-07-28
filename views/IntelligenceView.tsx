@@ -236,9 +236,9 @@ export const IntelligenceView: React.FC = () => {
                   <div className="grid grid-cols-2 gap-2 mb-2 animate-fade-in">
                      <select onChange={e => setStatusFilter(e.target.value)} className="bg-nexus-800 border border-nexus-700 text-gray-300 text-xs rounded p-1">
                         <option value="all">Todos los Estados</option>
-                        <option value="Wanted">Wanted</option>
-                        <option value="Surveillance">Surveillance</option>
-                        <option value="Captured">Captured</option>
+                        <option value="Wanted">Pedido de Captura</option>
+                        <option value="Surveillance">Bajo Vigilancia</option>
+                        <option value="Captured">Detenido</option>
                      </select>
                      <select onChange={e => setRiskFilter(e.target.value)} className="bg-nexus-800 border border-nexus-700 text-gray-300 text-xs rounded p-1">
                         <option value="all">Riesgo: Todos</option>
@@ -303,11 +303,10 @@ export const IntelligenceView: React.FC = () => {
                            <div className="absolute inset-0 bg-nexus-accent/10 opacity-0 group-hover/avatar:opacity-100 transition-opacity"></div>
                         </div>
                         <div className="absolute -inset-2 border border-nexus-accent/20 opacity-50 pointer-events-none group-hover/avatar:scale-105 transition-transform"></div>
-
                         <div className={`absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-none text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl z-20 italic ${selectedSuspect.status === 'Wanted' ? 'bg-nexus-danger text-white' :
                            selectedSuspect.status === 'Captured' ? 'bg-white/10 text-gray-400 border border-white/5' : 'bg-nexus-warning text-black'
                            }`}>
-                           {selectedSuspect.status}
+                           {selectedSuspect.status === 'Wanted' ? 'Pedido de Captura' : selectedSuspect.status === 'Captured' ? 'Detenido' : 'Bajo Vigilancia'}
                         </div>
                      </div>
 
@@ -967,9 +966,9 @@ export const IntelligenceView: React.FC = () => {
                                     onChange={e => setNewSuspectData({ ...newSuspectData, status: e.target.value })}
                                     className="w-full bg-nexus-950 border border-nexus-700 rounded p-2 text-white focus:border-nexus-accent focus:outline-none"
                                  >
-                                    <option value="Wanted">Wanted (Pedido de Captura)</option>
-                                    <option value="Surveillance">Surveillance (Investigación)</option>
-                                    <option value="Captured">Captured (Detenido)</option>
+                                    <option value="Wanted">Pedido de Captura</option>
+                                    <option value="Surveillance">Bajo Vigilancia</option>
+                                    <option value="Captured">Detenido</option>
                                  </select>
                               </div>
                               <div>
