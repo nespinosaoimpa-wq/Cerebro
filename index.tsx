@@ -12,7 +12,8 @@ interface State {
   error: Error | null;
 }
 
-class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends React.Component<{ children?: React.ReactNode }, State> {
+  public props!: { children?: React.ReactNode };
   public state: State = {
     hasError: false,
     error: null

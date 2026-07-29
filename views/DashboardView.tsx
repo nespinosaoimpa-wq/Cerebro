@@ -68,118 +68,91 @@ export const DashboardView: React.FC = () => {
          <div className="bg-grid absolute inset-0 pointer-events-none opacity-20"></div>
 
          {/* Header Section */}
-         <div className="flex justify-between items-end mb-10 relative z-10">
-            <div className="animate-fade-in">
-               <h1 className="text-5xl font-black text-white tracking-tighter flex items-center gap-4">
-                  CEREBRO<span className="text-nexus-accent drop-shadow-[0_0_15px_var(--color-accent)]">AC</span>
-                  <div className="h-6 w-[2px] bg-nexus-800 rotate-12"></div>
-                  <span className="text-[10px] font-mono font-normal text-nexus-accent bg-nexus-accent/5 border border-nexus-accent/20 px-3 py-1 rounded-sm tracking-[0.3em] uppercase">
-                     UNIF. INTEL OS v5.0.1
+         <div className="flex justify-between items-center mb-8 relative z-10">
+            <div>
+               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
+                  CerebroAC
+                  <span className="text-xs font-semibold text-nexus-accent bg-nexus-accent/10 border border-nexus-accent/20 px-2 py-0.5 rounded">
+                     v5.0.1
                   </span>
                </h1>
-               <p className="text-xs text-gray-400 mt-3 max-w-xl font-mono tracking-wide">
-                  {'>'} SYSTEM STATE: NOMINAL // NEURAL LINK ACTIVE // JURISDICTION: SANTA FE REDISTRICT 07
+               <p className="text-sm text-gray-400 mt-1">
+                  Sistema de Análisis Criminal e Investigación Unificada
                </p>
             </div>
-            <div className="flex flex-col items-end gap-1 font-mono">
-               <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Global Entropy</span>
-               <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                     <div key={i} className={`h-1.5 w-6 rounded-full ${i > 6 ? 'bg-nexus-danger animate-pulse shadow-[0_0_10px_red]' : 'bg-nexus-accent opacity-50'}`}></div>
-                  ))}
-               </div>
-               <span className="text-[10px] text-nexus-danger font-bold mt-1">DEFCON 2: ELEVATED RISK</span>
+            <div className="flex items-center gap-2">
+               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+               <span className="text-xs text-gray-400 font-medium">Estado del Sistema: Conectado</span>
             </div>
          </div>
 
-         {/* KPI Stats Row - 2026 Cyber Grid */}
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 relative z-10">
+         {/* KPI Stats Row */}
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 relative z-10">
             {KPI_STATS.map((stat, idx) => (
-               <div key={idx} className="glass-panel border border-white/5 rounded p-6 relative overflow-hidden group">
+               <div key={idx} className="glass-panel border border-nexus-800 rounded-lg p-6 relative overflow-hidden group">
                   <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-all duration-700 rotate-12">
                      <span className="material-symbols-outlined text-9xl">{stat.icon}</span>
                   </div>
                   <div className="relative z-10">
-                     <div className="flex justify-between items-center mb-6">
-                        <div className="text-[10px] text-gray-500 font-bold font-mono tracking-tighter">SEC_METRIC_{idx + 100}</div>
-                        <div className={`text-[10px] font-mono px-2 py-0.5 border ${stat.positive ? 'text-emerald-400 border-emerald-400/30 bg-emerald-400/5' : 'text-rose-400 border-rose-400/30 bg-rose-400/5'}`}>
+                     <div className="flex justify-between items-center mb-4">
+                        <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">{stat.label}</div>
+                        <div className={`text-xs font-semibold px-2 py-0.5 rounded ${stat.positive ? 'text-emerald-400 bg-emerald-400/5' : 'text-rose-400 bg-rose-400/5'}`}>
                            {stat.positive ? '+' : '-'}{stat.change}
                         </div>
                      </div>
-                     <div className="text-4xl font-black text-white mb-2 tracking-tighter group-hover:text-nexus-accent transition-colors duration-500">{stat.value}</div>
-                     <div className="text-[10px] text-gray-400 font-mono uppercase tracking-[0.2em]">{stat.label}</div>
+                     <div className="text-3xl font-bold text-white tracking-tight">{stat.value}</div>
                   </div>
-                  <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-nexus-accent"></div>
-                  <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-nexus-accent"></div>
                </div>
             ))}
          </div>
 
          <div className="grid grid-cols-12 gap-8 relative z-10">
+             <div className="col-span-12 lg:col-span-8 h-[550px] rounded-lg border border-nexus-800 bg-nexus-900 p-8 flex flex-col justify-between relative overflow-hidden group">
+                <div className="absolute right-0 bottom-0 opacity-5 pointer-events-none transform translate-x-12 translate-y-12">
+                   <span className="material-symbols-outlined text-[350px] text-nexus-accent">analytics</span>
+                </div>
+                
+                <div className="relative z-10 max-w-xl">
+                   <span className="text-xs font-bold text-nexus-accent bg-nexus-accent/10 border border-nexus-accent/20 px-3 py-1 rounded">
+                      Panel de Control
+                   </span>
+                   <h2 className="text-3xl font-bold text-white mt-6 mb-3 tracking-tight">
+                      Gestión Operativa de Causas
+                   </h2>
+                   <p className="text-sm text-gray-400 leading-relaxed">
+                      Coordine el trabajo del personal, monitoree las zonas bajo vigilancia judicial y administre el ingreso de nuevas denuncias y pruebas. Sincronización continua de datos para investigación criminal.
+                   </p>
+                   
+                   <div className="grid grid-cols-2 gap-4 mt-8">
+                      <div className="bg-nexus-950/40 p-4 border border-nexus-800 rounded">
+                         <div className="text-xs text-gray-500 uppercase font-semibold">Causas en curso</div>
+                         <div className="text-2xl font-bold text-white mt-1">15 Activas</div>
+                      </div>
+                      <div className="bg-nexus-950/40 p-4 border border-nexus-800 rounded">
+                         <div className="text-xs text-gray-500 uppercase font-semibold">Agentes asignados</div>
+                         <div className="text-2xl font-bold text-white mt-1">24 en Servicio</div>
+                      </div>
+                   </div>
+                </div>
 
-            {/* SITUATION ROOM - HOLOGRAPHIC STYLE */}
-            <div className="col-span-12 lg:col-span-8 h-[650px] rounded border border-white/5 group bg-black overflow-hidden relative">
-               <div className="absolute inset-0 bg-nexus-900/40 z-10 mix-blend-overlay"></div>
-               <div className="absolute inset-0 opacity-40 transition-transform duration-[40s] ease-linear group-hover:scale-110"
-                  style={{ backgroundImage: 'url(https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/2485/1376)', backgroundSize: 'cover' }}></div>
+                <div className="relative z-10 flex gap-4 mt-8">
+                   <button
+                      onClick={() => setShowCreateOpModal(true)}
+                      className="px-5 py-3 bg-nexus-accent hover:bg-nexus-accentHover text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 rounded flex items-center gap-2"
+                   >
+                      <span className="material-symbols-outlined text-sm">add_circle</span>
+                      Nuevo Legajo
+                   </button>
 
-               {/* Tactical Overlays */}
-               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,6,23,0.9)_100%)]"></div>
-               <div className="bg-grid absolute inset-0 opacity-10"></div>
-
-               {/* Central UI */}
-               <div className="absolute inset-0 flex flex-col items-center justify-center p-8 z-20 text-center">
-                  <div className="relative mb-8 group">
-                     <div className="absolute inset-0 bg-nexus-accent/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
-                     <div className="w-32 h-32 rounded-full border border-nexus-accent/40 flex items-center justify-center bg-black/80 backdrop-blur-xl relative">
-                        <div className="absolute inset-2 border border-nexus-accent/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
-                        <span className="material-symbols-outlined text-6xl text-nexus-accent animate-pulse">radar</span>
-                     </div>
-                  </div>
-
-                  <h2 className="text-6xl font-black text-white tracking-tightest mb-4 italic uppercase">Situation Room</h2>
-                  <div className="flex gap-1 mb-10">
-                     <div className="h-0.5 w-12 bg-nexus-accent"></div>
-                     <div className="h-0.5 w-1 bg-nexus-800"></div>
-                     <div className="h-0.5 w-1 bg-nexus-800"></div>
-                     <div className="h-0.5 w-12 bg-nexus-accent"></div>
-                  </div>
-
-                  <div className="flex gap-6">
-                     <button
-                        onClick={() => setShowCreateOpModal(true)}
-                        className="px-8 py-4 bg-nexus-accent hover:bg-nexus-accentHover text-white font-bold text-sm tracking-wider uppercase transition-all duration-200 rounded border border-nexus-accent/20 shadow-lg shadow-nexus-accent/10 flex items-center gap-3"
-                     >
-                        <span className="material-symbols-outlined text-xl">satellite_alt</span>
-                        Nueva Misión
-                     </button>
-
-                     <button
-                        onClick={() => navigate('map')}
-                        className="px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 font-bold text-sm tracking-widest uppercase backdrop-blur-md transition-all flex items-center gap-3 hover:border-nexus-accent"
-                     >
-                        <span className="material-symbols-outlined">map</span>
-                        Live Feed
-                     </button>
-                  </div>
-               </div>
-
-               {/* Tactical Corners */}
-               <div className="absolute top-8 left-8 p-4 font-mono text-[10px] text-nexus-accent border-l border-nexus-accent/50 bg-black/40 backdrop-blur-sm">
-                  VECTOR: SANTA_FE_001<br />
-                  STATUS: SCANNING_ACTIVE<br />
-                  UPLINK: STABLE (98.4%)
-               </div>
-
-               <div className="absolute bottom-8 right-8 flex flex-col items-end gap-2 font-mono text-[10px] text-nexus-danger">
-                  <div className="flex gap-1">
-                     <div className="w-1 h-1 bg-nexus-danger"></div>
-                     <div className="w-1 h-1 bg-nexus-danger"></div>
-                     <div className="w-1 h-1 bg-nexus-danger"></div>
-                  </div>
-                  THREAT_MATCH_DETECTED
-               </div>
-            </div>
+                   <button
+                      onClick={() => navigate('map')}
+                      className="px-5 py-3 bg-nexus-800 hover:bg-nexus-700 text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 rounded border border-nexus-700 flex items-center gap-2"
+                   >
+                      <span className="material-symbols-outlined text-sm">map</span>
+                      Ver Mapa General
+                   </button>
+                </div>
+             </div>
 
             {/* FEED COLUMN - 2026 TACTICAL */}
             <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
@@ -264,15 +237,13 @@ export const DashboardView: React.FC = () => {
             </div>
          </div>
 
-         {/* FOOTER STATS */}
-         <div className="mt-12 py-4 border-t border-white/5 flex justify-between items-center font-mono text-[8px] text-gray-600 tracking-[0.4em] uppercase">
-            <div className="flex gap-10">
-               <span>Latency: 12ms</span>
-               <span>Uptime: 99.998%</span>
-               <span>Cores: 128 / Neural</span>
+         {/* FOOTER */}
+         <div className="mt-12 py-4 border-t border-nexus-800 flex justify-between items-center text-xs text-gray-500">
+            <div>
+               CerebroAC — Plataforma de Gestión e Inteligencia Criminal
             </div>
-            <div className="text-nexus-accent animate-pulse">
-               System Synchronized // 2026-02-09
+            <div>
+               Provincia de Santa Fe
             </div>
          </div>
 
@@ -281,79 +252,79 @@ export const DashboardView: React.FC = () => {
             <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fade-in">
                <div className="bg-nexus-950 border border-nexus-border w-full max-w-md shadow-2xl rounded-lg overflow-hidden">
 
-                  <div className="p-10">
-                     <div className="flex justify-between items-start mb-10">
-                        <div>
-                           <h2 className="text-3xl font-black text-white uppercase italic tracking-tighter">Vector Initialize</h2>
-                           <p className="text-[10px] text-nexus-accent font-mono tracking-widest mt-1">{'>'} PARAMETER_SETUP_v2</p>
-                        </div>
-                        <div className="w-12 h-12 border border-nexus-accent/30 flex items-center justify-center text-nexus-accent">
-                           <span className="material-symbols-outlined text-3xl">add_box</span>
-                        </div>
-                     </div>
+                   <div className="p-8">
+                      <div className="flex justify-between items-start mb-6">
+                         <div>
+                            <h2 className="text-xl font-bold text-white">Iniciar Nueva Causa</h2>
+                            <p className="text-xs text-gray-400 mt-1">Defina los parámetros del legajo de investigación.</p>
+                         </div>
+                         <div className="w-10 h-10 border border-nexus-accent/30 flex items-center justify-center text-nexus-accent rounded bg-nexus-accent/5">
+                            <span className="material-symbols-outlined text-2xl">add_box</span>
+                         </div>
+                      </div>
 
-                     <form onSubmit={handleCreateOperation} className="space-y-8">
-                        <div className="relative">
-                           <label className="text-[9px] font-mono text-gray-500 uppercase tracking-widest absolute -top-3 left-0 px-1 bg-nexus-950 ml-2">Operation_Codename</label>
-                           <input
-                              autoFocus
-                              type="text"
-                              className="w-full bg-black border border-white/10 p-4 text-white font-mono text-sm focus:border-nexus-accent focus:outline-none transition-all"
-                              placeholder="EX: PHANTOM_STRIKE"
-                              value={newOpData.title}
-                              onChange={e => setNewOpData({ ...newOpData, title: e.target.value.toUpperCase() })}
-                           />
-                        </div>
+                      <form onSubmit={handleCreateOperation} className="space-y-6">
+                         <div>
+                            <label className="block text-xs font-bold text-gray-400 uppercase mb-2">Carátula de la Causa / Legajo</label>
+                            <input
+                               autoFocus
+                               type="text"
+                               className="w-full bg-nexus-900 border border-nexus-700 rounded p-2.5 text-white text-sm focus:border-nexus-accent focus:outline-none transition-all"
+                               placeholder="Ej: CAUSA N° 4812/26 - LOS MONOS"
+                               value={newOpData.title}
+                               onChange={e => setNewOpData({ ...newOpData, title: e.target.value.toUpperCase() })}
+                            />
+                         </div>
 
-                        <div className="relative">
-                           <label className="text-[9px] font-mono text-gray-500 uppercase tracking-widest absolute -top-3 left-0 px-1 bg-nexus-950 ml-2">Threat_Category</label>
-                           <select
-                              className="w-full bg-black border border-white/10 p-4 text-white font-mono text-sm focus:border-nexus-accent focus:outline-none appearance-none"
-                              value={newOpData.type}
-                              onChange={e => setNewOpData({ ...newOpData, type: e.target.value })}
-                           >
-                              <option>Microtráfico</option>
-                              <option>Homicidios</option>
-                              <option>Lavado de Activos</option>
-                              <option>Crimen Organizado</option>
-                              <option>Trata de Personas</option>
-                           </select>
-                        </div>
+                         <div>
+                            <label className="block text-xs font-bold text-gray-400 uppercase mb-2">Categoría del Delito</label>
+                            <select
+                               className="w-full bg-nexus-900 border border-nexus-700 rounded p-2.5 text-white text-sm focus:border-nexus-accent focus:outline-none"
+                               value={newOpData.type}
+                               onChange={e => setNewOpData({ ...newOpData, type: e.target.value })}
+                            >
+                               <option>Microtráfico</option>
+                               <option>Homicidios</option>
+                               <option>Lavado de Activos</option>
+                               <option>Crimen Organizado</option>
+                               <option>Trata de Personas</option>
+                            </select>
+                         </div>
 
-                        <div className="relative">
-                           <label className="text-[9px] font-mono text-gray-500 uppercase tracking-widest absolute -top-3 left-0 px-1 bg-nexus-950 ml-2">Vector_Coords_Ref</label>
-                           <input
-                              type="text"
-                              className="w-full bg-black border border-white/10 p-4 text-white font-mono text-sm focus:border-nexus-accent focus:outline-none transition-all"
-                              placeholder="EX: Rosario, Santa Fe"
-                              value={newOpData.zone}
-                              onChange={e => setNewOpData({ ...newOpData, zone: e.target.value })}
-                           />
-                        </div>
+                         <div>
+                            <label className="block text-xs font-bold text-gray-400 uppercase mb-2">Zona / Ubicación de Referencia</label>
+                            <input
+                               type="text"
+                               className="w-full bg-nexus-900 border border-nexus-700 rounded p-2.5 text-white text-sm focus:border-nexus-accent focus:outline-none transition-all"
+                               placeholder="Ej: Rosario, Santa Fe"
+                               value={newOpData.zone}
+                               onChange={e => setNewOpData({ ...newOpData, zone: e.target.value })}
+                            />
+                         </div>
 
-                        <div className="pt-4 flex gap-4">
-                           <button
-                              type="button"
-                              onClick={() => setShowCreateOpModal(false)}
-                              className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all rounded border border-white/5"
-                           >
-                              Cancelar
-                           </button>
-                           <button
-                              type="submit"
-                              disabled={!newOpData.title || !newOpData.zone || isGeocoding}
-                              className="flex-1 py-3 bg-nexus-accent hover:bg-nexus-accentHover text-white font-bold text-xs uppercase tracking-wider disabled:opacity-50 transition-all rounded flex items-center justify-center gap-2"
-                           >
-                              {isGeocoding ? (
-                                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                              ) : 'Iniciar Misión'}
-                           </button>
-                        </div>
-                     </form>
-                  </div>
-               </div>
-            </div>
-         )}
+                         <div className="pt-4 flex gap-4">
+                            <button
+                               type="button"
+                               onClick={() => setShowCreateOpModal(false)}
+                               className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all rounded border border-white/5"
+                            >
+                               Cancelar
+                            </button>
+                            <button
+                               type="submit"
+                               disabled={!newOpData.title || !newOpData.zone || isGeocoding}
+                               className="flex-1 py-2.5 bg-nexus-accent hover:bg-nexus-accentHover text-white font-bold text-xs uppercase tracking-wider disabled:opacity-50 transition-all rounded flex items-center justify-center gap-2"
+                            >
+                               {isGeocoding ? (
+                                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                               ) : 'Iniciar Causa'}
+                            </button>
+                         </div>
+                      </form>
+                   </div>
+                </div>
+             </div>
+          )}
 
       </div>
    );

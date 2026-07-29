@@ -387,9 +387,9 @@ export const IntelligenceView: React.FC = () => {
                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                               {/* Behavioral Profile & Risk Radar */}
                               <div className="glass-panel p-6 border border-white/5 rounded relative overflow-hidden group">
-                                 <h3 className="text-[10px] font-black text-nexus-accent mb-6 uppercase tracking-[0.3em] flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">neurology</span>
-                                    Behavioral_Profiling_Radar
+                                 <h3 className="text-xs font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-sm text-nexus-accent">neurology</span>
+                                    Perfil Conductual Estimado
                                  </h3>
 
                                  <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -411,38 +411,37 @@ export const IntelligenceView: React.FC = () => {
                                                    50,${50 + (selectedSuspect.behavioralProfile.impulsivity * 0.45)}
                                                    ${50 - ((selectedSuspect.behavioralProfile.narcissism || 50) * 0.45)},50
                                                 `}
-                                                fill="rgba(59, 130, 246, 0.3)"
+                                                fill="rgba(59, 130, 246, 0.2)"
                                                 stroke="var(--color-accent)"
                                                 strokeWidth="1"
-                                                className="animate-pulse"
                                              />
                                           )}
                                        </svg>
-                                       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 text-[7px] text-nexus-danger font-bold uppercase">Violencia</div>
-                                       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 text-[7px] text-nexus-accent font-bold uppercase">Impulso</div>
-                                       <div className="absolute right-0 top-1/2 translate-x-4 -translate-y-1/2 text-[7px] text-nexus-accent font-bold uppercase rotate-90">Social</div>
-                                       <div className="absolute left-0 top-1/2 -translate-x-4 -translate-y-1/2 text-[7px] text-nexus-accent font-bold uppercase -rotate-90">Ego</div>
+                                       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 text-[8px] text-rose-400 font-bold uppercase">Violencia</div>
+                                       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 text-[8px] text-nexus-accent font-bold uppercase">Impulsividad</div>
+                                       <div className="absolute right-0 top-1/2 translate-x-4 -translate-y-1/2 text-[8px] text-nexus-accent font-bold uppercase rotate-90">Sociabilidad</div>
+                                       <div className="absolute left-0 top-1/2 -translate-x-4 -translate-y-1/2 text-[8px] text-nexus-accent font-bold uppercase -rotate-90">Narcisismo</div>
                                     </div>
 
                                     <div className="flex-1 space-y-4">
                                        {selectedSuspect.behavioralProfile ? (
                                           <>
-                                             <div className="bg-black/40 p-3 border border-white/5 rounded-sm">
-                                                <p className="text-[9px] font-mono text-gray-500 uppercase mb-1">Diagnostic_Executive_Summary</p>
-                                                <p className="text-[10px] text-white italic leading-tight">
+                                             <div className="bg-nexus-950/40 p-3 border border-nexus-800 rounded">
+                                                <p className="text-[10px] text-gray-500 uppercase font-semibold mb-1">Resumen del Diagnóstico</p>
+                                                <p className="text-xs text-white italic leading-tight">
                                                    Sujeto con marcada {selectedSuspect.behavioralProfile.violentTendency > 70 ? 'predisposición a la confrontación física' : 'conducta evasiva'}.
                                                    Nivel de sociabilidad {selectedSuspect.behavioralProfile.sociability > 60 ? 'ALTO (Capacidad de reclutamiento)' : 'BAJO (Accionar solitario)'}.
                                                 </p>
                                              </div>
                                              <div className="flex flex-wrap gap-2">
                                                 {selectedSuspect.behavioralProfile.predominantMO.map(mo => (
-                                                   <span key={mo} className="text-[9px] font-bold text-nexus-accent bg-nexus-accent/5 border border-nexus-accent/20 px-2 py-1 italic uppercase">#{mo.replace(/\s+/g, '_')}</span>
+                                                   <span key={mo} className="text-[10px] font-bold text-nexus-accent bg-nexus-accent/10 border border-nexus-accent/20 px-2 py-0.5 rounded uppercase">{mo}</span>
                                                 ))}
                                              </div>
                                           </>
                                        ) : (
-                                          <div className="p-4 text-center text-[10px] font-mono text-gray-600 uppercase italic">
-                                             perfil_conductual_indeterminado
+                                          <div className="p-4 text-center text-xs text-gray-500 italic">
+                                              Perfil conductual indeterminado
                                           </div>
                                        )}
                                     </div>
@@ -451,29 +450,29 @@ export const IntelligenceView: React.FC = () => {
 
                               {/* Organizational Taxonomy / Hierarchy */}
                               <div className="glass-panel p-6 border border-white/5 rounded relative overflow-hidden group">
-                                 <h3 className="text-[10px] font-black text-nexus-accent mb-6 uppercase tracking-[0.3em] flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">account_tree</span>
-                                    Criminal_Hierarchy_Role
+                                 <h3 className="text-xs font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-sm text-nexus-accent">account_tree</span>
+                                    Rol en la Organización
                                  </h3>
 
                                  <div className="flex flex-col items-center">
-                                    <div className="relative w-full max-w-xs aspect-video flex flex-col items-center justify-center border border-white/5 bg-black/40">
+                                    <div className="relative w-full max-w-xs aspect-video flex flex-col items-center justify-center border border-nexus-800 bg-nexus-950/40 rounded">
                                        {/* Hierarchy Pyramid Simulation */}
-                                       <div className={`w-12 h-6 border flex items-center justify-center text-[8px] font-black transition-all ${selectedSuspect.socialNetworkCentrality === 'hub' ? 'bg-nexus-danger text-white border-nexus-danger scale-125 z-10 shadow-[0_0_20px_rgba(239,68,68,0.4)]' : 'bg-white/5 text-gray-600 border-white/10'}`}>BOSS</div>
-                                       <div className="w-0.5 h-2 bg-white/10"></div>
+                                       <div className={`w-16 h-6 border rounded flex items-center justify-center text-[9px] font-bold transition-all ${selectedSuspect.socialNetworkCentrality === 'hub' ? 'bg-nexus-danger text-white border-nexus-danger scale-110 z-10' : 'bg-white/5 text-gray-500 border-white/10'}`}>LÍDER</div>
+                                       <div className="w-0.5 h-2 bg-nexus-800"></div>
                                        <div className="flex gap-4">
-                                          <div className={`w-12 h-6 border flex items-center justify-center text-[8px] font-black transition-all ${selectedSuspect.socialNetworkCentrality === 'bridge' ? 'bg-nexus-warning text-black border-nexus-warning scale-110 z-10' : 'bg-white/5 text-gray-600 border-white/10'}`}>LIEUTENANT</div>
-                                          <div className="w-12 h-6 border bg-white/5 text-gray-600 border-white/10 flex items-center justify-center text-[8px] font-black">ADVISOR</div>
+                                          <div className={`w-16 h-6 border rounded flex items-center justify-center text-[9px] font-bold transition-all ${selectedSuspect.socialNetworkCentrality === 'bridge' ? 'bg-nexus-warning text-black border-nexus-warning scale-105 z-10' : 'bg-white/5 text-gray-500 border-white/10'}`}>MANDO MEDIO</div>
+                                          <div className="w-16 h-6 border rounded bg-white/5 text-gray-500 border-white/10 flex items-center justify-center text-[9px] font-bold">ASESOR</div>
                                        </div>
-                                       <div className="w-0.5 h-2 bg-white/10"></div>
+                                       <div className="w-0.5 h-2 bg-nexus-800"></div>
                                        <div className="flex gap-2">
-                                          <div className={`w-12 h-6 border flex items-center justify-center text-[8px] font-black transition-all ${selectedSuspect.socialNetworkCentrality === 'leaf' ? 'bg-nexus-accent text-white border-nexus-accent pulse-shadow' : 'bg-white/5 text-gray-600 border-white/10'}`}>ENFORCER</div>
-                                          <div className="w-12 h-6 border bg-white/5 text-gray-600 border-white/10 flex items-center justify-center text-[8px] font-black">SOLDIER</div>
-                                          <div className="w-12 h-6 border bg-white/5 text-gray-600 border-white/10 flex items-center justify-center text-[8px] font-black">RECRUIT</div>
+                                          <div className={`w-16 h-6 border rounded flex items-center justify-center text-[9px] font-bold transition-all ${selectedSuspect.socialNetworkCentrality === 'leaf' ? 'bg-nexus-accent text-white border-nexus-accent' : 'bg-white/5 text-gray-500 border-white/10'}`}>LOGÍSTICO</div>
+                                          <div className="w-16 h-6 border rounded bg-white/5 text-gray-500 border-white/10 flex items-center justify-center text-[9px] font-bold">OPERATIVO</div>
+                                          <div className="w-16 h-6 border rounded bg-white/5 text-gray-500 border-white/10 flex items-center justify-center text-[9px] font-bold">RECLUTA</div>
                                        </div>
                                     </div>
-                                    <p className="mt-4 text-[10px] font-mono text-gray-500 text-center uppercase tracking-widest italic">
-                                       Current Designation: <span className="text-white font-black">{selectedSuspect.socialNetworkCentrality === 'hub' ? 'Organizational Ringleader' : selectedSuspect.socialNetworkCentrality === 'bridge' ? 'Strategic Connector' : 'Operational Asset'}</span>
+                                    <p className="mt-4 text-xs text-gray-400 text-center">
+                                       Designación Operativa: <span className="text-white font-bold">{selectedSuspect.socialNetworkCentrality === 'hub' ? 'Cabecilla / Jefe' : selectedSuspect.socialNetworkCentrality === 'bridge' ? 'Enlace Estratégico' : 'Apoyo Logístico / Ejecutor'}</span>
                                     </p>
                                  </div>
                               </div>
@@ -528,26 +527,22 @@ export const IntelligenceView: React.FC = () => {
                                        ))}
                                     </div>
                                  </div>
-                              </div>
-
-                              {/* Organizational Cluster Dynamics (FBI Grade) */}
-                              <div className="glass-panel p-6 border border-white/5 rounded col-span-1 lg:col-span-2 relative overflow-hidden group">
-                                 <div className="absolute top-0 right-0 p-4">
-                                    <span className="text-[10px] font-mono text-nexus-accent border border-nexus-accent/30 px-2 animate-pulse">INTEGRITY_CHECK_PASSED</span>
-                                 </div>
-                                 <h3 className="text-[10px] font-black text-white mb-6 uppercase tracking-[0.2em] flex items-center gap-2">
+                               </div>
+                                                      {/* Dinámica del Grupo y Vínculos */}
+                              <div className="glass-panel p-6 border border-nexus-800 rounded col-span-1 lg:col-span-2 relative overflow-hidden group">
+                                 <h3 className="text-xs font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
                                     <span className="material-symbols-outlined text-sm text-nexus-accent">rebase_edit</span>
-                                    Organizational_Cluster_Dynamics
+                                    Dinámica del Grupo y Vínculos
                                  </h3>
-
+ 
                                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                     <div className="md:col-span-1 space-y-4">
-                                       <div className="bg-black/60 p-4 border border-white/5 border-l-4 border-l-nexus-accent">
-                                          <p className="text-[8px] font-mono text-gray-500 uppercase">Primary_Affiliation</p>
-                                          <p className="text-sm text-white font-black italic">CLAN_DE_LOS_MONOS (98% Correlation)</p>
+                                       <div className="bg-nexus-950/40 p-4 border border-nexus-800 border-l-4 border-l-nexus-accent rounded">
+                                          <p className="text-[10px] font-semibold text-gray-500 uppercase">Afiliación Principal</p>
+                                          <p className="text-xs text-white font-bold">CLAN DE LOS MONOS (98% de Confianza)</p>
                                        </div>
                                        <div className="space-y-2">
-                                          <p className="text-[9px] font-mono text-gray-600 uppercase">Known_Sub_Cells</p>
+                                          <p className="text-[10px] text-gray-500 uppercase font-semibold">Sub-células Conocidas</p>
                                           {['Célula Sur (Logística)', 'Célula Oeste (Distribución)', 'Fuerza de Choque'].map(cell => (
                                              <div key={cell} className="flex items-center gap-2 text-[10px] text-gray-400 font-medium">
                                                 <span className="w-1.5 h-1.5 bg-nexus-accent rounded-full"></span>

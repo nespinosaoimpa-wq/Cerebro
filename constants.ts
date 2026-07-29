@@ -1,5 +1,5 @@
 
-import { MenuItem, StatCard, Alert, Suspect, User, CalendarEvent, Project, Workflow, Integration, Workbook, IdentityMatch, OsintPost, ReportSlide, TimelineEvent, IngestionFile, PerformanceUnit } from './types';
+import { MenuItem, StatCard, Alert, Suspect, User, CalendarEvent, Project, Workflow, Integration, Workbook, IdentityMatch, OsintPost, ReportSlide, TimelineEvent, IngestionFile, PerformanceUnit, FinancialTransaction, BankAccount, ShellCompany } from './types';
 
 export const CURRENT_USER: User = {
   id: 'u-001',
@@ -332,4 +332,68 @@ export const MOCK_PERFORMANCE_UNITS: PerformanceUnit[] = [
   { id: 'u1', name: 'Brigada de Investigaciones Norte', complianceScore: 92, casesAssigned: 45, avgResponseTime: '12h', status: 'optimal' },
   { id: 'u2', name: 'Unidad Táctica Sur', complianceScore: 65, casesAssigned: 30, avgResponseTime: '48h', status: 'critical', lastIncident: 'Demora en Carga de Evidencia (3 días)' },
   { id: 'u3', name: 'División Ciber-Patrullaje', complianceScore: 78, casesAssigned: 120, avgResponseTime: '4h', status: 'warning' },
+];
+
+export const MOCK_FINANCIAL_TRANSACTIONS: FinancialTransaction[] = [
+  {
+    id: 'TX-1001',
+    date: '2023-11-20 10:14',
+    originEntity: 'Transportes Rápido S.R.L.',
+    originAccount: '30712345678-01',
+    destinationEntity: 'Inversiones del Litoral S.A.',
+    destinationAccount: '30898765432-02',
+    amountUSD: 54000,
+    amountARS: 48600000,
+    channel: 'Transferencia Bancaria',
+    suspiciousFlag: 'Triangulación Offshore',
+    riskScore: 89
+  },
+  {
+    id: 'TX-1002',
+    date: '2023-11-21 14:32',
+    originEntity: 'González Ignacio Leonel',
+    originAccount: '20356789123-01',
+    destinationEntity: 'Shell Co. Delta',
+    destinationAccount: '30999988887-01',
+    amountUSD: 12000,
+    amountARS: 10800000,
+    channel: 'Efectivo depósito',
+    suspiciousFlag: 'Estructuración (Smurfing)',
+    riskScore: 92
+  }
+];
+
+export const MOCK_BANK_ACCOUNTS: BankAccount[] = [
+  {
+    id: 'ACC-01',
+    bankName: 'Banco Nación',
+    holderName: 'González Ignacio Leonel',
+    holderCuit: '20356789123',
+    cbuCvu: '0110001430000123456789',
+    balanceUSD: 145000,
+    status: 'Bajo Vigilancia'
+  },
+  {
+    id: 'ACC-02',
+    bankName: 'Banco Macro',
+    holderName: 'Viktor K.',
+    holderCuit: '20934567890',
+    cbuCvu: '2850001430000987654321',
+    balanceUSD: 850000,
+    status: 'Embargada'
+  }
+];
+
+export const MOCK_SHELL_COMPANIES: ShellCompany[] = [
+  {
+    id: 'SH-01',
+    companyName: 'Inversiones del Litoral S.A.',
+    cuit: '30898765432',
+    registrationDate: '2020-05-12',
+    activity: 'Servicios Financieros N.C.P.',
+    legalAddress: 'Córdoba 1200, Rosario',
+    suspectedFrontman: 'González Ignacio Leonel',
+    totalMovementUSD: 1540000,
+    riskRating: 'Alto'
+  }
 ];

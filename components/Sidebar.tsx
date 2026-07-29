@@ -101,17 +101,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
 
       {/* Footer / Server Status */}
       <div className="p-4 border-t border-nexus-800 bg-nexus-900/30">
-        <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''} group cursor-help`}>
-          <div className="relative">
-             <div className="w-8 h-8 rounded-full bg-nexus-800 border border-nexus-700 flex items-center justify-center text-gray-400 group-hover:border-nexus-accent transition-colors">
-                <span className="material-symbols-outlined text-[16px] group-hover:text-nexus-accent transition-colors">dns</span>
-             </div>
-             <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-nexus-success rounded-full border-2 border-nexus-950 animate-pulse"></div>
-          </div>
+        <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''} text-gray-500`}>
+          <span className="material-symbols-outlined text-[16px]">cloud_done</span>
           {!collapsed && (
             <div className="min-w-0">
-               <div className="text-xs font-medium text-white truncate group-hover:text-nexus-accent transition-colors">Cluster Alpha</div>
-               <div className="text-[10px] text-gray-500">12ms • Estable</div>
+               <div className="text-xs font-medium text-white truncate">Servidor Conectado</div>
+               <div className="text-[10px]">CerebroAC v5.0</div>
             </div>
           )}
         </div>

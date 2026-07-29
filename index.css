@@ -29,54 +29,39 @@ html, body, #root {
 }
 
 :root {
-  --color-bg-950: #090d16;
-  --color-bg-900: #0f172a;
-  --color-bg-800: #1e293b;
-  --color-bg-700: #334155;
-  --color-accent: #2563eb;
-  --color-accent-glow: rgba(37, 99, 235, 0.2);
-  --color-accent-hover: #3b82f6;
-  --text-main: #f8fafc;
-}
-
-html.tactical {
-  --color-bg-950: #040d06;
-  --color-bg-900: #0b1a0e;
-  --color-bg-800: #132a18;
-  --color-bg-700: #1c3d24;
-  --color-accent: #16a34a;
-  --color-accent-glow: rgba(22, 163, 74, 0.2);
-  --color-accent-hover: #22c55e;
+  --color-bg-950: #09090b;
+  --color-bg-900: #18181b;
+  --color-bg-800: #27272a;
+  --color-bg-700: #3f3f46;
+  --color-accent: #3b82f6;
+  --color-accent-glow: rgba(59, 130, 246, 0.05);
+  --color-accent-hover: #60a5fa;
+  --text-main: #f4f4f5;
 }
 
 html.light {
-  --color-bg-950: #f8fafc;
+  --color-bg-950: #fafafa;
   --color-bg-900: #ffffff;
-  --color-bg-800: #f1f5f9;
-  --color-bg-700: #e2e8f0;
+  --color-bg-800: #f4f4f5;
+  --color-bg-700: #e4e4e7;
   --color-accent: #2563eb;
-  --color-accent-glow: rgba(37, 99, 235, 0.15);
+  --color-accent-glow: rgba(37, 99, 235, 0.05);
   --color-accent-hover: #1d4ed8;
-  --text-main: #0f172a;
+  --text-main: #18181b;
 }
 
 .bg-grid {
-  background-image: 
-    linear-gradient(var(--color-accent-glow) 0.5px, transparent 0.5px),
-    linear-gradient(90deg, var(--color-accent-glow) 0.5px, transparent 0.5px);
-  background-size: 40px 40px;
-  mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+  /* Clean flat corporate background instead of neon grids */
+  background-color: var(--color-bg-950);
 }
 
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-900);
+  border: 1px solid var(--color-bg-800);
 }
 
 html.light .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 

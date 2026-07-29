@@ -266,3 +266,39 @@ export interface PerformanceUnit {
   status: 'optimal' | 'warning' | 'critical';
   lastIncident?: string;
 }
+
+export interface FinancialTransaction {
+  id: string;
+  date: string;
+  originEntity: string;
+  originAccount: string;
+  destinationEntity: string;
+  destinationAccount: string;
+  amountUSD: number;
+  amountARS: number;
+  channel: string;
+  suspiciousFlag?: string;
+  riskScore: number;
+}
+
+export interface BankAccount {
+  id: string;
+  bankName: string;
+  holderName: string;
+  holderCuit: string;
+  cbuCvu: string;
+  balanceUSD: number;
+  status: 'Embargada' | 'Bajo Vigilancia' | 'Activa';
+}
+
+export interface ShellCompany {
+  id: string;
+  companyName: string;
+  cuit: string;
+  registrationDate: string;
+  activity: string;
+  legalAddress: string;
+  suspectedFrontman: string;
+  totalMovementUSD: number;
+  riskRating: 'Alto' | 'Medio' | 'Bajo';
+}
