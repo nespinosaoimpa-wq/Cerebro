@@ -11,7 +11,12 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
-    'ops': true, 'intel': true, 'system': false
+    'cases': true,
+    'analysis': true,
+    'ops': true,
+    'intelligence': true,
+    'strategy': true,
+    'system': true
   });
 
   const toggleGroup = (id: string) => {
@@ -27,8 +32,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
       <li className="mb-0.5">
         <div 
           onClick={() => {
-            if (hasSub) toggleGroup(item.id);
-            else if (item.view) setCurrentView(item.view);
+            if (collapsed) {
+              setCollapsed(false);
+              setExpandedGroups(prev => ({ ...prev, [item.id]: true }));
+              if (item.subItems && item.subItems.length > 0 && item.subItems[0].view) {
+                setCurrentView(item.subItems[0].view);
+              }
+            } else if (hasSub) {
+              toggleGroup(item.id);
+              if (!isExpanded && item.subItems && item.subItems.length > 0 && item.subItems[0].view) {
+                setCurrentView(item.subItems[0].view);
+              }
+            } else if (item.view) {
+              setCurrentView(item.view);
+            }
           }}
           className={`
             flex items-center justify-between px-3 py-2 cursor-pointer transition-all duration-200 rounded-md mx-2 group
