@@ -210,7 +210,7 @@ export const TacticalMapView: React.FC = () => {
       },
       dark: {
          url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-         name: 'Modo Táctico Oscuro',
+         name: 'Híbrido Oscuro',
          attribution: '&copy; OpenStreetMap &copy; CARTO'
       }
    };
@@ -1029,8 +1029,8 @@ export const TacticalMapView: React.FC = () => {
          <div className="w-full h-full bg-nexus-950 flex flex-col items-center justify-center relative overflow-hidden">
             <div className="z-10 text-center space-y-4">
                <div className="w-24 h-24 rounded-full border-4 border-nexus-accent border-t-transparent animate-spin mx-auto"></div>
-               <h2 className="text-xl font-bold text-white tracking-widest font-mono">CALIBRANDO SATÉLITES...</h2>
-               <p className="text-nexus-accent font-mono text-xs">CONECTANDO A GOOGLE GEO-SERVICES</p>
+               <h2 className="text-xl font-bold text-white tracking-widest font-mono">CARGANDO SISTEMA DE MAPAS...</h2>
+               <p className="text-nexus-accent font-mono text-xs">CONECTANDO A SERVICIOS GEOGRÁFICOS</p>
             </div>
          </div>
       );
@@ -1072,33 +1072,6 @@ export const TacticalMapView: React.FC = () => {
          `}</style>
          {/* Map Element */}
          <div ref={mapContainerRef} className={`absolute inset-0 z-0 ${isPegmanActive ? 'cursor-crosshair' : ''}`} />
-
-         {/* --- TELEMETRY BAR (Bottom) --- */}
-         <div className="absolute bottom-0 left-0 right-0 h-8 bg-black/90 backdrop-blur-xl border-t border-nexus-700 z-[800] flex items-center px-4 justify-between text-[10px] font-mono text-nexus-accent overflow-hidden">
-            <div className="flex gap-6 relative z-10">
-               <span className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[12px]">location_on</span>
-                  DEC [ {cursorCoords.lat.toFixed(6)}, {cursorCoords.lng.toFixed(6)} ]
-               </span>
-               <span className="flex items-center gap-2 text-white/70">
-                  <span className="material-symbols-outlined text-[12px]">explore</span>
-                  DMS [ {toDMS(cursorCoords.lat, true)} | {toDMS(cursorCoords.lng, false)} ]
-               </span>
-            </div>
-            <div className="flex gap-6 relative z-10">
-               <span className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[12px]">zoom_in</span>
-                  MAGNIFICATION: {currentZoom}x
-               </span>
-               <span className="flex items-center gap-2 text-white/50 border-l border-white/10 pl-4 uppercase tracking-widest text-[9px]">
-                  SOURCE_COMMS: {BASE_MAPS[baseMap].name}
-               </span>
-               <span className="text-nexus-success font-black animate-pulse flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-nexus-success"></span>
-                  SAT_LINK: NOMINAL
-               </span>
-            </div>
-         </div>
 
          {/* --- PRECISION SEARCH BAR --- */}
          <div className={`absolute top-6 left-1/2 -translate-x-1/2 w-full max-w-xl z-[2000] transition-all duration-300 ${projectionMode ? '-translate-y-32' : 'translate-y-0'}`}>
@@ -1147,9 +1120,9 @@ export const TacticalMapView: React.FC = () => {
                      <div className="p-3 border-b border-white/5 bg-nexus-950/80 flex justify-between items-center sticky top-0 backdrop-blur-md">
                         <span className="text-[9px] font-black text-nexus-accent uppercase tracking-[0.2em] pl-2 flex items-center gap-2">
                            <span className="material-symbols-outlined text-[12px] animate-pulse">radar</span>
-                           Triangulación_Activa
+                           Búsqueda Activa
                         </span>
-                        <span className="text-[8px] text-gray-500 font-mono italic">ENTER_PARA_ESTRICTO_IA</span>
+                        <span className="text-[8px] text-gray-500 font-mono italic">ENTER para búsqueda asistida por IA</span>
                      </div>
                      {searchResults.map((result, idx) => (
                         <div
@@ -1204,17 +1177,17 @@ export const TacticalMapView: React.FC = () => {
                <button
                   onClick={toggleRuler}
                   className={`w-12 h-12 flex items-center justify-center transition-all relative group ${isRulerActive ? 'bg-nexus-accent text-white shadow-[0_0_20px_rgba(59,130,246,0.5)]' : 'text-gray-500 hover:text-white hover:bg-white/5'}`}
-                  title="Medición_QGIS"
+                  title="Medición de Distancias"
                >
                   <span className="material-symbols-outlined text-2xl">straighten</span>
                   <div className="absolute right-full mr-4 px-3 py-1 bg-black text-[9px] font-black text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity border-r-2 border-nexus-accent pointer-events-none uppercase tracking-widest">
-                     Ruler_Measure_Tool
+                     Herramienta de Medición
                   </div>
                </button>
                <button
                   onClick={clearRuler}
                   className="w-12 h-12 flex items-center justify-center text-gray-500 hover:text-nexus-danger hover:bg-nexus-danger/5 transition-all relative group"
-                  title="Wipe_Data"
+                  title="Limpiar Mediciones"
                >
                   <span className="material-symbols-outlined text-2xl">delete_sweep</span>
                </button>
@@ -1229,7 +1202,7 @@ export const TacticalMapView: React.FC = () => {
                <button
                   onClick={locateMe}
                   className="w-12 h-12 flex items-center justify-center text-gray-500 hover:text-nexus-accent hover:bg-nexus-accent/5 transition-all relative group"
-                  title="GPS_Lock"
+                  title="Mi Ubicación"
                >
                   <span className="material-symbols-outlined text-2xl">my_location</span>
                </button>
@@ -1387,7 +1360,7 @@ export const TacticalMapView: React.FC = () => {
 
                   {/* Layer List */}
                   <div>
-                     <label className="text-[10px] font-bold text-gray-500 uppercase mb-2 block">Superposiciones Tácticas</label>
+                     <label className="text-[10px] font-bold text-gray-500 uppercase mb-2 block">Capas de Información</label>
                      <div className="space-y-2">
                         {layers.map(layer => (
                            <div
@@ -1447,7 +1420,7 @@ export const TacticalMapView: React.FC = () => {
                className="absolute top-20 left-4 p-3 bg-nexus-900 text-white rounded-lg shadow-xl border border-nexus-600 z-[900] flex items-center gap-2"
             >
                <span className="material-symbols-outlined">menu</span>
-               <span className="text-sm font-bold hidden md:inline">Menú Táctico</span>
+               <span className="text-sm font-bold hidden md:inline">Menú de Capas</span>
             </button>
          )}
 
