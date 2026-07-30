@@ -139,32 +139,56 @@ export const NetworkAnalysisView: React.FC = () => {
       return;
     }
 
-    try {
-      const ai = new GoogleGenAI(apiKey);
-      const model = ai.getGenerativeModel({ model: "gemini-3.5-flash" });
+    const prompt = `
+      Sos un Analista de Inteligencia de la Policía de Investigaciones de Santa Fe.
+      Tu tarea es leer una declaración, descripción o reporte de vínculos criminales y mapearlo en un esquema de red (estilo i2 Analyst's Notebook).
+      Extraé todas las entidades (nodos) y relaciones (enlaces).
+      
+      Texto a procesar: "${inputText}"
+      
+      Las entidades/nodos solo pueden tener uno de los siguientes tipos: "person", "location", "organization", "vehicle", "phone".
+      El rol debe ser una descripción muy breve de su actividad.
+      Devolver ÚNICAMENTE un objeto JSON puro válido sin markdown extra, respetando este esquema:
+      {
+        "nodes": [
+          { "id": "id_en_minusculas_con_guiones_bajos", "label": "Nombre Visible Corto", "type": "person" | "location" | "organization" | "vehicle" | "phone", "role": "Descripción del Rol" }
+        ],
+        "links": [
+          { "source": "id_origen", "target": "id_destino", "label": "Tipo de relación" }
+        ]
+      }
+    `;
 
-      const prompt = `
-        Sos un Analista de Inteligencia de la Policía de Investigaciones de Santa Fe.
-        Tu tarea es leer una declaración, descripción o reporte de vínculos criminales y mapearlo en un esquema de red (estilo i2 Analyst's Notebook).
-        Extraé todas las entidades (nodos) y relaciones (enlaces).
-        
-        Texto a procesar: "${inputText}"
-        
-        Las entidades/nodos solo pueden tener uno de los siguientes tipos: "person", "location", "organization", "vehicle", "phone".
-        El rol debe ser una descripción muy breve de su actividad.
-        Devolver ÚNICAMENTE un objeto JSON puro válido sin markdown extra, respetando este esquema:
-        {
-          "nodes": [
-            { "id": "id_en_minusculas_con_guiones_bajos", "label": "Nombre Visible Corto", "type": "person" | "location" | "organization" | "vehicle" | "phone", "role": "Descripción del Rol" }
-          ],
-          "links": [
-            { "source": "id_origen", "target": "id_destino", "label": "Tipo de relación" }
-          ]
+    const ai = new GoogleGenAI(apiKey);
+    const candidateModels = ["gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.6-flash"];
+    let textResponse = '';
+    let lastError: any = null;
+
+    for (const modelName of candidateModels) {
+      try {
+        console.log(`Intentando vincular con el modelo: ${modelName}`);
+        const model = ai.getGenerativeModel({ model: modelName });
+        const result = await model.generateContent(prompt);
+        textResponse = result.response.text();
+        if (textResponse) {
+          lastError = null;
+          break;
         }
-      `;
+      } catch (err: any) {
+        console.warn(`Falló el modelo ${modelName}:`, err);
+        lastError = err;
+      }
+    }
 
-      const result = await model.generateContent(prompt);
-      const textResponse = result.response.text();
+    if (lastError) {
+      console.error("Todos los modelos fallaron:", lastError);
+      const errMsg = lastError?.message || 'Error de conexión general con los servidores de Google';
+      addNotification('error', `Error IA: ${errMsg}`);
+      setIsLoading(false);
+      return;
+    }
+
+    try {
       const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
@@ -188,8 +212,7 @@ export const NetworkAnalysisView: React.FC = () => {
       }
     } catch (err: any) {
       console.error(err);
-      const errMsg = err?.message || 'Error desconocido';
-      addNotification('error', `Error IA: ${errMsg}`);
+      addNotification('error', 'Error al procesar el JSON devuelto por el servicio.');
     } finally {
       setIsLoading(false);
     }

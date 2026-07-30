@@ -193,50 +193,73 @@ export const FinancialAnalysisView: React.FC = () => {
       return;
     }
 
-    try {
-      const ai = new GoogleGenAI(apiKey);
-      const model = ai.getGenerativeModel({ model: "gemini-3.5-flash" });
+    const prompt = `
+      Sos un Analista de Inteligencia Financiera. Tu objetivo es procesar el siguiente extracto bancario, cripto o de billetera virtual, y estructurar la información de transacciones y cuentas en formato JSON para investigación judicial.
+      
+      Extracto a procesar:
+      "${rawText}"
+      
+      Devolver únicamente un objeto JSON puro (sin formato markdown adicional), respetando la siguiente estructura de datos:
+      {
+        "transactions": [
+          {
+            "id": "código_transacción_único",
+            "date": "YYYY-MM-DD HH:MM",
+            "originEntity": "Nombre del titular emisor",
+            "originAccount": "CBU/CVU/Alias/Billetera emisora",
+            "destinationEntity": "Nombre del titular receptor",
+            "destinationAccount": "CBU/CVU/Alias/Billetera receptora",
+            "amountUSD": monto_en_dólares (número),
+            "amountARS": monto_en_pesos_argentinos (número),
+            "channel": "Transferencia Bancaria" | "MercadoPago" | "Cripto" | "Efectivo",
+            "riskScore": score_de_riesgo_estimado (número de 0 a 100)
+          }
+        ],
+        "accounts": [
+          {
+            "id": "código_interno_cuenta",
+            "bankName": "Nombre del Banco/Plataforma (ej: MercadoPago, Lemon Cash, Banco Galicia)",
+            "holderName": "Nombre del titular",
+            "holderCuit": "CUIT/CUIL del titular si figura o estimado",
+            "cbuCvu": "CBU/CVU/Alias de la cuenta",
+            "status": "Activa" | "Bajo Vigilancia",
+            "balanceUSD": saldo_aproximado_si_figura (o 0)
+          }
+        ]
+      }
+    `;
 
-      const prompt = `
-        Sos un Analista de Inteligencia Financiera. Tu objetivo es procesar el siguiente extracto bancario, cripto o de billetera virtual, y estructurar la información de transacciones y cuentas en formato JSON para investigación judicial.
-        
-        Extracto a procesar:
-        "${rawText}"
-        
-        Devolver únicamente un objeto JSON puro (sin formato markdown adicional), respetando la siguiente estructura de datos:
-        {
-          "transactions": [
-            {
-              "id": "código_transacción_único",
-              "date": "YYYY-MM-DD HH:MM",
-              "originEntity": "Nombre del titular emisor",
-              "originAccount": "CBU/CVU/Alias/Billetera emisora",
-              "destinationEntity": "Nombre del titular receptor",
-              "destinationAccount": "CBU/CVU/Alias/Billetera receptora",
-              "amountUSD": monto_en_dólares (número),
-              "amountARS": monto_en_pesos_argentinos (número),
-              "channel": "Transferencia Bancaria" | "MercadoPago" | "Cripto" | "Efectivo",
-              "riskScore": score_de_riesgo_estimado (número de 0 a 100)
-            }
-          ],
-          "accounts": [
-            {
-              "id": "código_interno_cuenta",
-              "bankName": "Nombre del Banco/Plataforma (ej: MercadoPago, Lemon Cash, Banco Galicia)",
-              "holderName": "Nombre del titular",
-              "holderCuit": "CUIT/CUIL del titular si figura o estimado",
-              "cbuCvu": "CBU/CVU/Alias de la cuenta",
-              "status": "Activa" | "Bajo Vigilancia",
-              "balanceUSD": saldo_aproximado_si_figura (o 0)
-            }
-          ]
+    const ai = new GoogleGenAI(apiKey);
+    const candidateModels = ["gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.6-flash"];
+    let responseText = '';
+    let lastError: any = null;
+
+    for (const modelName of candidateModels) {
+      try {
+        console.log(`Intentando extracto con el modelo: ${modelName}`);
+        const model = ai.getGenerativeModel({ model: modelName });
+        const result = await model.generateContent(prompt);
+        responseText = result.response.text();
+        if (responseText) {
+          lastError = null;
+          break;
         }
-      `;
+      } catch (err: any) {
+        console.warn(`Falló el modelo ${modelName}:`, err);
+        lastError = err;
+      }
+    }
 
-      const result = await model.generateContent(prompt);
-      const responseText = result.response.text();
+    if (lastError) {
+      console.error("Todos los modelos de extracto fallaron:", lastError);
+      const errMsg = lastError?.message || 'Error de conexión general con los servidores de Google';
+      addNotification('error', `Error IA: ${errMsg}`);
+      setIsLoading(false);
+      return;
+    }
+
+    try {
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
         if (parsed.transactions) {
@@ -258,8 +281,7 @@ export const FinancialAnalysisView: React.FC = () => {
       }
     } catch (err: any) {
       console.error(err);
-      const errMsg = err?.message || 'Error desconocido';
-      addNotification('error', `Error IA: ${errMsg}`);
+      addNotification('error', 'Error al procesar el JSON devuelto por el servicio.');
     } finally {
       setIsLoading(false);
     }
