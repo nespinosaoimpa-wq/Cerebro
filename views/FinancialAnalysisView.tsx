@@ -256,9 +256,10 @@ export const FinancialAnalysisView: React.FC = () => {
       } else {
         addNotification('error', 'La IA no pudo estructurar los datos del extracto.');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      addNotification('error', 'Error al procesar el extracto con la IA.');
+      const errMsg = err?.message || 'Error desconocido';
+      addNotification('error', `Error IA: ${errMsg}`);
     } finally {
       setIsLoading(false);
     }

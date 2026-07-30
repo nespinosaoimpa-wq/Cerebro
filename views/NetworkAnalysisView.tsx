@@ -186,9 +186,10 @@ export const NetworkAnalysisView: React.FC = () => {
       } else {
         addNotification('error', 'No se pudo estructurar el reporte de IA.');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      addNotification('error', 'Error al procesar el texto con Inteligencia Artificial.');
+      const errMsg = err?.message || 'Error desconocido';
+      addNotification('error', `Error IA: ${errMsg}`);
     } finally {
       setIsLoading(false);
     }
