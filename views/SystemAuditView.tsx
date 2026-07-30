@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const INITIAL_LOGS = [
-  { id: 1, time: '14:20:05', type: 'INFO', module: 'AUTH_SERVICE', message: 'User u-001 (Alex Mercer) logged in via Biometrics.' },
+  { id: 1, time: '14:20:05', type: 'INFO', module: 'AUTH_SERVICE', message: 'Usuario u-001 (nespinosa.oimpa@gmail.com) inició sesión en el sistema.' },
   { id: 2, time: '14:21:12', type: 'WARN', module: 'MAP_RENDERER', message: 'Tile fetch latency > 200ms on server node-4.' },
   { id: 3, time: '14:25:00', type: 'SUCCESS', module: 'DATA_SYNC', message: 'Synchronization with Google Drive completed. 15 files processed.' },
   { id: 4, time: '14:28:45', type: 'INFO', module: 'AI_CORE', message: 'Context window updated with new suspect data.' },

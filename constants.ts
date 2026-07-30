@@ -3,11 +3,11 @@ import { MenuItem, StatCard, Alert, Suspect, User, CalendarEvent, Project, Workf
 
 export const CURRENT_USER: User = {
   id: 'u-001',
-  name: 'Cmdr. Alex Mercer',
-  rank: 'Analista Senior',
-  avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+  name: 'nespinosa.oimpa@gmail.com',
+  rank: 'Analista de Investigaciones',
+  avatar: 'https://i.pravatar.cc/150?u=nespinosa.oimpa@gmail.com',
   status: 'online',
-  email: 'a.mercer@intelligence.gov'
+  email: 'nespinosa.oimpa@gmail.com'
 };
 
 export const MENU_ITEMS: MenuItem[] = [

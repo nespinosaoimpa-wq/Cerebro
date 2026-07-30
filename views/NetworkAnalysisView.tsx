@@ -704,7 +704,7 @@ export const NetworkAnalysisView: React.FC = () => {
 
           {/* Workspace Footer Info */}
           <div className="absolute bottom-4 left-4 text-[9px] font-mono text-gray-600">
-            MOTOR GRÁFICO i2 :: PROCESADO POR RED NEURAL DOCK
+            MOTOR GRÁFICO i2 :: PROCESADO POR SISTEMA DE INTELIGENCIA CEREBRO
           </div>
 
         </div>
