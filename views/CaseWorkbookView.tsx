@@ -383,7 +383,7 @@ const RealTacticalMap: React.FC<{ locations: MapLocation[] }> = ({ locations }) 
 // --- MAIN CONTROLLER ---
 
 export const CaseWorkbookView: React.FC = () => {
-   const { addNotification, navigationParams, workbooks, addWorkbook, updateWorkbook, navigate } = useGlobalState();
+   const { addNotification, navigationParams, workbooks, addWorkbook, updateWorkbook, navigate, settings, currentUser } = useGlobalState();
    const [activeWorkbookId, setActiveWorkbookId] = useState<string | null>(null);
 
    // States
@@ -434,9 +434,13 @@ export const CaseWorkbookView: React.FC = () => {
 
    // --- AI HELPERS ---
    const getAIModel = (modelName = "gemini-3.5-flash") => {
-      const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
+      const apiKey = settings.geminiApiKey || (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
       const ai = new GoogleGenAI(apiKey);
-      return ai.getGenerativeModel({ model: modelName });
+      let targetModel = modelName;
+      if (modelName.includes("1.5-pro") || modelName.includes("2.5-pro") || modelName.includes("1.5-flash") || modelName.includes("2.5-flash")) {
+         targetModel = "gemini-3.5-flash";
+      }
+      return ai.getGenerativeModel({ model: targetModel });
    };
 
    const getContext = () => {
@@ -687,26 +691,20 @@ export const CaseWorkbookView: React.FC = () => {
                   <div>
                      <h1 className="text-2xl font-black text-white tracking-tighter leading-none mb-1 flex items-center gap-3 uppercase italic">
                         {activeWorkbook.title}
-                        <span className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-[10px] text-blue-500 tracking-widest not-italic">JIT_ENV_STABLE</span>
                      </h1>
-                     <p className="text-[10px] text-blue-400/60 uppercase tracking-[0.2em] font-black italic">investigador_responsable: senior_det_miller // uplink_status: nominal</p>
+                     <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">Responsable: {currentUser?.email || 'nespinosa.oimpa@gmail.com'}</p>
                   </div>
 
-                  {/* COLLABORATIVE PRESENCE (JIT) */}
+                  {/* CONECTADO */}
                   <div className="flex -space-x-3 ml-4">
-                     {[
-                        { id: 'u1', name: 'Analista Ross', color: 'border-emerald-500', img: 'https://i.pravatar.cc/100?u=ross' },
-                        { id: 'u2', name: 'Fiscal G.', color: 'border-rose-500', img: 'https://i.pravatar.cc/100?u=garcia' },
-                     ].map(u => (
-                        <div key={u.id} className="relative group">
-                           <div className={`w-10 h-10 rounded-full border-2 ${u.color} p-0.5 bg-[#0a0a0a] bg-cover`} style={{ backgroundImage: `url(${u.img})` }}>
-                              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-nexus-success rounded-full border-2 border-black"></div>
-                           </div>
-                           <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black border border-white/10 text-[8px] font-black text-white uppercase whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">
-                              {u.name} (ONLINE)
-                           </div>
+                     <div className="relative group">
+                        <div className="w-10 h-10 rounded-full border border-blue-500 p-0.5 bg-[#0a0a0a] bg-cover" style={{ backgroundImage: `url(${currentUser?.avatar})` }}>
+                           <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-nexus-success rounded-full border-2 border-black"></div>
                         </div>
-                     ))}
+                        <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black border border-white/10 text-[8px] font-black text-white uppercase whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">
+                           {currentUser?.email} (CONECTADO)
+                        </div>
+                     </div>
                   </div>
                </div>
 

@@ -59,11 +59,39 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [currentUser, setCurrentUser] = useState<User | null>(MOCK_USER);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(true);
   
-  // Projects State (Persistent within session)
-  const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
+  // Projects State (Persistent in local storage)
+  const [projects, setProjects] = useState<Project[]>(() => {
+    const saved = localStorage.getItem('cerebro_projects');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        // use default MOCK_PROJECTS
+      }
+    }
+    return MOCK_PROJECTS;
+  });
 
-  // Workbooks State
-  const [workbooks, setWorkbooks] = useState<Workbook[]>(MOCK_WORKBOOKS);
+  // Workbooks State (Persistent in local storage)
+  const [workbooks, setWorkbooks] = useState<Workbook[]>(() => {
+    const saved = localStorage.getItem('cerebro_workbooks');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        // use default MOCK_WORKBOOKS
+      }
+    }
+    return MOCK_WORKBOOKS;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cerebro_projects', JSON.stringify(projects));
+  }, [projects]);
+
+  useEffect(() => {
+    localStorage.setItem('cerebro_workbooks', JSON.stringify(workbooks));
+  }, [workbooks]);
 
   const getInitialSettings = (): AppSettings => {
     const saved = localStorage.getItem('cerebro_settings');
