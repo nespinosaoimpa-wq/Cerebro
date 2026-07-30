@@ -65,12 +65,25 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   // Workbooks State
   const [workbooks, setWorkbooks] = useState<Workbook[]>(MOCK_WORKBOOKS);
 
-  const [settings, setSettings] = useState<AppSettings>({
-    theme: 'dark',
-    language: 'es',
-    accentColor: '#2563eb', 
-    mapIcons: 'standard'
-  });
+  const getInitialSettings = (): AppSettings => {
+    const saved = localStorage.getItem('cerebro_settings');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        // use default
+      }
+    }
+    return {
+      theme: 'dark',
+      language: 'es',
+      accentColor: '#2563eb', 
+      mapIcons: 'standard',
+      geminiApiKey: ''
+    };
+  };
+
+  const [settings, setSettings] = useState<AppSettings>(getInitialSettings());
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [notificationHistory, setNotificationHistory] = useState<Notification[]>([]);
@@ -130,6 +143,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const updateSettings = useCallback((newSettings: Partial<AppSettings>) => {
     setSettings(prev => {
       const updated = { ...prev, ...newSettings };
+      localStorage.setItem('cerebro_settings', JSON.stringify(updated));
       
       // Apply Theme Immediately
       if (newSettings.theme) {
@@ -149,7 +163,10 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   useEffect(() => {
     document.documentElement.classList.remove('dark', 'light', 'tactical');
     document.documentElement.classList.add(settings.theme);
-  }, []);
+    if (settings.accentColor) {
+      document.documentElement.style.setProperty('--color-accent', settings.accentColor);
+    }
+  }, [settings.theme, settings.accentColor]);
 
   // Notification Logic
   const addNotification = useCallback((type: Notification['type'], message: string) => {

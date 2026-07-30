@@ -91,12 +91,37 @@ export const SettingsView: React.FC = () => {
                   <select 
                     value={settings.language}
                     onChange={(e) => updateSettings({ language: e.target.value as any })}
-                    className="w-full bg-nexus-900 border border-nexus-700 rounded-lg p-3 text-white focus:border-nexus-accent focus:outline-none"
+                    className="w-full bg-nexus-900 border border-nexus-700 rounded-lg p-3 text-white focus:border-nexus-accent focus:outline-none mb-6"
                   >
                     <option value="es">Español (Latam)</option>
                     <option value="en">English (US)</option>
                     <option value="pt">Português (BR)</option>
                   </select>
+                </div>
+
+                <div className="pt-6 border-t border-nexus-800">
+                  <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-nexus-accent">key</span>
+                    Clave de API de Google Gemini (IA)
+                  </h3>
+                  <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+                    Para habilitar el procesamiento automático de extractos y el generador de gráficos i2 con lenguaje natural, ingresá tu Gemini API Key. Se almacena localmente de forma segura en tu navegador.
+                  </p>
+                  <div className="flex gap-2">
+                    <input
+                      type="password"
+                      placeholder="AIzaSy..."
+                      defaultValue={settings.geminiApiKey || ''}
+                      onChange={(e) => updateSettings({ geminiApiKey: e.target.value })}
+                      className="flex-1 bg-nexus-900 border border-nexus-700 rounded-lg p-3 text-white focus:border-nexus-accent focus:outline-none font-mono text-sm"
+                    />
+                    <button
+                      onClick={() => addNotification('success', 'Clave API de Gemini guardada correctamente.')}
+                      className="px-4 bg-nexus-accent hover:bg-blue-600 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all"
+                    >
+                      Guardar
+                    </button>
+                  </div>
                 </div>
               </div>
             )}

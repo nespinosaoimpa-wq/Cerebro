@@ -18,7 +18,7 @@ interface GraphLink {
 }
 
 export const NetworkAnalysisView: React.FC = () => {
-  const { addNotification } = useGlobalState();
+  const { settings, addNotification } = useGlobalState();
   const [layout, setLayout] = useState<'organic' | 'hierarchy'>('organic');
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -114,7 +114,7 @@ export const NetworkAnalysisView: React.FC = () => {
     setIsLoading(true);
     addNotification('info', 'Analizando texto y extrayendo vínculos con Inteligencia Artificial...');
 
-    const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
+    const apiKey = settings.geminiApiKey || (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
     if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') {
       // Fallback if no API key is provided
       setTimeout(() => {

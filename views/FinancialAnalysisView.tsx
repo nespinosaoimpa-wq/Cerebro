@@ -15,7 +15,7 @@ interface PitufeoAlert {
 }
 
 export const FinancialAnalysisView: React.FC = () => {
-  const { addNotification } = useGlobalState();
+  const { settings, addNotification } = useGlobalState();
   const [activeTab, setActiveTab] = useState<'transactions' | 'pitufeo' | 'accounts' | 'companies'>('transactions');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFlag, setSelectedFlag] = useState<string>('all');
@@ -98,7 +98,7 @@ export const FinancialAnalysisView: React.FC = () => {
     setIsLoading(true);
     addNotification('info', 'Procesando extracto financiero con Inteligencia Artificial...');
 
-    const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
+    const apiKey = settings.geminiApiKey || (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
     if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') {
       setTimeout(() => {
         addNotification('warning', 'Clave API no disponible. Cargando simulación de importación.');

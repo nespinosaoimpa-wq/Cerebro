@@ -255,6 +255,7 @@ export interface AppSettings {
   language: 'es' | 'en' | 'pt';
   accentColor: string;
   mapIcons: 'standard' | 'satellite' | 'custom_photos';
+  geminiApiKey?: string;
 }
 
 export interface PerformanceUnit {
