@@ -9,6 +9,10 @@ interface GraphNode {
   role?: string;
   x: number; // percentage (0 - 100)
   y: number; // percentage (0 - 100)
+  image?: string;
+  description?: string;
+  associatedCauses?: string[];
+  cuit?: string;
 }
 
 interface GraphLink {
@@ -18,12 +22,20 @@ interface GraphLink {
 }
 
 export const NetworkAnalysisView: React.FC = () => {
-  const { settings, addNotification } = useGlobalState();
+  const { settings, addNotification, workbooks, updateWorkbook } = useGlobalState();
   const [layout, setLayout] = useState<'organic' | 'hierarchy'>('organic');
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [mergeWithExisting, setMergeWithExisting] = useState(false);
   const [savedCases, setSavedCases] = useState<string[]>([]);
+
+  // Interactive filtering, search & detail editing states
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [minDegree, setMinDegree] = useState(1);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+  const [aiReportContent, setAiReportContent] = useState<string | null>(null);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   // Default Initial Graph (Los Monos case sample)
   const [nodes, setNodes] = useState<GraphNode[]>([
@@ -129,6 +141,117 @@ export const NetworkAnalysisView: React.FC = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
+  const handleGenerateAIReport = async () => {
+    if (nodes.length === 0) return;
+    setIsGeneratingReport(true);
+    addNotification('info', 'La IA está interpretando la red de vínculos para generar el informe...');
+
+    const apiKey = settings.geminiApiKey || (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
+    if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') {
+      setTimeout(() => {
+        addNotification('warning', 'Clave API no disponible. Cargando informe de simulación.');
+        setAiReportContent(`
+# INFORME DE INTELIGENCIA DE PRUEBA (SIMULADO)
+**Causa Judicial:** Investigación de Red de Narcotráfico - Zona Sur
+**Analista:** nespinosa.oimpa@gmail.com
+**Fecha:** ${new Date().toLocaleDateString('es-AR')}
+
+## 1. Resumen Ejecutivo
+Se identificó una red de vínculos compuesta por ${nodes.length} entidades y ${links.length} relaciones activas. El principal nexo operativo de la red es el nodo central coordinando actividades logísticas.
+
+## 2. Nodos Críticos y Cabecillas
+* **Juan Pérez (Organizador)**: Centraliza la toma de decisiones y mantiene vínculos directos con múltiples distribuidores.
+* **V. Cantero (Líder Operativa)**: Coordina el acopio y flujos financieros.
+
+## 3. Puntos de Vulnerabilidad e Incursión
+Se sugiere la intervención telefónica inmediata de las líneas vinculadas al círculo logístico y el allanamiento simultáneo del búnker ubicado en Zona Sur.
+        `);
+        setIsReportModalOpen(true);
+        setIsGeneratingReport(false);
+      }, 2000);
+      return;
+    }
+
+    try {
+      const prompt = `
+        Sos un Analista de Inteligencia Criminal de la Policía de Investigaciones.
+        Analizá la siguiente estructura de red de vínculos (formato i2) y redactá un Informe de Inteligencia Policial y Judicial profesional en español de Argentina.
+        El informe debe ser formal, técnico, riguroso y estar estructurado con títulos claros.
+        
+        LISTA DE ENTIDADES (Nodos):
+        ${JSON.stringify(nodes.map(n => ({ id: n.id, nombre: n.label, tipo: n.type, rol: n.role || 'No especificado', descripcion: n.description || '' })))}
+        
+        LISTA DE VÍNCULOS (Relaciones):
+        ${JSON.stringify(links.map(l => ({ de: l.source, a: l.target, relacion: l.label || 'Vínculo' })))}
+        
+        El informe debe contener:
+        1. **RESUMEN EJECUTIVO**: Explicación clara y sintética de la red criminal mapeada.
+        2. **ANÁLISIS DE LIDERAZGO Y CENTRALIDAD**: Quiénes son las figuras clave (los hubs de mayor conectividad) y qué roles cumplen.
+        3. **INFRAESTRUCTURA Y LOGÍSTICA**: Lugares de acopio (búnkers, casas de seguridad) y vehículos utilizados en la maniobra.
+        4. **PUNTOS CRÍTICOS Y PLAN DE ACCIÓN SUGERIDO**: Recomendaciones de investigación judicial (intervenciones telefónicas, allanamientos dirigidos, peritajes económicos) basadas en la topología de la red.
+        
+        Devolver únicamente el texto en formato Markdown profesional sin explicaciones previas.
+      `;
+
+      const ai = new GoogleGenAI(apiKey);
+      const candidateModels = ["gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.6-flash"];
+      let textResponse = '';
+      let lastError: any = null;
+
+      for (const modelName of candidateModels) {
+        try {
+          console.log(`Generando informe con: ${modelName}`);
+          const model = ai.getGenerativeModel({ model: modelName });
+          const result = await model.generateContent(prompt);
+          textResponse = result.response.text();
+          if (textResponse) {
+            lastError = null;
+            break;
+          }
+        } catch (err: any) {
+          console.warn(`Model ${modelName} failed for report:`, err);
+          lastError = err;
+        }
+      }
+
+      if (lastError) {
+        throw lastError;
+      }
+
+      setAiReportContent(textResponse);
+      setIsReportModalOpen(true);
+      addNotification('success', 'Informe de Inteligencia generado con éxito.');
+    } catch (err: any) {
+      console.error(err);
+      addNotification('error', `Error al generar el informe: ${err?.message || 'Error de conexión'}`);
+    } finally {
+      setIsGeneratingReport(false);
+    }
+  };
+
+  const handleExportReportToWorkbook = () => {
+    if (!aiReportContent) return;
+    if (workbooks.length === 0) {
+      addNotification('warning', 'No hay ningún Cuaderno de Causa activo para exportar.');
+      return;
+    }
+    
+    const targetWb = workbooks[0];
+    const newSource = {
+      id: `src-report-${Date.now()}`,
+      title: `Informe de Vínculos IA - ${new Date().toLocaleDateString('es-AR')}`,
+      type: 'text' as const,
+      contentSummary: 'Informe estructurado generado por IA sobre red de vínculos.',
+      uploadDate: new Date().toLocaleDateString('es-AR'),
+      citations: 0,
+      rawText: aiReportContent
+    };
+    
+    const updatedSources = [...(targetWb.sources || []), newSource];
+    updateWorkbook(targetWb.id, { sources: updatedSources });
+    addNotification('success', `Informe exportado con éxito al Cuaderno: "${targetWb.title}".`);
+  };
+
   // Re-calculate positions when layout changes
   const applyLayout = (type: 'organic' | 'hierarchy', currentNodes: GraphNode[]) => {
     const N = currentNodes.length;
@@ -178,6 +301,28 @@ export const NetworkAnalysisView: React.FC = () => {
       });
       return result;
     }
+  };
+
+  // Helper to calculate the degree (number of connections) for each node
+  const getNodeDegree = (nodeId: string, currentLinks = links) => {
+    return currentLinks.filter(l => l.source === nodeId || l.target === nodeId).length;
+  };
+
+  // Check if a node is focused/highlighted
+  const isNodeHighlighted = (nodeId: string) => {
+    if (!selectedNodeId) return true; // everything is highlighted if none is selected
+    if (selectedNodeId === nodeId) return true;
+    // Check if there is a link connecting nodeId and selectedNodeId
+    return links.some(l => 
+      (l.source === selectedNodeId && l.target === nodeId) ||
+      (l.source === nodeId && l.target === selectedNodeId)
+    );
+  };
+
+  // Check if a link is highlighted
+  const isLinkHighlighted = (link: GraphLink) => {
+    if (!selectedNodeId) return true;
+    return link.source === selectedNodeId || link.target === selectedNodeId;
   };
 
   useEffect(() => {
@@ -399,6 +544,31 @@ export const NetworkAnalysisView: React.FC = () => {
     }
   };
 
+  // Nodes filtered by search and minimum connections degree
+  const visibleNodes = nodes.filter(node => {
+    // 1. Search Query filter (matches label or role or CUIT/description)
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      const match = node.label.toLowerCase().includes(q) || 
+                    (node.role && node.role.toLowerCase().includes(q)) ||
+                    (node.cuit && node.cuit.includes(q)) ||
+                    (node.description && node.description.toLowerCase().includes(q));
+      if (!match) return false;
+    }
+    
+    // 2. Minimum Degree filter
+    const degree = getNodeDegree(node.id);
+    if (minDegree > 1 && degree < minDegree) {
+      return false;
+    }
+    return true;
+  });
+
+  // Links where both source and target are visible
+  const visibleLinks = links.filter(link => {
+    return visibleNodes.some(n => n.id === link.source) && visibleNodes.some(n => n.id === link.target);
+  });
+
   return (
     <div className="h-full flex flex-col lg:flex-row p-6 overflow-hidden relative gap-6">
       
@@ -597,6 +767,73 @@ export const NetworkAnalysisView: React.FC = () => {
           </div>
         </div>
 
+        {/* SUB-TOOLBAR: Search, Connection Degree and AI Report */}
+        <div className="flex flex-col md:flex-row gap-3 mb-4 items-center bg-nexus-900/30 p-3 rounded-lg border border-nexus-800/40">
+          {/* Search input */}
+          <div className="relative w-full md:w-60">
+            <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm">search</span>
+            <input
+              type="text"
+              placeholder="Buscar entidad (ej. Cantero)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-nexus-950 border border-nexus-800 rounded pl-8 pr-7 py-1.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-nexus-accent"
+            />
+            {searchQuery && (
+              <button 
+                onClick={() => setSearchQuery('')} 
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-base px-1.5"
+              >
+                ×
+              </button>
+            )}
+          </div>
+
+          {/* Connectivity/Degree Filter slider */}
+          <div className="flex items-center gap-2 text-xs text-gray-400 w-full md:w-auto">
+            <span className="material-symbols-outlined text-sm">filter_alt</span>
+            <span className="whitespace-nowrap">Conexiones mínimas:</span>
+            <input
+              type="range"
+              min="1"
+              max="5"
+              value={minDegree}
+              onChange={(e) => setMinDegree(Number(e.target.value))}
+              className="accent-nexus-accent h-1 bg-nexus-950 rounded-lg cursor-pointer w-24 md:w-32"
+            />
+            <span className="font-mono text-nexus-accent font-bold">{minDegree}</span>
+          </div>
+
+          {/* Selected Node Clear/Status */}
+          {selectedNodeId && (
+            <div className="flex items-center gap-2 text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded">
+              <span>Enfoque activo: <strong>{nodes.find(n => n.id === selectedNodeId)?.label}</strong></span>
+              <button onClick={() => setSelectedNodeId(null)} className="text-sm hover:text-white ml-1 font-bold">×</button>
+            </div>
+          )}
+
+          {/* AI Report Button */}
+          <div className="ml-auto w-full md:w-auto">
+            <button
+              onClick={handleGenerateAIReport}
+              disabled={isGeneratingReport || nodes.length === 0}
+              className="w-full md:w-auto px-4 py-1.5 bg-nexus-accent hover:bg-blue-600 text-white rounded text-xs font-bold flex items-center justify-center gap-1.5 transition-all disabled:opacity-50"
+            >
+              {isGeneratingReport ? (
+                <>
+                  <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  Analizando Red...
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined text-sm">psychology</span>
+                  Analizar con IA (Informe)
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
         {/* Graph Workspace Canvas */}
         <div id="graph-canvas" className="flex-1 glass-panel border border-nexus-800 rounded-xl relative overflow-hidden bg-nexus-950/60 shadow-2xl flex">
           
@@ -609,10 +846,12 @@ export const NetworkAnalysisView: React.FC = () => {
 
           {/* SVG Connector Lines */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
-            {links.map((link, idx) => {
+            {visibleLinks.map((link, idx) => {
               const srcNode = nodes.find(n => n.id === link.source);
               const tgtNode = nodes.find(n => n.id === link.target);
               if (!srcNode || !tgtNode) return null;
+
+              const isHighlighted = isLinkHighlighted(link);
 
               return (
                 <g key={idx}>
@@ -622,9 +861,10 @@ export const NetworkAnalysisView: React.FC = () => {
                     y1={`${srcNode.y}%`}
                     x2={`${tgtNode.x}%`}
                     y2={`${tgtNode.y}%`}
-                    stroke="#4B5563"
-                    strokeWidth="1.5"
-                    strokeOpacity="0.4"
+                    stroke={isHighlighted ? "#3b82f6" : "#4B5563"}
+                    strokeWidth={isHighlighted ? "2.5" : "1.5"}
+                    strokeOpacity={isHighlighted ? "0.8" : "0.15"}
+                    className="transition-all duration-300"
                   />
                 </g>
               );
@@ -632,7 +872,7 @@ export const NetworkAnalysisView: React.FC = () => {
           </svg>
 
           {/* Render Relationship Labels at midpoints */}
-          {links.map((link, idx) => {
+          {visibleLinks.map((link, idx) => {
             const srcNode = nodes.find(n => n.id === link.source);
             const tgtNode = nodes.find(n => n.id === link.target);
             if (!srcNode || !tgtNode) return null;
@@ -640,12 +880,13 @@ export const NetworkAnalysisView: React.FC = () => {
             // Calculate midpoint
             const midX = (srcNode.x + tgtNode.x) / 2;
             const midY = (srcNode.y + tgtNode.y) / 2;
+            const isHighlighted = isLinkHighlighted(link);
 
             return (
               <div
                 key={`label-${idx}`}
-                className="absolute z-10 -translate-x-1/2 -translate-y-1/2 group"
-                style={{ left: `${midX}%`, top: `${midY}%` }}
+                className="absolute z-10 -translate-x-1/2 -translate-y-1/2 group transition-opacity duration-300"
+                style={{ left: `${midX}%`, top: `${midY}%`, opacity: isHighlighted ? 1 : 0.15 }}
               >
                 <div className="bg-nexus-900 border border-nexus-800 px-2 py-0.5 rounded text-[8px] font-bold text-gray-400 whitespace-nowrap shadow-lg flex items-center gap-1">
                   {link.label || 'Vínculo'}
@@ -662,24 +903,32 @@ export const NetworkAnalysisView: React.FC = () => {
           })}
 
           {/* Render Nodes as absolute divs */}
-          {nodes.map(node => {
+          {visibleNodes.map(node => {
             const isCenter = layout === 'organic' && node.id === nodes[0]?.id;
+            const isHighlighted = isNodeHighlighted(node.id);
+            const isSelected = selectedNodeId === node.id;
 
             return (
               <div
                 key={node.id}
-                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer select-none"
-                style={{ left: `${node.x}%`, top: `${node.y}%` }}
+                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer select-none transition-all duration-300"
+                style={{ left: `${node.x}%`, top: `${node.y}%`, opacity: isHighlighted ? 1 : 0.15 }}
                 onMouseDown={(e) => handleMouseDown(e, node.id)}
+                onClick={() => setSelectedNodeId(isSelected ? null : node.id)}
               >
                 <div className={`
-                  w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-lg relative transition-transform duration-300 group-hover:scale-110
+                  w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-lg relative transition-all duration-300 group-hover:scale-110
                   ${getColorClass(node.type)}
                   ${isCenter ? 'ring-4 ring-red-500/20 w-16 h-16 border-red-500' : ''}
+                  ${isSelected ? 'ring-4 ring-blue-500/40 scale-105 border-blue-500' : ''}
                 `}>
-                  <span className="material-symbols-outlined text-2xl">
-                    {getIcon(node.type)}
-                  </span>
+                  {node.image ? (
+                    <img src={node.image} alt={node.label} className="w-full h-full rounded-full object-cover" />
+                  ) : (
+                    <span className="material-symbols-outlined text-2xl">
+                      {getIcon(node.type)}
+                    </span>
+                  )}
                   
                   {/* Delete button on hover */}
                   <button
@@ -694,7 +943,7 @@ export const NetworkAnalysisView: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="mt-2 bg-nexus-900/95 border border-nexus-800 px-2 py-1 rounded text-center shadow-md min-w-[70px]">
+                <div className={`mt-2 bg-nexus-900/95 border px-2 py-1 rounded text-center shadow-md min-w-[70px] transition-colors ${isSelected ? 'border-blue-500 bg-blue-950/20' : 'border-nexus-800'}`}>
                   <p className="text-[10px] font-bold text-white leading-none whitespace-nowrap">{node.label}</p>
                   {node.role && <p className="text-[8px] text-gray-500 leading-none mt-1 whitespace-nowrap">{node.role}</p>}
                 </div>
@@ -710,6 +959,244 @@ export const NetworkAnalysisView: React.FC = () => {
         </div>
 
       </div>
+
+      {/* RIGHT DRAWER: Entity Detail Panel */}
+      {selectedNodeId && (() => {
+        const node = nodes.find(n => n.id === selectedNodeId);
+        if (!node) return null;
+
+        const updateNodeField = (field: keyof GraphNode, value: any) => {
+          setNodes(prev => prev.map(n => n.id === selectedNodeId ? { ...n, [field]: value } : n));
+        };
+
+        const defaultAvatars: Record<string, string[]> = {
+          person: [
+            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+            'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80',
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80',
+          ],
+          location: [
+            'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=150&q=80',
+            'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=150&q=80',
+          ],
+          vehicle: [
+            'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=150&q=80',
+            'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=150&q=80',
+          ],
+          organization: [
+            'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=150&q=80',
+          ],
+          phone: []
+        };
+
+        const avatars = defaultAvatars[node.type] || [];
+
+        return (
+          <div className="w-80 border-l border-nexus-800 bg-nexus-950/90 p-5 flex flex-col gap-6 overflow-y-auto custom-scrollbar flex-shrink-0 z-30">
+            {/* Header */}
+            <div className="flex justify-between items-center border-b border-nexus-800 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-nexus-accent text-lg">
+                  {getIcon(node.type)}
+                </span>
+                <span className="text-xs font-bold text-white uppercase tracking-wider">Detalles de Entidad</span>
+              </div>
+              <button 
+                onClick={() => setSelectedNodeId(null)}
+                className="text-gray-400 hover:text-white text-lg font-bold"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Avatar & Photo */}
+            <div className="flex flex-col items-center gap-3">
+              <div className={`w-20 h-20 rounded-full border-2 overflow-hidden shadow-lg ${getColorClass(node.type)} flex items-center justify-center bg-nexus-900`}>
+                {node.image ? (
+                  <img src={node.image} alt={node.label} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="material-symbols-outlined text-4xl">{getIcon(node.type)}</span>
+                )}
+              </div>
+              
+              {/* Preset Avatars Selection */}
+              {avatars.length > 0 && (
+                <div className="flex gap-1.5 justify-center mt-1">
+                  {avatars.map((url, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => updateNodeField('image', url)}
+                      className={`w-7 h-7 rounded-full overflow-hidden border-2 transition-all hover:scale-110 ${node.image === url ? 'border-nexus-accent' : 'border-transparent'}`}
+                    >
+                      <img src={url} alt="preset" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                  {node.image && (
+                    <button
+                      onClick={() => updateNodeField('image', undefined)}
+                      className="w-7 h-7 bg-nexus-800 rounded-full flex items-center justify-center text-[10px] text-gray-400 hover:text-white"
+                      title="Quitar foto"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Editing Fields Form */}
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="text-gray-400 font-bold block mb-1">Nombre / Identificador</label>
+                <input
+                  type="text"
+                  value={node.label}
+                  onChange={(e) => updateNodeField('label', e.target.value)}
+                  className="w-full bg-nexus-900 border border-nexus-800 rounded px-3 py-2 text-white focus:outline-none focus:border-nexus-accent"
+                />
+              </div>
+
+              <div>
+                <label className="text-gray-400 font-bold block mb-1">Rol / Función</label>
+                <input
+                  type="text"
+                  value={node.role || ''}
+                  onChange={(e) => updateNodeField('role', e.target.value)}
+                  placeholder="Ej: Distribuidor principal"
+                  className="w-full bg-nexus-900 border border-nexus-800 rounded px-3 py-2 text-white focus:outline-none focus:border-nexus-accent"
+                />
+              </div>
+
+              {(node.type === 'person' || node.type === 'organization') && (
+                <div>
+                  <label className="text-gray-400 font-bold block mb-1">CUIT / CUIL</label>
+                  <input
+                    type="text"
+                    value={node.cuit || ''}
+                    onChange={(e) => updateNodeField('cuit', e.target.value)}
+                    placeholder="20-12345678-9"
+                    className="w-full bg-nexus-900 border border-nexus-800 rounded px-3 py-2 text-white focus:outline-none focus:border-nexus-accent"
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="text-gray-400 font-bold block mb-1">Imagen URL Personalizada</label>
+                <input
+                  type="text"
+                  value={node.image || ''}
+                  onChange={(e) => updateNodeField('image', e.target.value || undefined)}
+                  placeholder="https://..."
+                  className="w-full bg-nexus-900 border border-nexus-800 rounded px-3 py-2 text-white focus:outline-none focus:border-nexus-accent"
+                />
+              </div>
+
+              <div>
+                <label className="text-gray-400 font-bold block mb-1">Causas Judiciales Asociadas</label>
+                <input
+                  type="text"
+                  value={node.associatedCauses?.join(', ') || ''}
+                  onChange={(e) => updateNodeField('associatedCauses', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                  placeholder="Ej: Causa Pastorcito, Causa 154-B"
+                  className="w-full bg-nexus-900 border border-nexus-800 rounded px-3 py-2 text-white focus:outline-none focus:border-nexus-accent"
+                />
+              </div>
+
+              <div>
+                <label className="text-gray-400 font-bold block mb-1">Observaciones / Descripción</label>
+                <textarea
+                  value={node.description || ''}
+                  onChange={(e) => updateNodeField('description', e.target.value)}
+                  placeholder="Observaciones de inteligencia criminal, legajos físicos relacionados, etc..."
+                  rows={4}
+                  className="w-full bg-nexus-900 border border-nexus-800 rounded px-3 py-2 text-white focus:outline-none focus:border-nexus-accent resize-none"
+                />
+              </div>
+
+              <div className="pt-4 border-t border-nexus-800 flex gap-2">
+                <button
+                  onClick={() => {
+                    removeNode(node.id);
+                    setSelectedNodeId(null);
+                  }}
+                  className="flex-1 py-2 bg-rose-500/10 border border-rose-500/30 hover:bg-rose-500/20 text-rose-400 rounded font-bold transition-all text-[11px]"
+                >
+                  Eliminar del Grafo
+                </button>
+                <button
+                  onClick={() => setSelectedNodeId(null)}
+                  className="flex-1 py-2 bg-nexus-800 hover:bg-nexus-700 text-white rounded font-bold transition-all text-[11px]"
+                >
+                  Cerrar Detalles
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* AI REPORT MODAL */}
+      {isReportModalOpen && aiReportContent && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-6 z-50">
+          <div className="glass-panel border border-nexus-800 rounded-xl bg-nexus-950 p-6 max-w-3xl w-full max-h-[85vh] flex flex-col gap-4 shadow-2xl relative">
+            
+            {/* Modal Header */}
+            <div className="flex justify-between items-center border-b border-nexus-800 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-nexus-accent text-lg">psychology</span>
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Informe de Inteligencia Policial y Judicial (IA)</h3>
+              </div>
+              <button 
+                onClick={() => setIsReportModalOpen(false)}
+                className="text-gray-400 hover:text-white text-lg font-bold"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Modal Body (Scrollable Report Content) */}
+            <div className="flex-1 overflow-y-auto custom-scrollbar bg-nexus-900/40 border border-nexus-800/40 p-4 rounded text-xs leading-relaxed text-gray-300 select-text">
+              <pre className="whitespace-pre-wrap font-sans text-xs text-gray-300 max-w-none">
+                {aiReportContent}
+              </pre>
+            </div>
+
+            {/* Modal Footer (Actions) */}
+            <div className="flex justify-between items-center border-t border-nexus-800 pt-3">
+              <p className="text-[10px] text-gray-500 font-mono">
+                Mapeado por {settings.geminiApiKey ? 'Gemini 3.5' : 'Simulación local'} :: nespinosa.oimpa@gmail.com
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(aiReportContent);
+                    addNotification('success', 'Informe copiado al portapapeles.');
+                  }}
+                  className="px-4 py-2 bg-nexus-800 hover:bg-nexus-700 text-white rounded text-xs font-bold transition-all border border-nexus-700 flex items-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined text-sm">content_copy</span>
+                  Copiar Informe
+                </button>
+                <button
+                  onClick={handleExportReportToWorkbook}
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-bold transition-all flex items-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined text-sm">auto_stories</span>
+                  Exportar a Cuaderno de Causa
+                </button>
+                <button
+                  onClick={() => setIsReportModalOpen(false)}
+                  className="px-4 py-2 bg-nexus-900 hover:bg-nexus-800 text-gray-300 rounded text-xs font-bold transition-all border border-nexus-800"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );
