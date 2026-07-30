@@ -132,7 +132,7 @@ export const IntelligenceView: React.FC = () => {
         }
       `;
 
-         const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
+         const model = ai.getGenerativeModel({ model: "gemini-3.5-flash" });
          const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             tools: [{ googleSearchRetrieval: {} } as any]

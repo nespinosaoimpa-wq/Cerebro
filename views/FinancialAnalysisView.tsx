@@ -195,7 +195,7 @@ export const FinancialAnalysisView: React.FC = () => {
 
     try {
       const ai = new GoogleGenAI(apiKey);
-      const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const model = ai.getGenerativeModel({ model: "gemini-3.5-flash" });
 
       const prompt = `
         Sos un Analista de Inteligencia Financiera. Tu objetivo es procesar el siguiente extracto bancario, cripto o de billetera virtual, y estructurar la información de transacciones y cuentas en formato JSON para investigación judicial.
