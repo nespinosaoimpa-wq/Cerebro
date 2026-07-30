@@ -22,6 +22,8 @@ export const NetworkAnalysisView: React.FC = () => {
   const [layout, setLayout] = useState<'organic' | 'hierarchy'>('organic');
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [mergeWithExisting, setMergeWithExisting] = useState(false);
+  const [savedCases, setSavedCases] = useState<string[]>([]);
 
   // Default Initial Graph (Los Monos case sample)
   const [nodes, setNodes] = useState<GraphNode[]>([
@@ -50,6 +52,82 @@ export const NetworkAnalysisView: React.FC = () => {
   const [newLinkSource, setNewLinkSource] = useState('');
   const [newLinkTarget, setNewLinkTarget] = useState('');
   const [newLinkLabel, setNewLinkLabel] = useState('');
+
+  // Load saved cases names on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('cerebro_saved_graphs');
+    if (saved) {
+      try {
+        const graphs = JSON.parse(saved);
+        setSavedCases(Object.keys(graphs));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
+
+  const handleSaveCase = () => {
+    const caseName = prompt("Ingresá un nombre para guardar este caso/grafo:");
+    if (!caseName) return;
+    const saved = localStorage.getItem('cerebro_saved_graphs');
+    const graphs = saved ? JSON.parse(saved) : {};
+    graphs[caseName] = { nodes, links };
+    localStorage.setItem('cerebro_saved_graphs', JSON.stringify(graphs));
+    setSavedCases(Object.keys(graphs));
+    addNotification('success', `Caso "${caseName}" guardado correctamente.`);
+  };
+
+  const handleLoadCase = (name: string) => {
+    if (!name) return;
+    const saved = localStorage.getItem('cerebro_saved_graphs');
+    if (!saved) return;
+    try {
+      const graphs = JSON.parse(saved);
+      const graph = graphs[name];
+      if (graph) {
+        setNodes(graph.nodes || []);
+        setLinks(graph.links || []);
+        addNotification('success', `Caso "${name}" cargado con éxito.`);
+      }
+    } catch (e) {
+      console.error(e);
+      addNotification('error', 'No se pudo cargar el caso seleccionado.');
+    }
+  };
+
+  // Node Drag and Drop handler
+  const handleMouseDown = (e: React.MouseEvent, nodeId: string) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const node = nodes.find(n => n.id === nodeId);
+    if (!node) return;
+    const initialX = node.x;
+    const initialY = node.y;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const container = document.getElementById('graph-canvas');
+      if (!container) return;
+      const rect = container.getBoundingClientRect();
+      
+      const deltaX = ((moveEvent.clientX - startX) / rect.width) * 100;
+      const deltaY = ((moveEvent.clientY - startY) / rect.height) * 100;
+      
+      setNodes(prev => prev.map(n => n.id === nodeId ? {
+        ...n,
+        x: Math.max(2, Math.min(98, Math.round(initialX + deltaX))),
+        y: Math.max(2, Math.min(98, Math.round(initialY + deltaY)))
+      } : n));
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
 
   // Re-calculate positions when layout changes
   const applyLayout = (type: 'organic' | 'hierarchy', currentNodes: GraphNode[]) => {
@@ -198,12 +276,25 @@ export const NetworkAnalysisView: React.FC = () => {
             label: n.label,
             type: n.type || 'person',
             role: n.role || '',
-            x: 50,
-            y: 50
+            x: Math.round(15 + Math.random() * 70),
+            y: Math.round(15 + Math.random() * 70)
           }));
-          setNodes(applyLayout(layout, freshNodes));
-          setLinks(parsed.links);
-          addNotification('success', `Vínculos generados con éxito: ${freshNodes.length} entidades mapeadas.`);
+          
+          if (mergeWithExisting) {
+            setNodes(prev => {
+              const combined = [...prev, ...freshNodes];
+              return combined.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+            });
+            setLinks(prev => {
+              const combined = [...prev, ...parsed.links];
+              return combined.filter((v, i, a) => a.findIndex(l => l.source === v.source && l.target === v.target) === i);
+            });
+            addNotification('success', `Se agregaron ${freshNodes.length} entidades al grafo existente.`);
+          } else {
+            setNodes(applyLayout(layout, freshNodes));
+            setLinks(parsed.links);
+            addNotification('success', `Vínculos generados con éxito: ${freshNodes.length} entidades mapeadas.`);
+          }
         } else {
           addNotification('error', 'Formato de respuesta IA incompatible.');
         }
@@ -331,6 +422,18 @@ export const NetworkAnalysisView: React.FC = () => {
               rows={5}
               className="w-full bg-nexus-950 border border-nexus-800 rounded p-3 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-nexus-accent resize-none leading-relaxed"
             />
+            <div className="flex items-center gap-2 py-1">
+              <input
+                type="checkbox"
+                id="merge-with-existing"
+                checked={mergeWithExisting}
+                onChange={(e) => setMergeWithExisting(e.target.checked)}
+                className="w-3.5 h-3.5 rounded bg-nexus-950 border-nexus-800 text-nexus-accent focus:ring-0 accent-nexus-accent cursor-pointer"
+              />
+              <label htmlFor="merge-with-existing" className="text-xs text-gray-400 select-none cursor-pointer hover:text-white transition-colors">
+                Combinar con el grafo existente (no borrar lo anterior)
+              </label>
+            </div>
             <button
               type="submit"
               disabled={isLoading || !inputText.trim()}
@@ -447,7 +550,38 @@ export const NetworkAnalysisView: React.FC = () => {
             </h2>
             <p className="text-xs text-gray-500">Representación gráfica de relaciones investigativas y criminales</p>
           </div>
-          <div className="flex gap-2 self-start">
+          <div className="flex gap-2 self-start items-center">
+            {savedCases.length > 0 && (
+              <select
+                onChange={(e) => handleLoadCase(e.target.value)}
+                className="bg-nexus-800 border border-nexus-700 rounded px-2.5 py-1.5 text-xs font-bold text-gray-300 focus:outline-none cursor-pointer"
+                defaultValue=""
+              >
+                <option value="" disabled>📁 Cargar Caso...</option>
+                {savedCases.map(name => <option key={name} value={name} className="bg-nexus-900 text-white text-xs">{name}</option>)}
+              </select>
+            )}
+            <button
+              onClick={handleSaveCase}
+              className="px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-emerald-400 rounded text-xs font-bold flex items-center gap-1.5 transition-all"
+              title="Guardar caso actual"
+            >
+              <span className="material-symbols-outlined text-sm">save</span> Guardar
+            </button>
+            <button
+              onClick={() => {
+                if (confirm("¿Estás seguro de que querés borrar todo el lienzo para empezar un nuevo análisis?")) {
+                  setNodes([]);
+                  setLinks([]);
+                  addNotification('info', 'Lienzo de vínculos limpio.');
+                }
+              }}
+              className="px-3 py-1.5 bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-red-400 rounded text-xs font-bold flex items-center gap-1.5 transition-all"
+              title="Nuevo lienzo / Limpiar todo"
+            >
+              <span className="material-symbols-outlined text-sm">delete_sweep</span> Limpiar
+            </button>
+            <div className="w-px h-5 bg-nexus-800 mx-1" />
             <button
               onClick={() => setLayout('organic')}
               className={`px-3 py-1.5 rounded border text-xs font-bold flex items-center gap-1.5 transition-all ${layout === 'organic' ? 'bg-nexus-accent border-nexus-accent text-white' : 'bg-nexus-800 border-nexus-700 text-gray-400'}`}
@@ -464,7 +598,7 @@ export const NetworkAnalysisView: React.FC = () => {
         </div>
 
         {/* Graph Workspace Canvas */}
-        <div className="flex-1 glass-panel border border-nexus-800 rounded-xl relative overflow-hidden bg-nexus-950/60 shadow-2xl flex">
+        <div id="graph-canvas" className="flex-1 glass-panel border border-nexus-800 rounded-xl relative overflow-hidden bg-nexus-950/60 shadow-2xl flex">
           
           {/* Active Nodes Count & Toolbar Overlay */}
           <div className="absolute top-4 left-4 z-20 flex gap-2">
@@ -534,8 +668,9 @@ export const NetworkAnalysisView: React.FC = () => {
             return (
               <div
                 key={node.id}
-                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer"
+                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer select-none"
                 style={{ left: `${node.x}%`, top: `${node.y}%` }}
+                onMouseDown={(e) => handleMouseDown(e, node.id)}
               >
                 <div className={`
                   w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-lg relative transition-transform duration-300 group-hover:scale-110
