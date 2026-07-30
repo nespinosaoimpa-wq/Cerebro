@@ -33,6 +33,7 @@ export const MENU_ITEMS: MenuItem[] = [
     subItems: [
       { id: 'timeline', label: 'Cronología del Suceso', icon: 'timeline', view: 'timeline' },
       { id: 'intel-network', label: 'Análisis de Vínculos', icon: 'hub', view: 'intel-network' },
+      { id: 'financial', label: 'Análisis Económico y Forense', icon: 'account_balance', view: 'financial' },
       { id: 'intel-identity', label: 'Resolución de Identidad', icon: 'face_retouching_natural', view: 'intel-identity' },
       { id: 'workbooks', label: 'Cuaderno de la Causa', icon: 'auto_stories', view: 'workbooks' },
     ]

@@ -66,6 +66,7 @@ export const TopBar: React.FC = () => {
       case 'case-ingest': return 'Ingreso de Evidencia (IA)';
       case 'timeline': return 'Línea de Tiempo';
       case 'intel-network': return 'Vínculos y Grafos';
+      case 'financial': return 'Análisis Económico y Forense';
       case 'intel-identity': return 'Resolución de Identidad';
       case 'workbooks': return 'Cuaderno de Causa';
       case 'map': return 'GIS Táctico';
