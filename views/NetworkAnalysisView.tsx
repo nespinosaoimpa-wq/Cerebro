@@ -141,7 +141,7 @@ export const NetworkAnalysisView: React.FC = () => {
 
     try {
       const ai = new GoogleGenAI(apiKey);
-      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
         Sos un Analista de Inteligencia de la Policía de Investigaciones de Santa Fe.

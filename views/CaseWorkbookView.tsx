@@ -433,7 +433,7 @@ export const CaseWorkbookView: React.FC = () => {
    }, [navigationParams]);
 
    // --- AI HELPERS ---
-   const getAIModel = (modelName = "gemini-1.5-flash") => {
+   const getAIModel = (modelName = "gemini-2.5-flash") => {
       const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string) || '';
       const ai = new GoogleGenAI(apiKey);
       return ai.getGenerativeModel({ model: modelName });
@@ -800,7 +800,7 @@ export const CaseWorkbookView: React.FC = () => {
                            setIsProcessing(true);
                            setProcessingStatus('Consultando inteligencia grounded...');
                            try {
-                              const model = getAIModel("gemini-1.5-flash");
+                              const model = getAIModel("gemini-2.5-flash");
                               const context = getContext();
                               const result = await model.generateContent({
                                  contents: [{ role: 'user', parts: [{ text: `Eres un analista de inteligencia. Responde basándote estrictamente en las fuentes proporcionadas.\n\nCONTESTO:\n${context.substring(0, 50000)}\n\nPREGUNTA USUARIO: ${newMsg.content}` }] }]

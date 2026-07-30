@@ -502,7 +502,7 @@ export const TacticalMapView: React.FC = () => {
       if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') return null;
 
       const ai = new GoogleGenAI(apiKey);
-      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       try {
          addNotification('info', 'Sincronizando con Catastro IDESF Santa Fe...');
@@ -550,7 +550,7 @@ export const TacticalMapView: React.FC = () => {
       if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') return null;
 
       const ai = new GoogleGenAI(apiKey);
-      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       try {
          // PASS 1: Broad Search & Context Retrieval (Aggressive Local Grounding)
@@ -601,7 +601,7 @@ export const TacticalMapView: React.FC = () => {
       if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') return null;
 
       const ai = new GoogleGenAI(apiKey);
-      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
          SCAN LOCATION: [${lat.toFixed(6)}, ${lng.toFixed(6)}].
