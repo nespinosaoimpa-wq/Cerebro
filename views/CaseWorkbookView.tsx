@@ -383,7 +383,7 @@ const RealTacticalMap: React.FC<{ locations: MapLocation[] }> = ({ locations }) 
 // --- MAIN CONTROLLER ---
 
 export const CaseWorkbookView: React.FC = () => {
-   const { addNotification, navigationParams, workbooks, addWorkbook, updateWorkbook, navigate, settings, currentUser } = useGlobalState();
+   const { addNotification, navigationParams, workbooks, addWorkbook, updateWorkbook, navigate, settings, currentUser, addSuspect } = useGlobalState();
    const [activeWorkbookId, setActiveWorkbookId] = useState<string | null>(null);
 
    // States
@@ -794,17 +794,120 @@ export const CaseWorkbookView: React.FC = () => {
                            if (!chatInput.trim()) return;
                            const newMsg: ChatMessage = { id: Date.now().toString(), role: 'user', content: chatInput, timestamp: new Date() };
                            updateWorkbook(activeWorkbook.id, { chatHistory: [...(activeWorkbook.chatHistory || []), newMsg] });
+                           const currentInput = chatInput;
                            setChatInput('');
                            setIsProcessing(true);
                            setProcessingStatus('Consultando inteligencia grounded...');
                            try {
                               const model = getAIModel("gemini-3.5-flash");
                               const context = getContext();
-                              const result = await model.generateContent({
-                                 contents: [{ role: 'user', parts: [{ text: `Eres un analista de inteligencia. Responde basándote estrictamente en las fuentes proporcionadas.\n\nCONTESTO:\n${context.substring(0, 50000)}\n\nPREGUNTA USUARIO: ${newMsg.content}` }] }]
-                              });
-                              const aiResponse: ChatMessage = { id: `ai-${Date.now()}`, role: 'ai', content: result.response.text(), timestamp: new Date(), sources: activeWorkbook.sources?.map(s => s.title).slice(0, 5) || [] };
+                              
+                              const prompt = `
+Sos un Analista de Inteligencia Avanzado de la Policía de Investigaciones. Tu objetivo es responder la pregunta del usuario basándote en los documentos de evidencia provistos.
+CONTEXTO DEL CASO:
+${context.substring(0, 50000)}
+
+PREGUNTA DEL USUARIO:
+${currentInput}
+
+INSTRUCCIÓN ESPECIAL DE AGENTE ACCIÓN AUTOMÁTICA:
+Si el usuario solicita explícitamente crear, generar, redactar o hacer un perfil, ficha, legajo o dossier de una persona (ej: "hace un perfil con los datos de Jonatan David Diaz" o "genera un dossier de Jonatan Diaz"), debés responder devolviendo un objeto JSON estructurado que contenga la respuesta en formato texto Y los datos estructurados del sospechoso para agregarlo automáticamente a la base de datos de Objetivos Activos.
+
+Estructura JSON a devolver si se pide crear/hacer un perfil:
+{
+  "chatResponse": "Tu respuesta textual detallada contándole al analista que has procesado las fuentes y creado automáticamente su ficha de inteligencia con precisión y éxito. (Redactado en español de Argentina)",
+  "suspectToCreate": {
+    "codeName": "APELLIDO O ALIAS CORTO EN MAYÚSCULAS",
+    "realName": "APELLIDO Y NOMBRES COMPLETOS EN MAYÚSCULAS",
+    "dni": "DNI de la persona si figura en los documentos",
+    "cuit": "CUIT/CUIL si figura en los documentos",
+    "dob": "Fecha de nacimiento en formato DD/MM/AAAA si figura",
+    "riskLevel": 85, 
+    "recidivismRisk": "high", 
+    "status": "Surveillance", 
+    "lastSeen": "Domicilio o última ubicación mencionada",
+    "image": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
+    "affiliations": ["Bandas, grupos u organizaciones criminales"],
+    "socialNetworkCentrality": "leaf", 
+    "behavioralProfile": {
+      "impulsivity": 70,
+      "sociability": 50,
+      "violentTendency": 60,
+      "predominantMO": ["Rol delictivo detectado en la causa"]
+    },
+    "addresses": [
+      { "street": "Calle y número", "city": "Ciudad", "province": "Provincia", "source": "Documentos" }
+    ],
+    "phones": [
+      { "number": "Número de teléfono", "source": "Documentos" }
+    ],
+    "family": [
+      { "name": "Nombre familiar", "relation": "Relación familiar", "address": "Domicilio si figura" }
+    ],
+    "judicialRecords": [
+      { "cuij": "Número de causa o expediente", "date": "DD/MM/AAAA", "charge": "Imputación/Delito", "severity": 4 }
+    ]
+  }
+}
+
+Si el usuario NO está solicitando crear o estructurar un perfil de persona, debés responder en formato JSON con la respuesta estándar:
+{
+  "chatResponse": "Tu respuesta analítica detallada basada en las fuentes."
+}
+
+IMPORTANTE: Devolvé ÚNICAMENTE el objeto JSON puro, sin decoraciones de markdown ni bloques de código (tipo triple comilla invertida json). Debe ser un string JSON directamente parseable.
+                              `;
+
+                              const result = await model.generateContent(prompt);
+                              const responseText = result.response.text().trim();
+                              
+                              let chatText = responseText;
+                              let suspectObj: any = null;
+
+                              try {
+                                 const cleanJson = responseText.match(/\{[\s\S]*\}/)?.[0] || responseText;
+                                 const parsed = JSON.parse(cleanJson);
+                                 chatText = parsed.chatResponse || chatText;
+                                 if (parsed.suspectToCreate) {
+                                    suspectObj = parsed.suspectToCreate;
+                                 }
+                              } catch (parseErr) {
+                                 console.warn("JSON parsing failed, fallback to plain text:", parseErr);
+                              }
+
+                              const aiResponse: ChatMessage = { 
+                                 id: `ai-${Date.now()}`, 
+                                 role: 'ai', 
+                                 content: chatText, 
+                                 timestamp: new Date(), 
+                                 sources: activeWorkbook.sources?.map(s => s.title).slice(0, 5) || [] 
+                              };
                               updateWorkbook(activeWorkbook.id, { chatHistory: [...(activeWorkbook.chatHistory || []), newMsg, aiResponse] });
+                              
+                              if (suspectObj) {
+                                 const newSuspect = {
+                                    id: `s-${Date.now()}`,
+                                    codeName: suspectObj.codeName || 'SOSPECHOSO',
+                                    realName: suspectObj.realName || 'DESCONOCIDO',
+                                    dni: suspectObj.dni || '',
+                                    cuit: suspectObj.cuit || '',
+                                    dob: suspectObj.dob || '',
+                                    riskLevel: suspectObj.riskLevel || 50,
+                                    recidivismRisk: suspectObj.recidivismRisk || 'moderate',
+                                    status: suspectObj.status || 'Surveillance',
+                                    lastSeen: suspectObj.lastSeen || '',
+                                    image: suspectObj.image || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
+                                    affiliations: suspectObj.affiliations || [],
+                                    socialNetworkCentrality: suspectObj.socialNetworkCentrality || 'leaf',
+                                    behavioralProfile: suspectObj.behavioralProfile || { impulsivity: 50, sociability: 50, predominantMO: [] },
+                                    addresses: suspectObj.addresses || [],
+                                    phones: suspectObj.phones || [],
+                                    family: suspectObj.family || [],
+                                    judicialRecords: suspectObj.judicialRecords || []
+                                 };
+                                 addSuspect(newSuspect);
+                                 addNotification('success', `Perfil de ${newSuspect.realName} creado automáticamente con precisión.`);
+                              }
                            } catch (err) {
                               console.error(err);
                               addNotification('error', 'Error en la respuesta de IA.');

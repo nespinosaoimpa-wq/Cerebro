@@ -27,9 +27,13 @@ const generatePadronData = (dni: string) => {
 };
 
 export const IntelligenceView: React.FC = () => {
-   const { addNotification, navigate } = useGlobalState();
-   const [localSuspects, setLocalSuspects] = useState<Suspect[]>(SUSPECTS);
-   const [selectedSuspect, setSelectedSuspect] = useState<Suspect | null>(localSuspects[0]);
+   const { addNotification, navigate, suspects, addSuspect } = useGlobalState();
+   const [selectedSuspectId, setSelectedSuspectId] = useState<string | null>(null);
+   
+   const localSuspects = suspects;
+   const selectedSuspect = suspects.find(s => s.id === selectedSuspectId) || suspects[0] || null;
+   const setSelectedSuspect = (sus: Suspect | null) => setSelectedSuspectId(sus ? sus.id : null);
+   
    const [searchTerm, setSearchTerm] = useState('');
    const [activeTab, setActiveTab] = useState<'bio' | 'judicial' | 'family' | 'assets' | 'osint_search'>('bio');
 
@@ -83,7 +87,7 @@ export const IntelligenceView: React.FC = () => {
          socialNetworkCentrality: 'leaf'
       };
 
-      setLocalSuspects(prev => [newSuspect, ...prev]);
+      addSuspect(newSuspect);
       setSelectedSuspect(newSuspect);
       setShowCreateModal(false);
       addNotification('success', `Dossier creado para ${newSuspect.codeName}.`);

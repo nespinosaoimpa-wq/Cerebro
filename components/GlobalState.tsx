@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
-import { User, AppSettings, Project, Workbook } from '../types';
-import { CURRENT_USER as MOCK_USER, MOCK_PROJECTS, MOCK_WORKBOOKS } from '../constants';
+import { User, AppSettings, Project, Workbook, Suspect } from '../types';
+import { CURRENT_USER as MOCK_USER, MOCK_PROJECTS, MOCK_WORKBOOKS, SUSPECTS } from '../constants';
 
 export interface Notification {
   id: string;
@@ -27,6 +27,10 @@ interface GlobalStateContextType {
   // Projects Management
   projects: Project[];
   addProject: (project: Project) => void;
+
+  // Suspects Management
+  suspects: Suspect[];
+  addSuspect: (suspect: Suspect) => void;
 
   // Workbooks Management (Persistent)
   workbooks: Workbook[];
@@ -93,6 +97,23 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     localStorage.setItem('cerebro_workbooks', JSON.stringify(workbooks));
   }, [workbooks]);
 
+  // Suspects State (Persistent in local storage)
+  const [suspects, setSuspects] = useState<Suspect[]>(() => {
+    const saved = localStorage.getItem('cerebro_suspects');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        // use default SUSPECTS
+      }
+    }
+    return SUSPECTS;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cerebro_suspects', JSON.stringify(suspects));
+  }, [suspects]);
+
   const getInitialSettings = (): AppSettings => {
     const saved = localStorage.getItem('cerebro_settings');
     if (saved) {
@@ -125,6 +146,10 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   const addProject = useCallback((project: Project) => {
     setProjects(prev => [project, ...prev]);
+  }, []);
+
+  const addSuspect = useCallback((suspect: Suspect) => {
+    setSuspects(prev => [suspect, ...prev]);
   }, []);
 
   const addWorkbook = useCallback((workbook: Workbook) => {
@@ -236,6 +261,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       updateUserProfile,
       projects,
       addProject,
+      suspects,
+      addSuspect,
       workbooks,
       addWorkbook,
       updateWorkbook,
