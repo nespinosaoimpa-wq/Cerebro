@@ -27,151 +27,141 @@ export const ProjectsView: React.FC = () => {
   };
 
   return (
-    <div className="p-6 h-full overflow-y-auto custom-scrollbar relative">
+    <div className="p-8 h-full overflow-y-auto custom-scrollbar relative bg-gray-50 text-gray-800">
       {/* Header */}
       <div className="mb-8 flex items-end justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-1">Proyectos & Casos</h2>
-          <p className="text-gray-400 text-sm">Gestión estratégica de investigaciones penales</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+            <span className="material-symbols-outlined text-blue-600 text-3xl">workspaces</span>
+            Causas e Investigaciones Penales
+          </h2>
+          <p className="text-gray-500 text-sm">Gestión estratégica de expedientes del Ministerio Público de la Acusación</p>
         </div>
         <button 
           onClick={() => setShowCreateModal(true)}
-          className="px-4 py-2 bg-nexus-accent hover:bg-blue-600 text-white rounded-lg text-sm font-medium shadow-lg shadow-blue-900/20 transition-colors flex items-center gap-2"
+          className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium shadow-sm transition-colors flex items-center gap-2"
         >
-          <span className="material-symbols-outlined text-[18px]">add_circle</span>
-          Nuevo Proyecto
+          <span className="material-symbols-outlined text-lg">add_circle</span>
+          Nueva Causa
         </button>
       </div>
 
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map(project => (
-          <div key={project.id} className="glass-panel rounded-xl overflow-hidden group hover:border-nexus-accent/50 transition-all duration-300">
+          <div key={project.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-blue-500 hover:shadow-md transition-all duration-300 shadow-sm flex flex-col justify-between">
             {/* Image Cover */}
-            <div className="h-40 relative bg-nexus-900 overflow-hidden">
-               <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url(${project.thumbnail})` }}></div>
-               <div className="absolute inset-0 bg-gradient-to-t from-nexus-900 via-nexus-900/40 to-transparent"></div>
+            <div className="h-44 relative bg-gray-100 overflow-hidden">
+               <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${project.thumbnail})` }}></div>
+               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                <div className="absolute bottom-4 left-4">
-                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border ${
-                   project.type === 'Microtráfico' ? 'bg-purple-900/50 border-purple-500 text-purple-200' :
-                   project.type === 'Homicidios' ? 'bg-red-900/50 border-red-500 text-red-200' :
-                   'bg-blue-900/50 border-blue-500 text-blue-200'
-                 }`}>
+                 <span className="px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-wide bg-white/90 text-gray-800 shadow-sm">
                    {project.type}
                  </span>
                </div>
                <div className="absolute top-4 right-4">
-                 <button className="p-1.5 rounded-full bg-black/50 hover:bg-nexus-accent text-white backdrop-blur transition-colors">
-                   <span className="material-symbols-outlined text-sm">more_vert</span>
-                 </button>
+                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500 text-white shadow-sm">
+                   {project.status === 'Active' ? 'Activo' : 'Archivado'}
+                 </span>
                </div>
             </div>
 
             {/* Content */}
-            <div className="p-5">
-              <h3 className="text-lg font-bold text-white mb-1 truncate">{project.title}</h3>
-              <div className="flex items-center text-gray-400 text-xs mb-4 gap-1">
-                <span className="material-symbols-outlined text-[14px]">location_on</span>
-                {project.location}
+            <div className="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-1 line-clamp-2">
+                  {project.title}
+                </h3>
+                <p className="text-xs text-gray-500 mb-4 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm text-gray-400">pin_drop</span>
+                  {project.location}
+                </p>
               </div>
 
-              {/* Progress Bar */}
-              <div className="mb-4">
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="text-gray-500">Progreso de Investigación</span>
-                  <span className="text-nexus-accent font-bold">{project.progress}%</span>
+              <div>
+                {/* Progress */}
+                <div className="mb-4">
+                  <div className="flex justify-between text-xs text-gray-500 mb-1">
+                    <span>Avance</span>
+                    <span className="font-semibold text-gray-700">{project.progress}%</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-600 rounded-full" style={{ width: `${project.progress}%` }}></div>
+                  </div>
                 </div>
-                <div className="h-1.5 w-full bg-nexus-700 rounded-full overflow-hidden">
-                  <div className="h-full bg-nexus-accent rounded-full" style={{ width: `${project.progress}%` }}></div>
-                </div>
-              </div>
 
-              {/* Footer */}
-              <div className="flex justify-between items-center pt-4 border-t border-nexus-700/50">
-                <div className="flex -space-x-2">
-                  {project.members.map((m, i) => (
-                    <div key={i} className="w-6 h-6 rounded-full border border-nexus-800 bg-nexus-700 flex items-center justify-center text-[8px] text-white">
-                      {m.slice(0,1).toUpperCase()}
-                    </div>
-                  ))}
-                  <button className="w-6 h-6 rounded-full border border-nexus-800 bg-nexus-800 flex items-center justify-center text-[10px] text-gray-400 hover:text-white hover:bg-nexus-700 transition-colors">
-                    +
-                  </button>
+                {/* Footer */}
+                <div className="flex items-center justify-between pt-3 border-t border-gray-100 text-xs text-gray-500">
+                  <span>Actualizado: {project.lastUpdate}</span>
+                  <span className="text-blue-600 font-semibold flex items-center gap-1 group-hover:underline">
+                    Detalles
+                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                  </span>
                 </div>
-                <span className="text-[10px] text-gray-500">{project.lastUpdate}</span>
               </div>
-            </div>
-            
-            {/* Quick Actions overlay on hover */}
-            <div className="px-5 pb-5 mt-[-10px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-2">
-               <button className="flex-1 py-1.5 bg-nexus-800 hover:bg-nexus-700 text-gray-200 text-xs rounded border border-nexus-600">Abrir Mapa</button>
-               <button className="flex-1 py-1.5 bg-nexus-800 hover:bg-nexus-700 text-gray-200 text-xs rounded border border-nexus-600">Agenda</button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Create Modal */}
+      {/* Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-          <div className="glass-panel w-full max-w-lg rounded-xl p-6 border border-nexus-600 shadow-2xl animate-[pulse_0.2s_ease-out]">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-              <span className="material-symbols-outlined text-nexus-accent">folder_open</span>
-              Crear Nuevo Proyecto
-            </h3>
-            
+        <div className="fixed inset-0 z-50 bg-gray-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Nueva Causa Judicial</h3>
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-400 mb-1">TÍTULO DEL CASO / OPERACIÓN</label>
+                <label className="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">Número CUIJ / Título</label>
                 <input 
                   type="text" 
-                  className="w-full bg-nexus-800 border border-nexus-700 rounded-lg p-2.5 text-white focus:border-nexus-accent focus:outline-none"
-                  placeholder="Ej: Operación Pez Gordo"
+                  required
+                  placeholder="Ej: CUIJ 21-09744817-2 | San Lorenzo"
                   value={newProject.title}
                   onChange={e => setNewProject({...newProject, title: e.target.value})}
-                  required
+                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 mb-1">TIPO DE DELITO</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">Tipo</label>
                   <select 
-                    className="w-full bg-nexus-800 border border-nexus-700 rounded-lg p-2.5 text-white focus:border-nexus-accent focus:outline-none"
                     value={newProject.type}
                     onChange={e => setNewProject({...newProject, type: e.target.value})}
+                    className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600"
                   >
                     <option value="Microtráfico">Microtráfico</option>
+                    <option value="Crimen Organizado">Crimen Organizado</option>
                     <option value="Homicidios">Homicidios</option>
                     <option value="Lavado de Activos">Lavado de Activos</option>
-                    <option value="Crimen Organizado">Crimen Organizado</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 mb-1">JURISDICCIÓN / ZONA</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">Jurisdicción</label>
                   <input 
                     type="text" 
-                    className="w-full bg-nexus-800 border border-nexus-700 rounded-lg p-2.5 text-white focus:border-nexus-accent focus:outline-none"
-                    placeholder="Ej: Santa Fe"
+                    required
+                    placeholder="Ej: Santa Fe / San Lorenzo"
                     value={newProject.location}
                     onChange={e => setNewProject({...newProject, location: e.target.value})}
+                    className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-600"
                   />
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end gap-3">
+              <div className="flex justify-end gap-2 pt-4">
                 <button 
                   type="button" 
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 text-sm text-gray-300 hover:text-white"
+                  className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-100"
                 >
                   Cancelar
                 </button>
                 <button 
                   type="submit" 
-                  className="px-6 py-2 bg-nexus-accent hover:bg-blue-600 text-white font-bold rounded-lg shadow-lg"
+                  className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm"
                 >
-                  Inicializar Proyecto
+                  Crear Causa
                 </button>
               </div>
             </form>

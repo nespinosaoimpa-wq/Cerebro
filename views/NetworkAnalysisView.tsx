@@ -37,23 +37,31 @@ export const NetworkAnalysisView: React.FC = () => {
   const [aiReportContent, setAiReportContent] = useState<string | null>(null);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
-  // Default Initial Graph (Los Monos case sample)
+  // Default Initial Graph (Red Criminal y Microtráfico Santa Fe)
   const [nodes, setNodes] = useState<GraphNode[]>([
-    { id: 'v_cantero', label: 'V. Cantero', type: 'person', role: 'Líder Operativa', x: 50, y: 45 },
-    { id: 'g_cantero', label: 'Guille Cantero', type: 'person', role: 'Jefe del Clan', x: 30, y: 25 },
-    { id: 'a_cantero', label: 'Ariel Cantero', type: 'person', role: 'Fundador Histórico', x: 70, y: 25 },
-    { id: 'bunker_sur', label: 'Búnker Zona Sur', type: 'location', role: 'Punto de Venta', x: 25, y: 65 },
-    { id: 'safehouse_orono', label: 'Casa de Seguridad Oroño', type: 'location', role: 'Acopio y Refugio', x: 75, y: 65 },
-    { id: 'hilux_blanca', label: 'Hilux Blanca (KFX-381)', type: 'vehicle', role: 'Distribución', x: 50, y: 75 }
+    { id: 'j_zabala', label: 'Jon Nelson Zabala', type: 'person', role: 'Líder Clan Zabala ("El Padrino")', x: 50, y: 25, description: 'DNI 40.314.524. Imputado principal en CUIJ 21-09744817-2' },
+    { id: 'e_giovanniello', label: 'Emilce Giovanniello', type: 'person', role: 'Madre / Coordinación Logística', x: 30, y: 15, description: 'DNI 23.676.748. Vínculo directo con Jon Zabala' },
+    { id: 'l_carnaghi', label: 'Lautaro Carnaghi', type: 'person', role: 'Operativo / Distribución', x: 70, y: 15, description: 'DNI 39.455.119. Coimputado CUIJ 21-09744817-2' },
+    { id: 'casona_2', label: 'Inmueble Casona 2', type: 'location', role: 'Búnker y Fraccionamiento', x: 50, y: 48, description: 'San Lorenzo 03. Base logística de La Negrada' },
+    { id: 'p_yapeyu', label: 'Puntos Venta Yapeyú', type: 'location', role: 'Red Territorial Microtráfico', x: 25, y: 65, description: 'Neuquén y Reinares / San Lorenzo' },
+    { id: 'i_benitez', label: 'Isaías Benítez ("Puchinga")', type: 'person', role: 'Jefe Clan Puchingas', x: 15, y: 35, description: 'DNI 38.109.281. Disputa territorial Yapeyú CUIJ 21-09693542-8' },
+    { id: 'o_leiva', label: 'Oscar Leiva ("Viejo Leiva")', type: 'person', role: 'Líder Los de Siempre', x: 85, y: 35, description: 'DNI 11.061.723. Control Fonavi Centenario CUIJ 21-09696384-7' },
+    { id: 's_maidana', label: 'Sebastián Maidana ("Polaco")', type: 'person', role: 'Distribución Vehicular', x: 80, y: 65, description: 'DNI 27.522.470. CUIJ 21-08338285-3 Castañaduy 6807' },
+    { id: 'peugeot_206', label: 'Peugeot 206 (DYH-883)', type: 'vehicle', role: 'Transporte Microdosis', x: 65, y: 78, description: 'Vehículo secuestrado en B° Mayoraz' },
+    { id: 'j_diaz', label: 'Jonatan David Díaz', type: 'person', role: 'Recaudador Virtual (Pastor)', x: 35, y: 82, description: 'Mercado Pago ID 1094318785 - Bloqueo CUIJ 21-09702835-1' },
+    { id: 'mp_recaudacion', label: 'Mercado Pago CVU 3100...', type: 'phone', role: 'Billetera Virtual Cautelar', x: 50, y: 88, description: 'Cuenta embargada judicialmente por MPA Santa Fe' }
   ]);
 
   const [links, setLinks] = useState<GraphLink[]>([
-    { source: 'g_cantero', target: 'v_cantero', label: 'Imparte Órdenes' },
-    { source: 'a_cantero', target: 'v_cantero', label: 'Mentor / Referente' },
-    { source: 'v_cantero', target: 'bunker_sur', label: 'Controla Caja' },
-    { source: 'v_cantero', target: 'safehouse_orono', label: 'Se oculta en' },
-    { source: 'v_cantero', target: 'hilux_blanca', label: 'Conduce' },
-    { source: 'hilux_blanca', target: 'bunker_sur', label: 'Abastece' }
+    { source: 'e_giovanniello', target: 'j_zabala', label: 'Vínculo Materno / Co-gestión' },
+    { source: 'l_carnaghi', target: 'j_zabala', label: 'Subordinado Operativo' },
+    { source: 'j_zabala', target: 'casona_2', label: 'Controla Búnker' },
+    { source: 'casona_2', target: 'p_yapeyu', label: 'Abastece Dosis' },
+    { source: 'i_benitez', target: 'p_yapeyu', label: 'Disputa Armada Yapeyú' },
+    { source: 's_maidana', target: 'peugeot_206', label: 'Titular / Conduce' },
+    { source: 'peugeot_206', target: 'casona_2', label: 'Conexión Logística' },
+    { source: 'j_diaz', target: 'mp_recaudacion', label: 'Titular de Cuenta' },
+    { source: 'casona_2', target: 'j_diaz', label: 'Flujo Financiero Microtráfico' }
   ]);
 
   // Merge imported nodes & links from GlobalState when uploaded

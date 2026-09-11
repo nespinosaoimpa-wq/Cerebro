@@ -72,9 +72,9 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [currentUser, setCurrentUser] = useState<User | null>(MOCK_USER);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(true);
   
-  // Projects State (Persistent in local storage)
+  // Projects State (Persistent in local storage - v4 real intelligence dataset)
   const [projects, setProjects] = useState<Project[]>(() => {
-    const saved = localStorage.getItem('cerebro_projects');
+    const saved = localStorage.getItem('cerebro_projects_v4');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -85,9 +85,9 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     return MOCK_PROJECTS;
   });
 
-  // Workbooks State (Persistent in local storage)
+  // Workbooks State (Persistent in local storage - v4 real intelligence dataset)
   const [workbooks, setWorkbooks] = useState<Workbook[]>(() => {
-    const saved = localStorage.getItem('cerebro_workbooks');
+    const saved = localStorage.getItem('cerebro_workbooks_v4');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -99,16 +99,16 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   });
 
   useEffect(() => {
-    localStorage.setItem('cerebro_projects', JSON.stringify(projects));
+    localStorage.setItem('cerebro_projects_v4', JSON.stringify(projects));
   }, [projects]);
 
   useEffect(() => {
-    localStorage.setItem('cerebro_workbooks', JSON.stringify(workbooks));
+    localStorage.setItem('cerebro_workbooks_v4', JSON.stringify(workbooks));
   }, [workbooks]);
 
-  // Suspects State (Persistent in local storage)
+  // Suspects State (Persistent in local storage - v4 real intelligence dataset)
   const [suspects, setSuspects] = useState<Suspect[]>(() => {
-    const saved = localStorage.getItem('cerebro_suspects');
+    const saved = localStorage.getItem('cerebro_suspects_v4');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -120,7 +120,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   });
 
   useEffect(() => {
-    localStorage.setItem('cerebro_suspects', JSON.stringify(suspects));
+    localStorage.setItem('cerebro_suspects_v4', JSON.stringify(suspects));
   }, [suspects]);
 
   const getInitialSettings = (): AppSettings => {
