@@ -95,106 +95,284 @@ export const RECENT_ALERTS: Alert[] = [
 
 export const SUSPECTS: Suspect[] = [
   {
-    id: 's1',
-    codeName: 'CHAVO',
-    realName: 'GONZALEZ IGNACIO LEONEL',
-    dni: '42332598',
-    cuit: '20-42332598-5',
-    dob: '22/10/1994',
-    riskLevel: 98,
-    recidivismRisk: 'imminent',
-    status: 'Wanted',
-    lastSeen: 'Barrio Fonavi San Jeronimo',
-    image: 'https://i.pravatar.cc/150?u=chavo123',
-    affiliations: ['Banda de los Fonavi', 'Colón La Negrada'],
-    socialNetworkCentrality: 'hub',
-    behavioralProfile: {
-      impulsivity: 85,
-      sociability: 40,
-      narcissism: 90,
-      violentTendency: 95,
-      predominantMO: ['Violencia Extrema', 'Uso de Armas de Fuego', 'Venganza']
+    "id": "s-zabala",
+    "codeName": "EL PADRINO",
+    "realName": "ZABALA JON NELSON",
+    "dni": "36.819.201",
+    "cuit": "20-36819201-4",
+    "dob": "14/05/1992",
+    "riskLevel": 98,
+    "recidivismRisk": "imminent",
+    "status": "Wanted",
+    "lastSeen": "Barrio Yapeyú / San Lorenzo",
+    "image": "https://i.pravatar.cc/150?u=zabala99",
+    "affiliations": [
+      "Banda La Negrada",
+      "Clan Zabala"
+    ],
+    "socialNetworkCentrality": "hub",
+    "behavioralProfile": {
+      "impulsivity": 90,
+      "sociability": 60,
+      "narcissism": 85,
+      "violentTendency": 95,
+      "predominantMO": [
+        "Microtráfico",
+        "Coacción Armada",
+        "Distribución Interurbana"
+      ]
     },
-    addresses: [
-      { street: 'MANZANA 11 ESCALERA 11 SN 3 65', city: 'LA CAPITAL', province: 'SANTA FE', source: 'SUDAMERICADATA' },
-      { street: 'Mzn 11 - Esc 11 - Dpto S/N', city: 'SANTA FE', province: 'SANTA FE', source: 'DaJuDeCo' }
+    "addresses": [
+      {
+        "street": "Reinares y Neuquén s/n",
+        "city": "SANTA FE",
+        "province": "SANTA FE",
+        "source": "MPA SANTA FE"
+      },
+      {
+        "street": "Casona 2 - San Lorenzo",
+        "city": "SAN LORENZO",
+        "province": "SANTA FE",
+        "source": "PDI"
+      }
     ],
-    phones: [
-      { number: '3425199227', source: 'SUDAMERICADATA' }
+    "phones": [
+      {
+        "number": "+5493425199227",
+        "source": "Intercepción Judicial"
+      }
     ],
-    family: [
-      { name: 'GONZALEZ ADRIANA ELISABET', dni: '22901876', relation: 'MADRE', address: 'MANZANA 11 ESCALERA 11 SN 3 65 BARRIO FONAVI SAN JERONIMO' },
-      { name: 'GONZALEZ RUTH', dni: '40625965', relation: 'HERMANA', address: 'MANZANA 11 ESCALERA 11 SN 3 65 BARRIO FONAVI SAN JERONIMO' }
-    ],
-    socialMedia: [
-      { platform: 'Facebook', id: '115753691811867', link: 'https://www.facebook.com/colon.sabalero.9' }
-    ],
-    judicialRecords: [
-      { cuij: '21-06931130-7', date: '06/07/2018', charge: 'AMENAZAS COACCION CALIFICADA POR USO DE ARMAS', victims: ['GOMEZ ALBERTO OMAR'], coDefendants: ['CARRERA OSCAR EDUARDO'], severity: 4, modusOperandi: 'Coacción Armada' },
-      { cuij: '21-06306159-7', date: '26/08/2015', charge: 'DAÑOS', victims: ['MARTINEZ MARIANO ALBERTO', 'VELAZQUEZ CLAUDIO ANDRES'], coDefendants: ['CARRERA OSCAR EDUARDO', 'CASCO DIOSNEL DAVID', 'CASCO MATIAS EMANUEL'], severity: 2 }
-    ],
-    socialSecurity: [
-      { entity: 'JERARQUICOS SALUD', type: 'TITULAR', status: 'ACTIVO' },
-      { entity: 'MINISTERIO DE DESARROLLO SOCIAL', type: 'BENEFICIARIO', status: 'ACTIVO' }
-    ],
-    assets: []
+    "judicialRecords": [
+      {
+        "cuij": "21-09744817-2",
+        "date": "10/01/2026",
+        "charge": "ORGANIZACION DE RED DE MICROTRAFICO Y PORTACION DE ARMAS",
+        "victims": [
+          "Sociedad"
+        ],
+        "coDefendants": [
+          "GIOVANNIELLO EMILCE",
+          "CARNAGHI LAUTARO"
+        ],
+        "severity": 5
+      }
+    ]
   },
   {
-    id: 's2',
-    codeName: 'VIPER',
-    realName: 'Viktor K.',
-    riskLevel: 95,
-    recidivismRisk: 'high',
-    status: 'Wanted',
-    lastSeen: 'Rosario, SF',
-    image: 'https://i.pravatar.cc/150?u=viper',
-    affiliations: ['Los Monos', 'Cartel del Norte'],
-    socialNetworkCentrality: 'bridge',
-    behavioralProfile: {
-      impulsivity: 45,
-      sociability: 80,
-      narcissism: 70,
-      violentTendency: 60,
-      predominantMO: ['Logística Narco', 'Lavado de Activos']
+    "id": "s-leiva",
+    "codeName": "VIEJO LEIVA",
+    "realName": "LEIVA OSCAR ORLANDO",
+    "dni": "22.109.842",
+    "cuit": "20-22109842-3",
+    "dob": "03/09/1971",
+    "riskLevel": 92,
+    "recidivismRisk": "high",
+    "status": "Surveillance",
+    "lastSeen": "Barrio Centenario / Varadero Sarsotti",
+    "image": "https://i.pravatar.cc/150?u=leiva77",
+    "affiliations": [
+      "Banda Los de Siempre",
+      "Barrio Centenario"
+    ],
+    "socialNetworkCentrality": "hub",
+    "behavioralProfile": {
+      "impulsivity": 65,
+      "sociability": 85,
+      "narcissism": 70,
+      "violentTendency": 80,
+      "predominantMO": [
+        "Liderazgo de Fila",
+        "Coordinación de Búnkeres",
+        "Usurpación"
+      ]
     },
-    addresses: [], judicialRecords: [], family: []
+    "addresses": [
+      {
+        "street": "Manzana 4 Fonavi Centenario",
+        "city": "SANTA FE",
+        "province": "SANTA FE",
+        "source": "SUDAMERICADATA"
+      }
+    ],
+    "phones": [
+      {
+        "number": "+5493424192837",
+        "source": "PDI"
+      }
+    ],
+    "judicialRecords": [
+      {
+        "cuij": "21-09696384-7",
+        "date": "15/08/2025",
+        "charge": "ASOCIACION ILICITA Y AMENAZAS REITERADAS",
+        "victims": [
+          "Vecinos B° Centenario"
+        ],
+        "coDefendants": [
+          "CELER MATIAS",
+          "SIMON ELIDE"
+        ],
+        "severity": 4
+      }
+    ]
   },
   {
-    id: 's3',
-    codeName: 'GHOST',
-    realName: 'Sarah L.',
-    riskLevel: 82,
-    recidivismRisk: 'moderate',
-    status: 'Surveillance',
-    lastSeen: 'Santa Fe Capital',
-    image: 'https://i.pravatar.cc/150?u=ghost',
-    affiliations: ['Cyber Cell 4'],
-    socialNetworkCentrality: 'leaf',
-    behavioralProfile: {
-      impulsivity: 20,
-      sociability: 10,
-      violentTendency: 5,
-      predominantMO: ['Cybercrimen', 'Infiltración']
+    "id": "s-maidana",
+    "codeName": "POLACO",
+    "realName": "MAIDANA SEBASTIAN",
+    "dni": "34.920.192",
+    "cuit": "20-34920192-8",
+    "dob": "19/11/1989",
+    "riskLevel": 88,
+    "recidivismRisk": "high",
+    "status": "Wanted",
+    "lastSeen": "Barrio Candioti / Mayoraz",
+    "image": "https://i.pravatar.cc/150?u=maidana",
+    "affiliations": [
+      "Banda Polaco Maidana"
+    ],
+    "socialNetworkCentrality": "bridge",
+    "behavioralProfile": {
+      "impulsivity": 70,
+      "sociability": 75,
+      "violentTendency": 75,
+      "predominantMO": [
+        "Transporte en Vehículos",
+        "Ventas Punto a Punto",
+        "Lavado"
+      ]
     },
-    addresses: [], judicialRecords: [], family: []
+    "addresses": [
+      {
+        "street": "Castañaduy 6807",
+        "city": "SANTA FE",
+        "province": "SANTA FE",
+        "source": "MPA"
+      }
+    ],
+    "assets": [
+      {
+        "type": "vehicle",
+        "description": "Peugeot 206 Gris Dominio DYH-883",
+        "identifier": "DYH-883"
+      },
+      {
+        "type": "vehicle",
+        "description": "Chevrolet Prisma Dominio AD-165-RV",
+        "identifier": "AD-165-RV"
+      }
+    ],
+    "judicialRecords": [
+      {
+        "cuij": "21-08338285-3",
+        "date": "04/05/2025",
+        "charge": "ESTUPEFACIENTES CON FINES DE COMERCIALIZACION",
+        "victims": [
+          "Estado Provincial"
+        ],
+        "coDefendants": [
+          "MENDOZA SALVADOR ARIEL"
+        ],
+        "severity": 4
+      }
+    ]
   },
+  {
+    "id": "s-benitez",
+    "codeName": "PUCHINGA",
+    "realName": "BENITEZ ISAIAS",
+    "dni": "38.109.281",
+    "cuit": "20-38109281-2",
+    "dob": "28/02/1994",
+    "riskLevel": 94,
+    "recidivismRisk": "imminent",
+    "status": "Wanted",
+    "lastSeen": "Barrio Yapeyú / Loyola Sur",
+    "image": "https://i.pravatar.cc/150?u=puchinga",
+    "affiliations": [
+      "Clan Puchingas"
+    ],
+    "socialNetworkCentrality": "hub",
+    "behavioralProfile": {
+      "impulsivity": 95,
+      "sociability": 30,
+      "violentTendency": 98,
+      "predominantMO": [
+        "Ataques a Balazos",
+        "Territorialidad Extrema",
+        "Extorsión"
+      ]
+    },
+    "addresses": [
+      {
+        "street": "Zazpe y Zavalla 1700",
+        "city": "SANTA FE",
+        "province": "SANTA FE",
+        "source": "MPA"
+      }
+    ],
+    "judicialRecords": [
+      {
+        "cuij": "21-09693542-8",
+        "date": "12/12/2025",
+        "charge": "HOMICIDIO EN GRADO DE TENTATIVA Y RESISTENCIA",
+        "victims": [
+          "Gomez Maria Belen"
+        ],
+        "coDefendants": [],
+        "severity": 5
+      }
+    ]
+  }
 ];
 
 export const INITIAL_CALENDAR_EVENTS: CalendarEvent[] = [];
 
 export const MOCK_PROJECTS: Project[] = [
   {
-    id: 'p-pastorcito',
-    title: 'PASTORCITO',
-    type: 'Crimen Organizado',
-    location: 'Santa Fe, Argentina',
-    status: 'Active',
-    lastUpdate: 'Ahora',
-    members: ['u-001'],
-    thumbnail: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1000&auto=format&fit=crop',
-    progress: 100,
-    linkedWorkbookId: 'wb-pastorcito',
-    entityCount: 5
+    "id": "p-san-lorenzo",
+    "title": "CUIJ 21-09744817-2 | San Lorenzo - Clan Zabala",
+    "type": "Crimen Organizado",
+    "location": "San Lorenzo / Yapeyú, SF",
+    "status": "Active",
+    "lastUpdate": "Hace 5m",
+    "members": [
+      "u-001"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1000&auto=format&fit=crop",
+    "progress": 85,
+    "linkedWorkbookId": "wb-san-lorenzo",
+    "entityCount": 18
+  },
+  {
+    "id": "p-rosquin",
+    "title": "CUIJ 21-09745475-9 | Cañada Rosquín - Distribución",
+    "type": "Microtráfico",
+    "location": "Cañada Rosquín, SF",
+    "status": "Active",
+    "lastUpdate": "Hace 1h",
+    "members": [
+      "u-001"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1000&auto=format&fit=crop",
+    "progress": 70,
+    "linkedWorkbookId": "wb-rosquin",
+    "entityCount": 12
+  },
+  {
+    "id": "p-zazpe",
+    "title": "CUIJ 21-09726972-3 | Zazpe y Zavalla - Clan Puchingas",
+    "type": "Homicidios",
+    "location": "Yapeyú / Loyola, SF",
+    "status": "Active",
+    "lastUpdate": "Hace 30m",
+    "members": [
+      "u-001"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1508873696983-2df515122519?q=80&w=1000&auto=format&fit=crop",
+    "progress": 90,
+    "linkedWorkbookId": "wb-zazpe",
+    "entityCount": 15
   }
 ];
 

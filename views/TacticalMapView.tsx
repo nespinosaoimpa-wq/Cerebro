@@ -23,57 +23,1056 @@ type BaseMapType = 'googleSatellite' | 'googleHybrid' | 'googleStreets' | 'wazeS
 
 // Enhanced Mock Data for Targets
 const TARGET_DATA = [
-   {
-      id: 't1',
-      lat: -32.94682,
-      lng: -60.63932,
-      name: 'VIPER',
-      realName: 'Viktor K.',
-      img: 'https://i.pravatar.cc/150?u=viper',
-      risk: 95,
-      status: 'WANTED',
-      affiliations: ['Cartel del Norte', 'Los Monos'],
-      lastSeen: 'Hace 2 horas - Sector 4',
-      address: 'Av. Pellegrini 1400, Rosario',
-      history: [
-         { date: 'Hoy 14:00', event: 'Señal móvil detectada' },
-         { date: 'Ayer 23:30', event: 'Reunión en Safehouse B' },
-         { date: '12 Oct', event: 'Transacción financiera flag' }
-      ]
-   },
-   {
-      id: 't2',
-      lat: -32.9512,
-      lng: -60.6550,
-      name: 'GHOST',
-      realName: 'Sarah L.',
-      img: 'https://i.pravatar.cc/150?u=ghost',
-      risk: 82,
-      status: 'SURVEILLANCE',
-      affiliations: ['Cyber Cell 4'],
-      lastSeen: 'Hace 15 min - Terminal',
-      address: 'Bv. Oroño y Córdoba',
-      history: [
-         { date: 'Hoy 09:00', event: 'Cambio de SIM detectado' },
-         { date: '14 Oct', event: 'Compra de pasaje' }
-      ]
-   },
-   {
-      id: 't3',
-      lat: -32.9300,
-      lng: -60.6200,
-      name: 'TANK',
-      realName: 'Marcus R.',
-      img: 'https://i.pravatar.cc/150?u=tank',
-      risk: 45,
-      status: 'CAPTURED',
-      affiliations: ['Banda de Alvarado'],
-      lastSeen: 'Penal de Coronda',
-      address: 'Unidad Penitenciaria Nº 1',
-      history: [
-         { date: '10 Oct', event: 'Traslado a unidad penitenciaria' }
-      ]
-   }
+  {
+    "id": "t-real-1",
+    "lat": -31.5712762,
+    "lng": -60.7387671,
+    "name": "Neuquén en el margen Sur de di...",
+    "realName": "Neuquén en el margen Sur de dicha arteria entre sus similares al Oeste Avenida 12 de octubre y a la Esta calle Reinares del Barrio Yapeyú",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.57128, -60.73877",
+    "address": "Neuquén en el margen Sur de dicha arteria entre sus similares al Oeste Avenida 12 de octubre y a la Esta calle Reinares del Barrio Yapeyú",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "VIVIENDA DE LOS ABUELOS DEL PRINCIPAL INVESTIGADO"
+      }
+    ]
+  },
+  {
+    "id": "t-real-2",
+    "lat": -31.566789,
+    "lng": -60.7435127,
+    "name": "Diagonal Abipones",
+    "realName": "Diagonal Abipones",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.56679, -60.74351",
+    "address": "Diagonal Abipones",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "reside el llamado PABLO RAFAEL CASAL padre del principal investigado"
+      }
+    ]
+  },
+  {
+    "id": "t-real-3",
+    "lat": -31.5610587,
+    "lng": -60.7387807,
+    "name": "Colombia 10300",
+    "realName": "Colombia 10300",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.56106, -60.73878",
+    "address": "Colombia 10300",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "Vivienda de calle Colombia donde reside el PABLO RAFAEL CASAL"
+      }
+    ]
+  },
+  {
+    "id": "t-real-4",
+    "lat": -31.5741915,
+    "lng": -60.7369293,
+    "name": "Alfonsina Storni & Hermano J. ...",
+    "realName": "Alfonsina Storni & Hermano J. Figueroa HOMICIDIO",
+    "img": "https://cdn-icons-png.flaticon.com/512/564/564619.png",
+    "risk": 98,
+    "status": "CRITICAL_INCIDENT",
+    "affiliations": [
+      "Homicidio / Hecho de Violencia"
+    ],
+    "lastSeen": "Coordenadas: -31.57419, -60.73693",
+    "address": "Alfonsina Storni & Hermano J. Figueroa HOMICIDIO",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "BARRIONUEVO CARLOS JUNIOR"
+      }
+    ]
+  },
+  {
+    "id": "t-real-5",
+    "lat": -31.5596143,
+    "lng": -60.740042,
+    "name": "Homicidio",
+    "realName": "Homicidio",
+    "img": "https://cdn-icons-png.flaticon.com/512/564/564619.png",
+    "risk": 98,
+    "status": "CRITICAL_INCIDENT",
+    "affiliations": [
+      "Homicidio / Hecho de Violencia"
+    ],
+    "lastSeen": "Coordenadas: -31.55961, -60.74004",
+    "address": "Homicidio",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "Registro en sistema MPA / Min. Seguridad: Homicidio"
+      }
+    ]
+  },
+  {
+    "id": "t-real-6",
+    "lat": -31.574256,
+    "lng": -60.7361519,
+    "name": "Punto 2 vistas de tareas PDI",
+    "realName": "Punto 2 vistas de tareas PDI",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.57426, -60.73615",
+    "address": "Punto 2 vistas de tareas PDI",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "Registro en sistema MPA / Min. Seguridad: Punto 2 vistas de tareas PDI"
+      }
+    ]
+  },
+  {
+    "id": "t-real-7",
+    "lat": -31.5742943,
+    "lng": -60.7356824,
+    "name": "Alfonsina Storni 6310",
+    "realName": "Alfonsina Storni 6310",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.57429, -60.73568",
+    "address": "Alfonsina Storni 6310",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "Punto numero 1 informado po PDI microtrafico"
+      }
+    ]
+  },
+  {
+    "id": "t-real-8",
+    "lat": -31.5746006,
+    "lng": -60.7391609,
+    "name": "Hugo Wast 6345",
+    "realName": "Hugo Wast 6345",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.57460, -60.73916",
+    "address": "Hugo Wast 6345",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "no se vieron maniobras compatibles con microtrafico"
+      }
+    ]
+  },
+  {
+    "id": "t-real-9",
+    "lat": -31.5758753,
+    "lng": -60.7408253,
+    "name": "Microtrafico",
+    "realName": "Microtrafico",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.57588, -60.74083",
+    "address": "Microtrafico",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "Registro en sistema MPA / Min. Seguridad: Microtrafico"
+      }
+    ]
+  },
+  {
+    "id": "t-real-10",
+    "lat": -31.572428250815,
+    "lng": -60.745281428914,
+    "name": "Alfonsina Storni 6883, Santa F...",
+    "realName": "Alfonsina Storni 6883, Santa Fe",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.57243, -60.74528",
+    "address": "Alfonsina Storni 6883, Santa Fe",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "Domicilio  BENITEZ, ISAÍAS JOSÉ EMANUEL"
+      }
+    ]
+  },
+  {
+    "id": "t-real-11",
+    "lat": -31.5745865,
+    "lng": -60.7439452,
+    "name": "Calle Furlong Cardiff & Carlos...",
+    "realName": "Calle Furlong Cardiff & Carlos Leumann HOMICIDIO",
+    "img": "https://cdn-icons-png.flaticon.com/512/564/564619.png",
+    "risk": 98,
+    "status": "CRITICAL_INCIDENT",
+    "affiliations": [
+      "Homicidio / Hecho de Violencia"
+    ],
+    "lastSeen": "Coordenadas: -31.57459, -60.74395",
+    "address": "Calle Furlong Cardiff & Carlos Leumann HOMICIDIO",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "Matias Fernandez"
+      }
+    ]
+  },
+  {
+    "id": "t-real-12",
+    "lat": -31.5739292,
+    "lng": -60.7469082,
+    "name": "Diagonal Obligado & Carlos Leu...",
+    "realName": "Diagonal Obligado & Carlos Leumann HOMICIDIO",
+    "img": "https://cdn-icons-png.flaticon.com/512/564/564619.png",
+    "risk": 98,
+    "status": "CRITICAL_INCIDENT",
+    "affiliations": [
+      "Homicidio / Hecho de Violencia"
+    ],
+    "lastSeen": "Coordenadas: -31.57393, -60.74691",
+    "address": "Diagonal Obligado & Carlos Leumann HOMICIDIO",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ALVAREZ, ISAÍAS URIEL<br>OJEDA JULIANA"
+      }
+    ]
+  },
+  {
+    "id": "t-real-13",
+    "lat": -31.5754169,
+    "lng": -60.7442164,
+    "name": "21-09696384-7",
+    "realName": "21-09696384-7",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.57542, -60.74422",
+    "address": "21-09696384-7",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : piedrabuena Y G. Furlong cardiff<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: ALVAREZ, SHEILA MADELAINE (Pedido de captura)OJEDA, BRIAN NAHUEL (Libre)OJEDA, EDUARDO ISMAEL (Priv. de la libertad)VIZCARRA, NATANAEL (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-14",
+    "lat": -31.6247452,
+    "lng": -60.7205678,
+    "name": "21-09696386-3",
+    "realName": "21-09696386-3",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.62475, -60.72057",
+    "address": "21-09696386-3",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Juan Diaz de Solis e/ cordoba e iturraspe<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: n/n<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-15",
+    "lat": -31.6422399,
+    "lng": -60.7004455,
+    "name": "21-09696390-1",
+    "realName": "21-09696390-1",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.64224, -60.70045",
+    "address": "21-09696390-1",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : gobernador crespo y belgrano<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: n/n<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-16",
+    "lat": -31.6478535,
+    "lng": -60.7299902,
+    "name": "21-09700937-3 domicilio 1",
+    "realName": "21-09700937-3 domicilio 1",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.64785, -60.72999",
+    "address": "21-09700937-3 domicilio 1",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Mosconi e/ lisandro de la torre y juan de garay<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: MIÑO, JUAN RAMON (Libre)QUEVEDO, ROBERTO EDUARDO (Libre)VERON, BRIAN NAHUEL (Libre)VERON, FLORENCIA AYELEN (Libre)VERON, GASTÓN ARIEL (Libre)VERON, MARCELO DANIEL (Libre)VERON, MARIA ALEJANDRA (Libre)VERON, MAXIMILIANO JOEL (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-17",
+    "lat": -31.6478586,
+    "lng": -60.7299992,
+    "name": "21-09700937-3 domicilio 2",
+    "realName": "21-09700937-3 domicilio 2",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.64786, -60.73000",
+    "address": "21-09700937-3 domicilio 2",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : MOSCONI entre LISANDRO DE LA TORRE y JUAN DE GARAY <br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: MIÑO, JUAN RAMON (Libre)QUEVEDO, ROBERTO EDUARDO (Libre)VERON, BRIAN NAHUEL (Libre)VERON, FLORENCIA AYELEN (Libre)VERON, GASTÓN ARIEL (Libre)VERON, MARCELO DANIEL (Libre)VERON, MARIA ALEJANDRA (Libre)VERON, MAXIMILIANO JOEL (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-18",
+    "lat": -31.6478435,
+    "lng": -60.729995,
+    "name": "21-09700937-3 domicilio 3",
+    "realName": "21-09700937-3 domicilio 3",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.64784, -60.73000",
+    "address": "21-09700937-3 domicilio 3",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : MOSCONI entre LISANDRO DE LA TORRE y JUAN DE GARAY <br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: MIÑO, JUAN RAMON (Libre)QUEVEDO, ROBERTO EDUARDO (Libre)VERON, BRIAN NAHUEL (Libre)VERON, FLORENCIA AYELEN (Libre)VERON, GASTÓN ARIEL (Libre)VERON, MARCELO DANIEL (Libre)VERON, MARIA ALEJANDRA (Libre)VERON, MAXIMILIANO JOEL (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-19",
+    "lat": -31.5946372,
+    "lng": -60.6967681,
+    "name": "21-09702824-6 domicilio 1",
+    "realName": "21-09702824-6 domicilio 1",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.59464, -60.69677",
+    "address": "21-09702824-6 domicilio 1",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Larrea al 2900 <br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: BARRETO, ROLANDO LUIS (Priv. de la libertad)SAMANIEGO, MARIA SOLEDAD (Priv. de la libertad)TORRES, MARCELO DAVID (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-20",
+    "lat": -31.6060453,
+    "lng": -60.7178736,
+    "name": "21-09724274-4",
+    "realName": "21-09724274-4",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.60605, -60.71787",
+    "address": "21-09724274-4",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Gaboto 6200<br>fiscal: Eric Fernandez<br>responsables: gonzalez, yanina erica<br>Sanchez, Victor ariel<br>Sandoval, Teresa Olga<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-21",
+    "lat": -31.59474,
+    "lng": -60.6968003,
+    "name": "21-09702824-6 domicilio 2",
+    "realName": "21-09702824-6 domicilio 2",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.59474, -60.69680",
+    "address": "21-09702824-6 domicilio 2",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : larrea  2900<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: BARRETO, ROLANDO LUIS (Priv. de la libertad)SAMANIEGO, MARIA SOLEDAD (Priv. de la libertad)TORRES, MARCELO DAVID (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-22",
+    "lat": -31.6061463,
+    "lng": -60.7179723,
+    "name": "21-09724253-1",
+    "realName": "21-09724253-1",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.60615, -60.71797",
+    "address": "21-09724253-1",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Gaboto 6183<br>fiscal: Eric Fernandez<br>responsables: Espinosa Agostina, <br>Espinosa Daiana<br>Gonzalez maria<br>Lescano Milton Jeremias<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-23",
+    "lat": -31.5743096,
+    "lng": -60.7362734,
+    "name": "21-09702895-5 domicilio 1",
+    "realName": "21-09702895-5 domicilio 1",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.57431, -60.73627",
+    "address": "21-09702895-5 domicilio 1",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : alfonsina storni 6300 e/ hermano figueroa y calle sin nombre<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: (Sin apellido), (Sin nombre) (Libre)ALVARADO, CARLOS ISAIAS NICOLAS (Libre)BRACA, ELENA BEATRIZ (Libre)PEÑA, ANDREA CAROLINA (Libre)PEÑA, DANIELA ANAHÍ (Libre)PEÑA, DANIEL ALBERTO (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-24",
+    "lat": -31.5743873,
+    "lng": -60.7362251,
+    "name": "21-09702895-5 domicilio 2",
+    "realName": "21-09702895-5 domicilio 2",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.57439, -60.73623",
+    "address": "21-09702895-5 domicilio 2",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : alfonsina storni e/ hermano figueroa y calle sin nombre<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: (Sin apellido), (Sin nombre) (Libre)ALVARADO, CARLOS ISAIAS NICOLAS (Libre)BRACA, ELENA BEATRIZ (Libre)PEÑA, ANDREA CAROLINA (Libre)PEÑA, DANIELA ANAHÍ (Libre)PEÑA, DANIEL ALBERTO (Libre<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-25",
+    "lat": -31.5979346,
+    "lng": -60.7245674,
+    "name": "21-09706543-5",
+    "realName": "21-09706543-5",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.59793, -60.72457",
+    "address": "21-09706543-5",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Diagonal Cervera & Espora<br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: CAMPOS, MIGUEL MAXIMILIANO (Libre)CARBALLO, EMILIANO EXEQUIEL (Libre)GAMBINI, VIRGINIA MACARENA (Libre)MARTINEZ, OSCAR ANTONIO (Libre)OVELAR, JORGE ESTEBAN (Libre)SORIA, PAULA FABIANA (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-26",
+    "lat": -31.597277,
+    "lng": -60.7255657,
+    "name": "21-09706585-0",
+    "realName": "21-09706585-0",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.59728, -60.72557",
+    "address": "21-09706585-0",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Bernardo Irigoyen e/ boneo y espora<br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: n/n<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-27",
+    "lat": -31.6283551,
+    "lng": -60.7198489,
+    "name": "21-09706546-9",
+    "realName": "21-09706546-9",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.62836, -60.71985",
+    "address": "21-09706546-9",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Laguna del Desierto<br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: ELLEMBERGER, YANET KAREN (Libre)VAZQUEZ, MIA NAHIARA (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-28",
+    "lat": -31.6249679,
+    "lng": -60.7198945,
+    "name": "21-09706580-9",
+    "realName": "21-09706580-9",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.62497, -60.71989",
+    "address": "21-09706580-9",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Juan Diaz de Solis, marqen este, entre sus similares<br>de calles Cordoba al node e Iturraspe <br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: CENTURION, NARELA AGUSTINA (Libre)CENTURION, SELENE LUCIA (Libre)CHESI, EMILIANO JOSE (Libre)NNVERDUN, AGUSTIN EZEQUIEL (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-29",
+    "lat": -30.8243972,
+    "lng": -60.5939138,
+    "name": "21-09702835-1 Domicilio N° 1",
+    "realName": "21-09702835-1 Domicilio N° 1",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.82440, -60.59391",
+    "address": "21-09702835-1 Domicilio N° 1",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : camino rural, a unos 600 metros aproximadamente hacia el cardinal<br>este de Ruta Nac. N° 11 altura Rincón Soñado km 563 aproximadamente de la<br>localidad de San Justo (Dpto. San Justo) -30.824415039664895, -60.59380510730431<br>fiscal: Eric Fernandez<br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo <br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br> rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-30",
+    "lat": -31.6939448,
+    "lng": -60.7843635,
+    "name": "21-09711791-5",
+    "realName": "21-09711791-5",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.69394, -60.78436",
+    "address": "21-09711791-5",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Tomás Lubary y su similar Monteagudo,<br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: BOGADO, CARLOS MIGUEL (Libre)GOMEZ, GUSTAVO ARIEL (Libre)SPRETZ, ARIEL EDUARDO (Priv. de la libertad)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-31",
+    "lat": -31.6927503,
+    "lng": -60.7903515,
+    "name": "21-09712010-9",
+    "realName": "21-09712010-9",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.69275, -60.79035",
+    "address": "21-09712010-9",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Tomas Lubary3800 e/ ARTIGAS y MOSCONI<br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: CASTAGNINO, CARLA ELISABET (Priv. de la libertad)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-32",
+    "lat": -30.7935549,
+    "lng": -60.5777576,
+    "name": "21-09702835-1 domicilio N°2",
+    "realName": "21-09702835-1 domicilio N°2",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.79355, -60.57776",
+    "address": "21-09702835-1 domicilio N°2",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : cortada 55<br>fiscal: Eric Fernandez<br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo <br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br>rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-33",
+    "lat": -30.7943752,
+    "lng": -60.5728825,
+    "name": "21-09702835-1 Domicilio N 3",
+    "realName": "21-09702835-1 Domicilio N 3",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.79438, -60.57288",
+    "address": "21-09702835-1 Domicilio N 3",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : calle publica extremo este de la ciudad entre calles independencia e italia (-30.794377, -60.572914)<br>fiscal: Eric Fernandez<br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo<br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br>rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-34",
+    "lat": -31.1031474,
+    "lng": -60.1008147,
+    "name": "21-09715225-7",
+    "realName": "21-09715225-7",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.10315, -60.10081",
+    "address": "21-09715225-7",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : calle general paz entre pavon y roupulo <br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: DAROS, DÁMARIS LILIANA (Libre)<br><br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-35",
+    "lat": -31.1049355,
+    "lng": -60.0984864,
+    "name": "21-09715228-1",
+    "realName": "21-09715228-1",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.10494, -60.09849",
+    "address": "21-09715228-1",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Buenos Aires e/ Almirante Brown y almte brow<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: MIRANDA, MAURO (Libre)<br><br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-36",
+    "lat": -30.7935986,
+    "lng": -60.5775652,
+    "name": "21-09702835-1 Domicilio N° 4",
+    "realName": "21-09702835-1 Domicilio N° 4",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.79360, -60.57757",
+    "address": "21-09702835-1 Domicilio N° 4",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : cortada 55<br>fiscal: Eric Fernandez<br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo<br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br>rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-37",
+    "lat": -31.6414499,
+    "lng": -60.7356655,
+    "name": "21-09717384-9",
+    "realName": "21-09717384-9",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.64145, -60.73567",
+    "address": "21-09717384-9",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Arenales entre calles Mendoza y<br>Pasaje Falucho,<br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: FALCON, SHEILA ARIADNA (Condenado)<br><br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-38",
+    "lat": -31.5979986,
+    "lng": -60.7108653,
+    "name": "21-09717524-9",
+    "realName": "21-09717524-9",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.59800, -60.71087",
+    "address": "21-09717524-9",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Alberti al 3900, entre Pasaje<br>Estanislao del Campo al Oeste y Presbítero Luis V. Dusso<br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: CENTURION, SOFIA DANIELA (Condenado)     CENTURION, ALEJANDRA NOELI (Libre)<br><br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-39",
+    "lat": -30.7956759,
+    "lng": -60.5788433,
+    "name": "21-09702835-1 Domicilio N° 5",
+    "realName": "21-09702835-1 Domicilio N° 5",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.79568, -60.57884",
+    "address": "21-09702835-1 Domicilio N° 5",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : pedro millan 2781<br>fiscal: Eric Fernandez<br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo<br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br>rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-40",
+    "lat": -31.6921453,
+    "lng": -60.7706429,
+    "name": "21-09719543-6",
+    "realName": "21-09719543-6",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.69215, -60.77064",
+    "address": "21-09719543-6",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Castelli 4675 entre Batalla de Maipu y Carlos Chaperauge barrio Adelina<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: DIAZ, MARIELA FERNANDA (Priv. de la libertad)FERNANDEZ, BRIAN JOEL RUBEN (Priv. de la libertad)RODA, BRIAN (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-41",
+    "lat": -31.6920768,
+    "lng": -60.7705999,
+    "name": "21-09719543-6 domicilio 2",
+    "realName": "21-09719543-6 domicilio 2",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.69208, -60.77060",
+    "address": "21-09719543-6 domicilio 2",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Juan José Castelli 4600<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: DIAZ, MARIELA FERNANDA (Priv. de la libertad)FERNANDEZ, BRIAN JOEL RUBEN (Priv. de la libertad)RODA, BRIAN (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-42",
+    "lat": -30.7942218,
+    "lng": -60.5728263,
+    "name": "21-09702835-1 Domicilio N°6",
+    "realName": "21-09702835-1 Domicilio N°6",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.79422, -60.57283",
+    "address": "21-09702835-1 Domicilio N°6",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : calle publica extremo este de la ciudad entre calles independencia e italia (-30.794377, -60.572914)<br>fiscal: Eric Fernandez<br><br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo<br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br>rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-43",
+    "lat": -31.5858156,
+    "lng": -60.742967,
+    "name": "21-09720069-3",
+    "realName": "21-09720069-3",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.58582, -60.74297",
+    "address": "21-09720069-3",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : pavon con interseccion pasaje geneyro <br>fiscal: Haidar, Arturo - Organismo de Investigaciones 1<br><br><br>responsables: AGUIAR, ALBERTO DAMIAN (Libre)<br><br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-44",
+    "lat": -31.5921379,
+    "lng": -60.7065462,
+    "name": "21-09720361-7 domicilio 1",
+    "realName": "21-09720361-7 domicilio 1",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.59214, -60.70655",
+    "address": "21-09720361-7 domicilio 1",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Larrea (entre San José y San Juan)<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: --<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-45",
+    "lat": -30.7957838,
+    "lng": -60.5788802,
+    "name": "21-09702835-1 Domicilio N°7",
+    "realName": "21-09702835-1 Domicilio N°7",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.79578, -60.57888",
+    "address": "21-09702835-1 Domicilio N°7",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Pedro millan 2751<br>fiscal: Eric Fernandez<br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo<br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br>rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-46",
+    "lat": -31.5922955,
+    "lng": -60.705983,
+    "name": "21-09720361-7 domicilio 2",
+    "realName": "21-09720361-7 domicilio 2",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.59230, -60.70598",
+    "address": "21-09720361-7 domicilio 2",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : esquina larrea y san juan<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br>responsables: Rodriguez Adriana Ester<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-47",
+    "lat": -31.5919048,
+    "lng": -60.705865,
+    "name": "21-09720361-7 domicilio 3",
+    "realName": "21-09720361-7 domicilio 3",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -31.59190, -60.70587",
+    "address": "21-09720361-7 domicilio 3",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : San Juan (entre Larrea y Azcuénaga)<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br>responsables: (Sin apellido), (Sin nombre) (Libre)SUAREZ, YAMILA GISELA (Libre)<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-48",
+    "lat": -31.5909703,
+    "lng": -60.7077501,
+    "name": "21-09720310-2",
+    "realName": "21-09720310-2",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 85,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Punto de Venta / Microtráfico"
+    ],
+    "lastSeen": "Coordenadas: -31.59097, -60.70775",
+    "address": "21-09720310-2",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : Azcuénaga a la altura catastral N° 3800 entre calle San José y<br>Presbítero Luis V. Dusso barrio Pompeya<br>fiscal: Fernandez, Eric Valerio - Organismo de Investigaciones 1<br><br><br>responsables: N/N<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-49",
+    "lat": -30.7962262,
+    "lng": -60.5787247,
+    "name": "21-09702835-1 Domicilio N°8",
+    "realName": "21-09702835-1 Domicilio N°8",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.79623, -60.57872",
+    "address": "21-09702835-1 Domicilio N°8",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : sylvestre begnis 1378<br>fiscal: Eric Fernandez<br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo<br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br>rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  },
+  {
+    "id": "t-real-50",
+    "lat": -30.7860432,
+    "lng": -60.5768345,
+    "name": "21-09702835-1 Domicilio N°9",
+    "realName": "21-09702835-1 Domicilio N°9",
+    "img": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+    "risk": 60,
+    "status": "BUNKER_SURVEILLANCE",
+    "affiliations": [
+      "Domicilio de Interés / Observación"
+    ],
+    "lastSeen": "Coordenadas: -30.78604, -60.57683",
+    "address": "21-09702835-1 Domicilio N°9",
+    "history": [
+      {
+        "date": "Sistema MPA",
+        "event": "ubicación : pedro millan interseccion con vias ferreas <br>fiscal: Eric Fernandez<br>responsables: acevedo Nahiara Berenice<br>avalo yoana soledad<br>blesio maria soledad<br>massimilla luciano javier<br>montiel joaquin marcelo<br>obregondante david<br>obregon jaquelina aldana<br>quiroz rosa susana<br>rodriguez axel agustin<br>rodriguez rosa<br>sandoval romina marianela<br>nombre:"
+      }
+    ]
+  }
 ];
 
 export const TacticalMapView: React.FC = () => {
@@ -239,7 +1238,7 @@ export const TacticalMapView: React.FC = () => {
       if (!mapContainerRef.current || mapInstanceRef.current || isConnecting || !window.L) return;
 
       // Use params if available, else default to Rosario (Standard center)
-      const initialCenter = navigationParams?.center || [-32.94682, -60.63932];
+      const initialCenter = navigationParams?.center || [-31.5712, -60.7387];
       const initialZoom = navigationParams?.zoom || 13;
 
       const map = window.L.map(mapContainerRef.current, {
