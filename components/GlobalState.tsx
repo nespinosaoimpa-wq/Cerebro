@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
-import { User, AppSettings, Project, Workbook, Suspect } from '../types';
+import { User, AppSettings, Project, Workbook, Suspect, ImportedDataset, FinancialTransaction } from '../types';
 import { CURRENT_USER as MOCK_USER, MOCK_PROJECTS, MOCK_WORKBOOKS, SUSPECTS } from '../constants';
 
 export interface Notification {
@@ -37,6 +37,15 @@ interface GlobalStateContextType {
   addWorkbook: (workbook: Workbook) => void;
   updateWorkbook: (id: string, updates: Partial<Workbook>) => void;
   
+  // Real Imported Datasets & Real Data Stores
+  importedDatasets: ImportedDataset[];
+  importedTransactions: FinancialTransaction[];
+  importedNodes: any[];
+  importedLinks: any[];
+  addImportedDataset: (dataset: ImportedDataset) => void;
+  addImportedTransactions: (transactions: FinancialTransaction[]) => void;
+  addImportedNetworkData: (nodes: any[], links: any[]) => void;
+
   // Onboarding
   hasCompletedOnboarding: boolean;
   completeOnboarding: () => void;
@@ -160,6 +169,68 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setWorkbooks(prev => prev.map(w => w.id === id ? { ...w, ...updates } : w));
   }, []);
 
+  // Real Imported Datasets & Real Data Stores
+  const [importedDatasets, setImportedDatasets] = useState<ImportedDataset[]>(() => {
+    const saved = localStorage.getItem('cerebro_imported_datasets');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return [];
+  });
+
+  const [importedTransactions, setImportedTransactions] = useState<FinancialTransaction[]>(() => {
+    const saved = localStorage.getItem('cerebro_imported_transactions');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return [];
+  });
+
+  const [importedNodes, setImportedNodes] = useState<any[]>(() => {
+    const saved = localStorage.getItem('cerebro_imported_nodes');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return [];
+  });
+
+  const [importedLinks, setImportedLinks] = useState<any[]>(() => {
+    const saved = localStorage.getItem('cerebro_imported_links');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cerebro_imported_datasets', JSON.stringify(importedDatasets));
+  }, [importedDatasets]);
+
+  useEffect(() => {
+    localStorage.setItem('cerebro_imported_transactions', JSON.stringify(importedTransactions));
+  }, [importedTransactions]);
+
+  useEffect(() => {
+    localStorage.setItem('cerebro_imported_nodes', JSON.stringify(importedNodes));
+  }, [importedNodes]);
+
+  useEffect(() => {
+    localStorage.setItem('cerebro_imported_links', JSON.stringify(importedLinks));
+  }, [importedLinks]);
+
+  const addImportedDataset = useCallback((dataset: ImportedDataset) => {
+    setImportedDatasets(prev => [dataset, ...prev]);
+  }, []);
+
+  const addImportedTransactions = useCallback((txs: FinancialTransaction[]) => {
+    setImportedTransactions(prev => [...txs, ...prev]);
+  }, []);
+
+  const addImportedNetworkData = useCallback((nodes: any[], links: any[]) => {
+    setImportedNodes(prev => [...nodes, ...prev]);
+    setImportedLinks(prev => [...links, ...prev]);
+  }, []);
+
   // User Logic
   const login = useCallback((method: 'credentials' | 'google', data?: any) => {
     if (method === 'google') {
@@ -266,6 +337,13 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       workbooks,
       addWorkbook,
       updateWorkbook,
+      importedDatasets,
+      importedTransactions,
+      importedNodes,
+      importedLinks,
+      addImportedDataset,
+      addImportedTransactions,
+      addImportedNetworkData,
       hasCompletedOnboarding,
       completeOnboarding,
       settings,

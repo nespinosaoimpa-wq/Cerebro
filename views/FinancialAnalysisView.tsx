@@ -15,7 +15,7 @@ interface PitufeoAlert {
 }
 
 export const FinancialAnalysisView: React.FC = () => {
-  const { settings, addNotification } = useGlobalState();
+  const { settings, addNotification, importedTransactions } = useGlobalState();
   const [activeTab, setActiveTab] = useState<'transactions' | 'pitufeo' | 'accounts' | 'companies'>('transactions');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFlag, setSelectedFlag] = useState<string>('all');
@@ -25,6 +25,18 @@ export const FinancialAnalysisView: React.FC = () => {
   const [transactions, setTransactions] = useState<FinancialTransaction[]>(MOCK_FINANCIAL_TRANSACTIONS);
   const [accounts, setAccounts] = useState<BankAccount[]>(MOCK_BANK_ACCOUNTS);
   const [companies, setCompanies] = useState<ShellCompany[]>(MOCK_SHELL_COMPANIES);
+
+  // Merge imported transactions from GlobalState
+  useEffect(() => {
+    if (importedTransactions && importedTransactions.length > 0) {
+      setTransactions(prev => {
+        const existingIds = new Set(prev.map(t => t.id));
+        const newTxs = importedTransactions.filter(t => !existingIds.has(t.id));
+        if (newTxs.length === 0) return prev;
+        return [...newTxs, ...prev];
+      });
+    }
+  }, [importedTransactions]);
 
   // Raw Statement Input / Upload
   const [rawText, setRawText] = useState('');

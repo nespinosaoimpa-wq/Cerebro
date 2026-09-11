@@ -22,7 +22,7 @@ interface GraphLink {
 }
 
 export const NetworkAnalysisView: React.FC = () => {
-  const { settings, addNotification, workbooks, updateWorkbook } = useGlobalState();
+  const { settings, addNotification, workbooks, updateWorkbook, importedNodes, importedLinks } = useGlobalState();
   const [layout, setLayout] = useState<'organic' | 'hierarchy'>('organic');
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +55,35 @@ export const NetworkAnalysisView: React.FC = () => {
     { source: 'v_cantero', target: 'hilux_blanca', label: 'Conduce' },
     { source: 'hilux_blanca', target: 'bunker_sur', label: 'Abastece' }
   ]);
+
+  // Merge imported nodes & links from GlobalState when uploaded
+  useEffect(() => {
+    if (importedNodes && importedNodes.length > 0) {
+      setNodes(prev => {
+        const existingIds = new Set(prev.map(n => n.id));
+        const newNodes: GraphNode[] = importedNodes.map((n, idx) => ({
+          id: n.id || `imp_node_${idx}`,
+          label: n.label || n.name || n.id,
+          type: n.type || 'person',
+          role: n.role || 'Objetivo Importado',
+          x: n.x || Math.floor(Math.random() * 70) + 15,
+          y: n.y || Math.floor(Math.random() * 70) + 15
+        })).filter(n => !existingIds.has(n.id));
+
+        return [...prev, ...newNodes];
+      });
+    }
+    if (importedLinks && importedLinks.length > 0) {
+      setLinks(prev => {
+        const newLinks: GraphLink[] = importedLinks.map(l => ({
+          source: l.source,
+          target: l.target,
+          label: l.label || 'Relación Importada'
+        }));
+        return [...prev, ...newLinks];
+      });
+    }
+  }, [importedNodes, importedLinks]);
 
   // Sidebar form states for manual entry
   const [newNodeName, setNewNodeName] = useState('');

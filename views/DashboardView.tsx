@@ -105,6 +105,51 @@ export const DashboardView: React.FC = () => {
             ))}
          </div>
 
+         {/* Quick Action & Workflow Toolbar */}
+         <div className="glass-panel border border-nexus-800 rounded-xl p-4 mb-8 relative z-10 bg-nexus-900/60 shadow-xl flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+               <span className="material-symbols-outlined text-nexus-accent text-xl">bolt</span>
+               <div>
+                  <h3 className="text-sm font-bold text-white">Flujo de Trabajo Profesional</h3>
+                  <p className="text-xs text-gray-400">Acceso rápido a las herramientas principales de análisis e ingesta de datos.</p>
+               </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+               <button 
+                  onClick={() => navigate('ingestion')}
+                  className="px-4 py-2.5 bg-nexus-accent hover:bg-blue-600 text-white font-bold text-xs rounded-lg shadow-lg flex items-center gap-2 transition-all"
+               >
+                  <span className="material-symbols-outlined text-base">upload_file</span>
+                  + Cargar Datos Reales (CSV/PDF)
+               </button>
+
+               <button 
+                  onClick={() => navigate('network')}
+                  className="px-4 py-2.5 bg-nexus-800 hover:bg-nexus-700 text-gray-200 hover:text-white font-bold text-xs rounded-lg border border-nexus-700 hover:border-nexus-accent flex items-center gap-2 transition-all"
+               >
+                  <span className="material-symbols-outlined text-base text-nexus-accent">hub</span>
+                  Grafo de Redes i2
+               </button>
+
+               <button 
+                  onClick={() => navigate('financial')}
+                  className="px-4 py-2.5 bg-nexus-800 hover:bg-nexus-700 text-gray-200 hover:text-white font-bold text-xs rounded-lg border border-nexus-700 hover:border-emerald-500 flex items-center gap-2 transition-all"
+               >
+                  <span className="material-symbols-outlined text-base text-emerald-400">payments</span>
+                  Análisis Financiero
+               </button>
+
+               <button 
+                  onClick={() => navigate('reports')}
+                  className="px-4 py-2.5 bg-nexus-800 hover:bg-nexus-700 text-gray-200 hover:text-white font-bold text-xs rounded-lg border border-nexus-700 hover:border-purple-500 flex items-center gap-2 transition-all"
+               >
+                  <span className="material-symbols-outlined text-base text-purple-400">summarize</span>
+                  Generar Informe Exec
+               </button>
+            </div>
+         </div>
+
          <div className="grid grid-cols-12 gap-8 relative z-10">
             {/* Left Box: Active Causes Management */}
             <div className="col-span-12 lg:col-span-8 h-[360px] rounded-lg border border-nexus-800 bg-nexus-900 p-8 flex flex-col justify-between relative overflow-hidden group">

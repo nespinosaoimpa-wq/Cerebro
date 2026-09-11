@@ -303,3 +303,15 @@ export interface ShellCompany {
   totalMovementUSD: number;
   riskRating: 'Alto' | 'Medio' | 'Bajo';
 }
+
+export interface ImportedDataset {
+  id: string;
+  name: string;
+  type: string;
+  recordCount: number;
+  uploadDate: string;
+  rawContent?: string;
+  parsedHeaders?: string[];
+  parsedRows?: Record<string, string>[];
+}
+
