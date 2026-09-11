@@ -28,9 +28,9 @@ export const DashboardView: React.FC = () => {
                lng: parseFloat(geoData[0].lon)
             };
             zoomLevel = 16;
-            addNotification('success', `Vector fijado: ${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`);
+            addNotification('success', `Ubicación encontrada: ${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`);
          } else {
-            addNotification('warning', 'Triangulación fallida. Usando coordenadas estimadas.');
+            addNotification('warning', 'No se encontró la ubicación. Usando coordenadas estimadas.');
          }
 
          const newProject: Project = {
@@ -39,7 +39,7 @@ export const DashboardView: React.FC = () => {
             type: newOpData.type as any,
             location: newOpData.zone,
             status: 'Active',
-            lastUpdate: 'Establecido hace 1s',
+            lastUpdate: 'Ahora',
             members: ['u-001'],
             thumbnail: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/2485/1376',
             progress: 0,
@@ -53,286 +53,279 @@ export const DashboardView: React.FC = () => {
             center: [coords.lat, coords.lng],
             zoom: zoomLevel,
             deployMarker: true,
-            label: `OP: ${newOpData.title}`
+            label: `Causa: ${newOpData.title}`
          });
 
       } catch (error) {
-         addNotification('error', 'Enlace satelital comprometido.');
+         addNotification('error', 'Error de conexión al servicio de geolocalización.');
          setIsGeocoding(false);
       }
    };
 
    return (
-      <div className="p-8 h-full overflow-y-auto custom-scrollbar bg-nexus-950 relative">
-         <div className="bg-grid absolute inset-0 pointer-events-none opacity-20"></div>
+      <div className="p-6 lg:p-8 h-full overflow-y-auto custom-scrollbar bg-gray-50">
 
          {/* Header Section */}
-         <div className="flex justify-between items-center mb-8 relative z-10">
+         <div className="flex justify-between items-center mb-6">
             <div>
-               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                  CerebroAC
-                  <span className="text-xs font-semibold text-nexus-accent bg-nexus-accent/10 border border-nexus-accent/20 px-2 py-0.5 rounded">
-                     v5.0.2
-                  </span>
+               <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+                  Panel Principal
                </h1>
-               <p className="text-sm text-gray-400 mt-1">
-                  Sistema de Análisis Criminal e Investigación Unificada
+               <p className="text-sm text-gray-500 mt-0.5">
+                  Sistema de Análisis Criminal e Investigación — Provincia de Santa Fe
                </p>
             </div>
             <div className="flex items-center gap-2">
-               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-               <span className="text-xs text-gray-400 font-medium">Estado del Sistema: Conectado</span>
+               <div className="h-2 w-2 rounded-full bg-green-500"></div>
+               <span className="text-xs text-gray-500 font-medium">En línea</span>
             </div>
          </div>
 
          {/* KPI Stats Row */}
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 relative z-10">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {KPI_STATS.map((stat, idx) => (
-               <div key={idx} className="glass-panel border border-nexus-800 rounded-lg p-6 relative overflow-hidden group">
-                  <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-all duration-700 rotate-12">
-                     <span className="material-symbols-outlined text-9xl">{stat.icon}</span>
-                  </div>
-                  <div className="relative z-10">
-                     <div className="flex justify-between items-center mb-4">
-                        <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">{stat.label}</div>
-                        <div className={`text-xs font-semibold px-2 py-0.5 rounded ${stat.positive ? 'text-emerald-400 bg-emerald-400/5' : 'text-rose-400 bg-rose-400/5'}`}>
-                           {stat.positive ? '+' : '-'}{stat.change}
-                        </div>
+               <div key={idx} className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-3">
+                     <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-blue-600 text-xl">{stat.icon}</span>
                      </div>
-                     <div className="text-3xl font-bold text-white tracking-tight">{stat.value}</div>
+                     <div className={`text-xs font-semibold px-2 py-0.5 rounded-full ${stat.positive ? 'text-green-700 bg-green-50' : 'text-red-700 bg-red-50'}`}>
+                        {stat.positive ? '↑' : '↓'} {stat.change}
+                     </div>
                   </div>
+                  <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+                  <div className="text-xs text-gray-500 mt-1 font-medium">{stat.label}</div>
                </div>
             ))}
          </div>
 
-         {/* Quick Action & Workflow Toolbar */}
-         <div className="glass-panel border border-nexus-800 rounded-xl p-4 mb-8 relative z-10 bg-nexus-900/60 shadow-xl flex flex-wrap items-center justify-between gap-4">
+         {/* Quick Actions Bar */}
+         <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6 shadow-sm flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-               <span className="material-symbols-outlined text-nexus-accent text-xl">bolt</span>
+               <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-blue-600 text-lg">apps</span>
+               </div>
                <div>
-                  <h3 className="text-sm font-bold text-white">Flujo de Trabajo Profesional</h3>
-                  <p className="text-xs text-gray-400">Acceso rápido a las herramientas principales de análisis e ingesta de datos.</p>
+                  <h3 className="text-sm font-semibold text-gray-800">Accesos Directos</h3>
+                  <p className="text-xs text-gray-400">Herramientas de uso frecuente</p>
                </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2">
                <button 
-                  onClick={() => navigate('ingestion')}
-                  className="px-4 py-2.5 bg-nexus-accent hover:bg-blue-600 text-white font-bold text-xs rounded-lg shadow-lg flex items-center gap-2 transition-all"
+                  onClick={() => navigate('case-ingest')}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs rounded-lg shadow-sm flex items-center gap-2 transition-colors"
                >
                   <span className="material-symbols-outlined text-base">upload_file</span>
-                  + Cargar Datos Reales (CSV/PDF)
+                  Cargar Datos
                </button>
 
                <button 
-                  onClick={() => navigate('network')}
-                  className="px-4 py-2.5 bg-nexus-800 hover:bg-nexus-700 text-gray-200 hover:text-white font-bold text-xs rounded-lg border border-nexus-700 hover:border-nexus-accent flex items-center gap-2 transition-all"
+                  onClick={() => navigate('intel-network')}
+                  className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs rounded-lg border border-gray-200 flex items-center gap-2 transition-colors"
                >
-                  <span className="material-symbols-outlined text-base text-nexus-accent">hub</span>
-                  Grafo de Redes i2
+                  <span className="material-symbols-outlined text-base text-blue-500">hub</span>
+                  Grafo de Relaciones
                </button>
 
                <button 
                   onClick={() => navigate('financial')}
-                  className="px-4 py-2.5 bg-nexus-800 hover:bg-nexus-700 text-gray-200 hover:text-white font-bold text-xs rounded-lg border border-nexus-700 hover:border-emerald-500 flex items-center gap-2 transition-all"
+                  className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs rounded-lg border border-gray-200 flex items-center gap-2 transition-colors"
                >
-                  <span className="material-symbols-outlined text-base text-emerald-400">payments</span>
+                  <span className="material-symbols-outlined text-base text-green-600">payments</span>
                   Análisis Financiero
                </button>
 
                <button 
-                  onClick={() => navigate('reports')}
-                  className="px-4 py-2.5 bg-nexus-800 hover:bg-nexus-700 text-gray-200 hover:text-white font-bold text-xs rounded-lg border border-nexus-700 hover:border-purple-500 flex items-center gap-2 transition-all"
+                  onClick={() => navigate('strat-reports')}
+                  className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 font-medium text-xs rounded-lg border border-gray-200 flex items-center gap-2 transition-colors"
                >
-                  <span className="material-symbols-outlined text-base text-purple-400">summarize</span>
-                  Generar Informe Exec
+                  <span className="material-symbols-outlined text-base text-purple-500">summarize</span>
+                  Generar Informe
                </button>
             </div>
          </div>
 
-         <div className="grid grid-cols-12 gap-8 relative z-10">
-            {/* Left Box: Active Causes Management */}
-            <div className="col-span-12 lg:col-span-8 h-[360px] rounded-lg border border-nexus-800 bg-nexus-900 p-8 flex flex-col justify-between relative overflow-hidden group">
-               <div className="absolute right-0 bottom-0 opacity-5 pointer-events-none transform translate-x-12 translate-y-12">
-                  <span className="material-symbols-outlined text-[350px] text-nexus-accent">analytics</span>
+         <div className="grid grid-cols-12 gap-6">
+            {/* Left Box: Active Cases */}
+            <div className="col-span-12 lg:col-span-8 rounded-xl border border-gray-200 bg-white p-6 lg:p-8 shadow-sm">
+               <div className="mb-6">
+                  <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">
+                     Resumen
+                  </span>
+                  <h2 className="text-xl font-bold text-gray-900 mt-4 mb-2">
+                     Gestión de Causas Activas
+                  </h2>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                     Administre las causas judiciales en curso, coordine la asignación de agentes y supervise el estado de avance de cada investigación.
+                  </p>
                </div>
                
-               <div className="relative z-10 max-w-xl">
-                  <span className="text-xs font-bold text-nexus-accent bg-nexus-accent/10 border border-nexus-accent/20 px-3 py-1 rounded">
-                     Panel de Control
-                  </span>
-                  <h2 className="text-3xl font-bold text-white mt-6 mb-3 tracking-tight">
-                     Gestión Operativa de Causas
-                  </h2>
-                  <p className="text-sm text-gray-400 leading-relaxed">
-                     Coordine el trabajo del personal, monitoree las zonas bajo vigilancia judicial y administre el ingreso de nuevas denuncias y pruebas. Sincronización continua de datos para investigación criminal.
-                  </p>
-                  
-                  <div className="grid grid-cols-2 gap-4 mt-8">
-                     <div className="bg-nexus-950/40 p-4 border border-nexus-800 rounded">
-                        <div className="text-xs text-gray-500 uppercase font-semibold">Causas en curso</div>
-                        <div className="text-2xl font-bold text-white mt-1">{projects.length} Activa(s)</div>
-                     </div>
-                     <div className="bg-nexus-950/40 p-4 border border-nexus-800 rounded">
-                        <div className="text-xs text-gray-500 uppercase font-semibold">Agentes asignados</div>
-                        <div className="text-2xl font-bold text-white mt-1">1 en Servicio</div>
-                     </div>
+               <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-gray-50 p-4 border border-gray-100 rounded-lg">
+                     <div className="text-xs text-gray-500 font-medium">Causas en curso</div>
+                     <div className="text-2xl font-bold text-gray-900 mt-1">{projects.length} Activa(s)</div>
+                  </div>
+                  <div className="bg-gray-50 p-4 border border-gray-100 rounded-lg">
+                     <div className="text-xs text-gray-500 font-medium">Analistas asignados</div>
+                     <div className="text-2xl font-bold text-gray-900 mt-1">1 en Servicio</div>
                   </div>
                </div>
 
-               <div className="relative z-10 flex gap-4 mt-8">
+               <div className="flex gap-3">
                   <button
                      onClick={() => setShowCreateOpModal(true)}
-                     className="px-5 py-3 bg-nexus-accent hover:bg-nexus-accentHover text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 rounded flex items-center gap-2"
+                     className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-colors rounded-lg flex items-center gap-2 shadow-sm"
                   >
-                     <span className="material-symbols-outlined text-sm">add_circle</span>
-                     Iniciar Nueva Causa
+                     <span className="material-symbols-outlined text-sm">add</span>
+                     Nueva Causa
                   </button>
 
                   <button
                      onClick={() => navigate('map')}
-                     className="px-5 py-3 bg-nexus-800 hover:bg-nexus-700 text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 rounded border border-nexus-700 flex items-center gap-2"
+                     className="px-5 py-2.5 bg-white hover:bg-gray-50 text-gray-700 font-medium text-sm transition-colors rounded-lg border border-gray-200 flex items-center gap-2"
                   >
                      <span className="material-symbols-outlined text-sm">map</span>
-                     Ver Mapa General
+                     Ver Mapa
                   </button>
                </div>
             </div>
 
-            {/* Right Box: Recient alerts feed */}
+            {/* Right Box: Recent alerts */}
             <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
-               <div className="glass-panel border border-white/5 rounded h-[360px] flex flex-col relative">
-                  <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
-                     <h3 className="font-black text-white text-sm uppercase tracking-widest flex items-center gap-3">
-                        <span className="material-symbols-outlined text-nexus-accent">history_edu</span>
+               <div className="bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col h-full">
+                  <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+                     <h3 className="font-semibold text-gray-800 text-sm flex items-center gap-2">
+                        <span className="material-symbols-outlined text-blue-500 text-lg">notifications_active</span>
                         Alertas Recientes
                      </h3>
-                     <div className="flex gap-1">
-                        <div className="w-1 h-1 bg-nexus-accent animate-ping"></div>
-                        <span className="text-[8px] font-mono text-nexus-accent font-bold">EN VIVO</span>
-                      </div>
+                     <span className="text-[10px] font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Actualizado</span>
                   </div>
 
                   <div className="flex-1 overflow-y-auto custom-scrollbar">
                      {RECENT_ALERTS.length > 0 ? RECENT_ALERTS.map((alert, i) => (
-                        <div key={i} className="p-5 border-b border-white/5 group cursor-pointer relative hover:bg-nexus-accent/5 transition-all">
-                           <div className={`absolute left-0 top-0 bottom-0 w-0.5 group-hover:w-1 transition-all ${alert.severity === 'critical' ? 'bg-nexus-danger shadow-[0_0_10px_red]' :
-                              alert.severity === 'high' ? 'bg-nexus-warning' : 'bg-nexus-success'
-                              }`}></div>
-
-                           <div className="flex justify-between items-start mb-2">
-                              <span className="text-[8px] font-mono text-gray-500">[{alert.time}]</span>
-                              <span className={`text-[9px] font-bold uppercase ${alert.severity === 'critical' ? 'text-nexus-danger' :
-                                 alert.severity === 'high' ? 'text-nexus-warning' : 'text-nexus-success'
-                                 }`}>{alert.severity}</span>
+                        <div key={i} className="p-4 border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors">
+                           <div className="flex justify-between items-start mb-1.5">
+                              <span className="text-[11px] text-gray-400">{alert.time}</span>
+                              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                                 alert.severity === 'critical' ? 'text-red-700 bg-red-50' :
+                                 alert.severity === 'high' ? 'text-orange-700 bg-orange-50' : 'text-blue-700 bg-blue-50'
+                              }`}>{
+                                 alert.severity === 'critical' ? 'Urgente' :
+                                 alert.severity === 'high' ? 'Alta' : 'Media'
+                              }</span>
                            </div>
-                           <h4 className="text-xs font-bold text-white mb-2 leading-tight uppercase group-hover:pl-1 transition-all">
+                           <h4 className="text-xs font-medium text-gray-800 mb-1.5 leading-snug">
                               {alert.title}
                            </h4>
-                           <div className="flex items-center text-[10px] text-gray-500 gap-2 font-mono">
-                              <span className="material-symbols-outlined text-[12px]">push_pin</span>
+                           <div className="flex items-center text-[11px] text-gray-400 gap-1">
+                              <span className="material-symbols-outlined text-[12px]">location_on</span>
                               {alert.location}
                            </div>
                         </div>
                      )) : (
-                        <div className="p-10 text-center text-xs text-gray-500 flex flex-col items-center gap-2 h-full justify-center">
-                           <span className="material-symbols-outlined text-gray-600 text-3xl">notifications_off</span>
-                           No hay alertas activas en curso.
+                        <div className="p-10 text-center text-sm text-gray-400 flex flex-col items-center gap-2 h-full justify-center">
+                           <span className="material-symbols-outlined text-gray-300 text-3xl">notifications_off</span>
+                           No hay alertas activas.
                         </div>
                      )}
                   </div>
                   <button
                      onClick={() => navigate('ops-active')}
-                     className="p-5 text-center text-[10px] font-black text-gray-400 hover:text-white hover:bg-nexus-accent transition-all uppercase tracking-widest border-t border-white/5"
+                     className="p-3 text-center text-xs font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-colors border-t border-gray-100 rounded-b-xl"
                   >
-                     Ver Despliegues Activos
+                     Ver todas las alertas →
                   </button>
                </div>
             </div>
          </div>
 
-         {/* SUSPECTS TARGET SECTION */}
-         <div className="mt-12">
-            <div className="flex justify-between items-center mb-6 px-4">
-               <h3 className="text-sm font-black text-white uppercase tracking-widest flex items-center gap-3">
-                  <span className="material-symbols-outlined text-nexus-accent">personal_injury</span>
-                  Objetivos Activos
+         {/* SUSPECTS SECTION */}
+         <div className="mt-8">
+            <div className="flex justify-between items-center mb-4">
+               <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-blue-500">badge</span>
+                  Personas Investigadas — Prioridad Alta
                </h3>
-               <button onClick={() => navigate('intel-db')} className="text-[10px] text-nexus-accent hover:underline font-mono font-bold tracking-widest">VER TODOS</button>
+               <button onClick={() => navigate('intel-db')} className="text-xs text-blue-600 hover:text-blue-700 font-medium">Ver todas →</button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-               {SUSPECTS.length > 0 ? SUSPECTS.slice(0, 3).map(sus => (
-                  <div key={sus.id} onClick={() => navigate('intel-db')} className="glass-panel border border-white/5 rounded p-5 cursor-pointer group hover:border-nexus-accent/50 transition-all duration-200">
-                     <div className="flex items-center gap-5">
-                        <div className="relative">
-                           <img src={sus.image} alt="" className="w-16 h-16 grayscale scale-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500 rounded-none border border-white/10" />
-                           <div className={`absolute -top-1 -right-1 w-3 h-3 border ${sus.riskLevel > 90 ? 'bg-nexus-danger border-red-500 shadow-[0_0_8px_red]' : 'bg-nexus-warning border-yellow-500'}`}></div>
-                        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+               {SUSPECTS.length > 0 ? SUSPECTS.slice(0, 4).map(sus => (
+                  <div key={sus.id} onClick={() => navigate('intel-db')} className="bg-white border border-gray-200 rounded-xl p-4 cursor-pointer hover:shadow-md hover:border-blue-200 transition-all shadow-sm">
+                     <div className="flex items-center gap-3 mb-3">
+                        <img src={sus.image} alt="" className={`w-10 h-10 rounded-full object-cover border-2 ${sus.riskLevel > 90 ? 'border-red-300' : 'border-orange-300'}`} />
                         <div className="flex-1 min-w-0">
-                           <div className="flex items-center gap-2 mb-1">
-                              <h4 className="text-sm font-black text-white truncate uppercase italic">{sus.codeName}</h4>
-                              <span className="text-[8px] font-mono text-nexus-accent px-1 border border-nexus-accent/30">{sus.socialNetworkCentrality}</span>
-                           </div>
-                           <p className="text-[10px] text-gray-500 font-mono truncate">{sus.realName}</p>
-                           <div className="mt-2 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                              <div className="h-full bg-nexus-accent group-hover:translate-x-1/2 transition-transform duration-1000" style={{ width: '40%' }}></div>
-                           </div>
+                           <h4 className="text-sm font-semibold text-gray-800 truncate">{sus.realName}</h4>
+                           <p className="text-[11px] text-gray-400 truncate">Alias: {sus.codeName}</p>
                         </div>
-                        <span className="material-symbols-outlined text-gray-700 group-hover:text-nexus-accent transition-colors">qr_code_2</span>
+                     </div>
+                     <div className="flex items-center justify-between">
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                           sus.riskLevel > 90 ? 'text-red-700 bg-red-50' : 'text-orange-700 bg-orange-50'
+                        }`}>
+                           Riesgo: {sus.riskLevel}%
+                        </span>
+                        <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                           sus.status === 'Wanted' ? 'text-red-600 bg-red-50' : 'text-blue-600 bg-blue-50'
+                        }`}>
+                           {sus.status === 'Wanted' ? 'Buscado' : 'En vigilancia'}
+                        </span>
+                     </div>
+                     <div className="mt-2 pt-2 border-t border-gray-100">
+                        <div className="text-[11px] text-gray-500 flex items-center gap-1">
+                           <span className="material-symbols-outlined text-[12px]">location_on</span>
+                           {sus.lastSeen}
+                        </div>
                      </div>
                   </div>
                )) : (
-                  <div className="col-span-3 glass-panel border border-nexus-800 rounded p-8 text-center text-xs text-gray-500 flex flex-col items-center gap-2 justify-center bg-nexus-900/30">
-                     <span className="material-symbols-outlined text-gray-600 text-3xl">person_search</span>
-                     No hay sospechosos registrados como objetivos activos.
+                  <div className="col-span-4 bg-white border border-gray-200 rounded-xl p-8 text-center text-sm text-gray-400 flex flex-col items-center gap-2 justify-center">
+                     <span className="material-symbols-outlined text-gray-300 text-3xl">person_search</span>
+                     No hay personas investigadas registradas.
                   </div>
                )}
             </div>
          </div>
 
          {/* FOOTER */}
-         <div className="mt-12 py-4 border-t border-nexus-800 flex justify-between items-center text-xs text-gray-500">
-            <div>
-               CerebroAC — Plataforma de Gestión e Inteligencia Criminal
-            </div>
-            <div>
-               Provincia de Santa Fe
-            </div>
+         <div className="mt-8 py-4 border-t border-gray-200 flex justify-between items-center text-xs text-gray-400">
+            <div>CerebroAC — Plataforma de Análisis Criminal e Investigación</div>
+            <div>Provincia de Santa Fe</div>
          </div>
 
          {/* CREATE CAUSE MODAL */}
          {showCreateOpModal && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fade-in">
-               <div className="bg-nexus-950 border border-nexus-border w-full max-w-md shadow-2xl rounded-lg overflow-hidden">
-                  <div className="p-8">
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+               <div className="bg-white border border-gray-200 w-full max-w-md shadow-xl rounded-xl overflow-hidden">
+                  <div className="p-6 lg:p-8">
                      <div className="flex justify-between items-start mb-6">
                         <div>
-                           <h2 className="text-xl font-bold text-white">Iniciar Nueva Causa</h2>
-                           <p className="text-xs text-gray-400 mt-1">Defina los parámetros del legajo de investigación.</p>
+                           <h2 className="text-lg font-bold text-gray-900">Nueva Causa</h2>
+                           <p className="text-xs text-gray-500 mt-1">Defina los datos principales del legajo de investigación.</p>
                         </div>
-                        <div className="w-10 h-10 border border-nexus-accent/30 flex items-center justify-center text-nexus-accent rounded bg-nexus-accent/5">
-                           <span className="material-symbols-outlined text-2xl">add_box</span>
-                        </div>
+                        <button onClick={() => setShowCreateOpModal(false)} className="p-1 hover:bg-gray-100 rounded-lg transition-colors">
+                           <span className="material-symbols-outlined text-gray-400">close</span>
+                        </button>
                      </div>
 
-                     <form onSubmit={handleCreateOperation} className="space-y-6">
+                     <form onSubmit={handleCreateOperation} className="space-y-4">
                         <div>
-                           <label className="block text-xs font-bold text-gray-400 uppercase mb-2">Carátula de la Causa / Legajo</label>
+                           <label className="block text-xs font-medium text-gray-600 mb-1.5">Carátula de la Causa</label>
                            <input
                               autoFocus
                               type="text"
-                              className="w-full bg-nexus-900 border border-nexus-700 rounded p-2.5 text-white text-sm focus:border-nexus-accent focus:outline-none transition-all"
-                              placeholder="Ej: CAUSA N° 4812/26 - LOS MONOS"
+                              className="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 text-gray-800 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-100 transition-all"
+                              placeholder="Ej: CAUSA N° 4812/26 - ZABALA"
                               value={newOpData.title}
                               onChange={e => setNewOpData({ ...newOpData, title: e.target.value.toUpperCase() })}
                            />
                         </div>
 
                         <div>
-                           <label className="block text-xs font-bold text-gray-400 uppercase mb-2">Categoría del Delito</label>
+                           <label className="block text-xs font-medium text-gray-600 mb-1.5">Tipo de Delito</label>
                            <select
-                              className="w-full bg-nexus-900 border border-nexus-700 rounded p-2.5 text-white text-sm focus:border-nexus-accent focus:outline-none"
+                              className="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 text-gray-800 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-100"
                               value={newOpData.type}
                               onChange={e => setNewOpData({ ...newOpData, type: e.target.value })}
                            >
@@ -344,32 +337,32 @@ export const DashboardView: React.FC = () => {
                         </div>
 
                         <div>
-                           <label className="block text-xs font-bold text-gray-400 uppercase mb-2">Zona / Ubicación de Referencia</label>
+                           <label className="block text-xs font-medium text-gray-600 mb-1.5">Zona / Ubicación</label>
                            <input
                               type="text"
-                              className="w-full bg-nexus-900 border border-nexus-700 rounded p-2.5 text-white text-sm focus:border-nexus-accent focus:outline-none transition-all"
+                              className="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 text-gray-800 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-100 transition-all"
                               placeholder="Ej: Rosario, Santa Fe"
                               value={newOpData.zone}
                               onChange={e => setNewOpData({ ...newOpData, zone: e.target.value })}
                            />
                         </div>
 
-                        <div className="pt-4 flex gap-4">
+                        <div className="pt-2 flex gap-3">
                            <button
                               type="button"
                               onClick={() => setShowCreateOpModal(false)}
-                              className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all rounded border border-white/5"
+                              className="flex-1 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium text-sm transition-colors rounded-lg border border-gray-200"
                            >
                               Cancelar
                            </button>
                            <button
                               type="submit"
                               disabled={!newOpData.title || !newOpData.zone || isGeocoding}
-                              className="flex-1 py-2.5 bg-nexus-accent hover:bg-nexus-accentHover text-white font-bold text-xs uppercase tracking-wider disabled:opacity-50 transition-all rounded flex items-center justify-center gap-2"
+                              className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm disabled:opacity-50 transition-colors rounded-lg flex items-center justify-center gap-2 shadow-sm"
                            >
                               {isGeocoding ? (
                                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                              ) : 'Iniciar Causa'}
+                              ) : 'Crear Causa'}
                            </button>
                         </div>
                      </form>

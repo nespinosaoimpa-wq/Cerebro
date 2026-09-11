@@ -37,18 +37,23 @@ const NotificationHUD: React.FC = () => {
       {notifications.map(n => (
         <div 
           key={n.id} 
-          className={`pointer-events-auto min-w-[300px] p-4 rounded-lg shadow-2xl border backdrop-blur-md flex items-start gap-3 animate-[slideIn_0.3s_ease-out] ${
-            n.type === 'success' ? 'bg-nexus-success/10 border-nexus-success text-white' :
-            n.type === 'error' ? 'bg-nexus-danger/10 border-nexus-danger text-white' :
-            n.type === 'warning' ? 'bg-nexus-warning/10 border-nexus-warning text-white' :
-            'bg-nexus-accent/10 border-nexus-accent text-white'
+          className={`pointer-events-auto min-w-[300px] p-4 rounded-lg shadow-lg border flex items-start gap-3 bg-white ${
+            n.type === 'success' ? 'border-green-200 text-green-800' :
+            n.type === 'error' ? 'border-red-200 text-red-800' :
+            n.type === 'warning' ? 'border-orange-200 text-orange-800' :
+            'border-blue-200 text-blue-800'
           }`}
         >
-          <span className="material-symbols-outlined text-sm mt-0.5">
+          <span className={`material-symbols-outlined text-sm mt-0.5 ${
+            n.type === 'success' ? 'text-green-500' :
+            n.type === 'error' ? 'text-red-500' :
+            n.type === 'warning' ? 'text-orange-500' :
+            'text-blue-500'
+          }`}>
             {n.type === 'success' ? 'check_circle' : n.type === 'error' ? 'error' : 'info'}
           </span>
           <div className="flex-1 text-sm font-medium">{n.message}</div>
-          <button onClick={() => removeNotification(n.id)} className="hover:opacity-70">
+          <button onClick={() => removeNotification(n.id)} className="hover:opacity-70 text-gray-400">
             <span className="material-symbols-outlined text-sm">close</span>
           </button>
         </div>
@@ -86,15 +91,15 @@ const AppContent: React.FC = () => {
       case 'profile': return <UserProfileView />;
       default:
         return (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
-            <span className="material-symbols-outlined text-6xl mb-4 text-nexus-700">construction</span>
-            <h2 className="text-xl font-bold text-gray-300">Módulo en Construcción</h2>
-            <p className="text-sm">La vista "{currentView}" está siendo implementada.</p>
+          <div className="flex flex-col items-center justify-center h-full text-gray-400 bg-gray-50">
+            <span className="material-symbols-outlined text-6xl mb-4 text-gray-300">construction</span>
+            <h2 className="text-xl font-bold text-gray-600">Módulo en Desarrollo</h2>
+            <p className="text-sm text-gray-400 mt-1">La vista "{currentView}" está siendo implementada.</p>
             <button 
               onClick={() => navigate('dashboard')}
-              className="mt-4 px-4 py-2 bg-nexus-800 rounded border border-nexus-700 hover:bg-nexus-700 text-sm"
+              className="mt-4 px-4 py-2 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 text-sm text-gray-700 shadow-sm transition-colors"
             >
-              Volver al Dashboard
+              Volver al Panel Principal
             </button>
           </div>
         );
@@ -106,7 +111,7 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-nexus-950 text-gray-100 font-sans selection:bg-nexus-accent selection:text-white relative overflow-hidden">
+    <div className="flex h-screen bg-nexus-950 text-gray-800 font-sans selection:bg-nexus-accent selection:text-white relative overflow-hidden">
       {!hasCompletedOnboarding && <OnboardingOverlay />}
       
       <Sidebar currentView={currentView} setCurrentView={navigate} />

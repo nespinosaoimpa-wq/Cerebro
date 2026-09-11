@@ -48,36 +48,36 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
             }
           }}
           className={`
-            flex items-center justify-between px-3 py-2 cursor-pointer transition-all duration-200 rounded-md mx-2 group
+            flex items-center justify-between px-3 py-2 cursor-pointer transition-all duration-150 rounded-md mx-2 group
             ${isActive 
-              ? 'bg-nexus-800 text-white font-medium shadow-sm' 
-              : 'text-gray-400 hover:bg-nexus-800/50 hover:text-gray-200'}
+              ? 'bg-blue-50 text-blue-700 font-medium' 
+              : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
             ${depth > 0 ? 'ml-6 text-sm py-1.5' : 'text-sm'}
           `}
         >
           <div className="flex items-center gap-3 min-w-0">
             <span className={`
-              material-symbols-outlined transition-transform duration-300 ease-out group-hover:scale-110
-              ${isActive ? 'filled-icon text-nexus-accent scale-105' : ''} 
+              material-symbols-outlined transition-colors duration-150
+              ${isActive ? 'filled-icon text-blue-600' : 'text-gray-400'} 
               ${depth > 0 ? 'text-[18px]' : 'text-[20px]'}
             `}>
               {item.icon}
             </span>
             {!collapsed && (
-              <span className={`truncate transition-transform duration-300 origin-left ${isActive ? 'translate-x-1' : 'group-hover:translate-x-1'}`}>
+              <span className="truncate">
                 {item.label}
               </span>
             )}
           </div>
           {!collapsed && hasSub && (
-            <span className={`material-symbols-outlined text-[14px] text-gray-600 transition-transform duration-300 ${isExpanded ? 'rotate-180' : 'group-hover:translate-y-0.5'}`}>
+            <span className={`material-symbols-outlined text-[14px] text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>
               expand_more
             </span>
           )}
         </div>
         
         {!collapsed && hasSub && isExpanded && (
-          <ul className="mt-1 space-y-0.5 animate-slide-in">
+          <ul className="mt-0.5 space-y-0.5">
             {item.subItems!.map(sub => (
               <MenuItemComponent key={sub.id} item={sub} depth={depth + 1} />
             ))}
@@ -88,42 +88,42 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
   };
 
   return (
-    <aside className={`${collapsed ? 'w-16' : 'w-64'} h-screen bg-nexus-950 border-r border-nexus-800 flex flex-col transition-all duration-300 z-30 shrink-0`}>
+    <aside className={`${collapsed ? 'w-16' : 'w-60'} h-screen bg-white border-r border-gray-200 flex flex-col transition-all duration-200 z-30 shrink-0`}>
       
       {/* Sidebar Header */}
-      <div className="h-14 flex items-center justify-between px-4 border-b border-nexus-800">
+      <div className="h-14 flex items-center justify-between px-4 border-b border-gray-200">
         {!collapsed && (
-          <div className="flex items-center gap-2 font-bold text-gray-200 tracking-tight group cursor-default">
-             <div className="w-6 h-6 bg-nexus-accent rounded flex items-center justify-center transition-transform duration-500 group-hover:rotate-180">
+          <div className="flex items-center gap-2.5 font-semibold text-gray-800 tracking-tight cursor-default">
+             <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="material-symbols-outlined text-white text-[16px]">neurology</span>
              </div>
-             <span className="transition-colors duration-300 group-hover:text-white">CerebroAC</span>
+             <span>CerebroAC</span>
           </div>
         )}
         <button 
           onClick={() => setCollapsed(!collapsed)}
-          className={`p-1.5 rounded-md hover:bg-nexus-800 text-gray-500 transition-colors ${collapsed ? 'mx-auto' : ''}`}
+          className={`p-1.5 rounded-md hover:bg-gray-100 text-gray-400 transition-colors ${collapsed ? 'mx-auto' : ''}`}
         >
-          <span className="material-symbols-outlined text-[18px] transition-transform duration-300 hover:scale-110">{collapsed ? 'dock_to_right' : 'dock_to_left'}</span>
+          <span className="material-symbols-outlined text-[18px]">{collapsed ? 'dock_to_right' : 'dock_to_left'}</span>
         </button>
       </div>
 
       {/* Menu */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar py-4">
-        {!collapsed && <div className="px-5 mb-2 text-[10px] font-bold text-gray-600 uppercase tracking-wider">Espacio de Trabajo</div>}
+      <div className="flex-1 overflow-y-auto custom-scrollbar py-3">
+        {!collapsed && <div className="px-5 mb-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Menú Principal</div>}
         <ul>
           {MENU_ITEMS.map(item => <MenuItemComponent key={item.id} item={item} />)}
         </ul>
       </div>
 
       {/* Footer / Server Status */}
-      <div className="p-4 border-t border-nexus-800 bg-nexus-900/30">
-        <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''} text-gray-500`}>
-          <span className="material-symbols-outlined text-[16px]">cloud_done</span>
+      <div className="p-3 border-t border-gray-200">
+        <div className={`flex items-center gap-2.5 ${collapsed ? 'justify-center' : ''} text-gray-400`}>
+          <div className="w-2 h-2 rounded-full bg-green-500"></div>
           {!collapsed && (
             <div className="min-w-0">
-               <div className="text-xs font-medium text-white truncate">Servidor Conectado</div>
-               <div className="text-[10px]">CerebroAC v5.0</div>
+               <div className="text-xs font-medium text-gray-600">Sistema Operativo</div>
+               <div className="text-[10px] text-gray-400">CerebroAC v5.0</div>
             </div>
           )}
         </div>
