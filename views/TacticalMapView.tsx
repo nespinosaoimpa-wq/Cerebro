@@ -1288,14 +1288,15 @@ export const TacticalMapView: React.FC = () => {
          const bounds = window.L.latLngBounds([]);
 
          navigationParams.importedLocations.forEach((loc: any) => {
-            if (loc.lat && loc.lng) {
+            if (loc && loc.lat && loc.lng) {
                let iconHtml = '';
                let color = '';
+               const locType = loc.type || 'lugar';
 
-               if (loc.type === 'crime_scene') {
+               if (locType === 'crime_scene') {
                   iconHtml = '<span class="material-symbols-outlined text-white text-[14px]">skull</span>';
                   color = '#ef4444'; // Red
-               } else if (loc.type === 'home') {
+               } else if (locType === 'home') {
                   iconHtml = '<span class="material-symbols-outlined text-white text-[14px]">home</span>';
                   color = '#3b82f6'; // Blue
                } else {
@@ -1314,9 +1315,9 @@ export const TacticalMapView: React.FC = () => {
 
                marker.bindPopup(`
                    <div class="text-xs font-sans">
-                      <strong class="block text-[${color}] mb-1 uppercase">${loc.type.replace('_', ' ')}</strong>
-                      <p class="font-bold">${loc.name}</p>
-                      <p class="text-gray-600 mt-1">${loc.context}</p>
+                      <strong class="block text-[${color}] mb-1 uppercase">${String(locType).replace('_', ' ')}</strong>
+                      <p class="font-bold">${loc.name || 'Punto de Interés'}</p>
+                      <p class="text-gray-600 mt-1">${loc.context || ''}</p>
                    </div>
                 `);
 

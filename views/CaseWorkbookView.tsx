@@ -301,18 +301,19 @@ const RealTacticalMap: React.FC<{ locations: MapLocation[] }> = ({ locations }) 
 
       const bounds = window.L.latLngBounds([]);
 
-      const crimeScenes = locations.filter(l => l.type === 'crime_scene');
-      const homes = locations.filter(l => l.type === 'home');
+      const crimeScenes = locations.filter(l => l && l.type === 'crime_scene');
+      const homes = locations.filter(l => l && l.type === 'home');
 
       locations.forEach((loc, idx) => {
-         if (loc.lat && loc.lng) {
+         if (loc && loc.lat && loc.lng) {
             let iconHtml = '';
             let color = '';
+            const locType = loc.type || 'lugar';
 
-            if (loc.type === 'crime_scene') {
+            if (locType === 'crime_scene') {
                iconHtml = '<span class="material-symbols-outlined text-white text-[18px]">skull</span>';
                color = '#ef4444'; // Red
-            } else if (loc.type === 'home') {
+            } else if (locType === 'home') {
                iconHtml = '<span class="material-symbols-outlined text-white text-[18px]">home</span>';
                color = '#3b82f6'; // Blue
             } else {
